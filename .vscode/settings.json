@@ -1,0 +1,7 @@
+// Place your settings in this file to overwrite default and user settings.
+{
+    "http.proxy": "http://127.0.0.1:3128",
+    "https.proxy": "http://127.0.0.1:3128",
+    "http.proxyStrictSSL": false,
+    "http.proxyAuthorization": null
+}

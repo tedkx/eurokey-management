@@ -1,0 +1,123 @@
+{
+    "defaultCollections": {
+        "assignables": [
+            { "role": "manager", "keyType": "red" },
+            { "role": "manager", "keyType": "skeleton" },
+            { "role": "manager", "keyType": "blue" },
+            { "role": "assistant-manager", "keyType": "red" },
+            { "role": "assistant-manager", "keyType": "skeleton" },
+            { "role": "assistant-manager", "keyType": "blue" },
+            { "role": "officer", "keyType": "red" },
+            { "role": "officer", "keyType": "gray" },
+            { "role": "teller", "keyType": "gray" },
+            { "role": "aftoforakias", "keyType": "blue" }
+        ],
+        "assignments": [
+            { "type": "key", "code": "building-key-1", "assignee": "ckaravaneas", "assigneeType": "person", "accepted": true },
+            { "type": "key", "code": "building-key-2", "assignee": "kolwnaki", "assigneeType": "store", "accepted": true },
+            { "type": "key", "code": "safe-key", "assignee": "ekerantari", "assigneeType": "person", "accepted": true },
+            { "type": "key", "code": "kitchen-key", "assignee": "gdalas", "assigneeType": "person", "accepted": true },
+            { "type": "combination", "code": "safe-combination-1", "assignee": "gdalas", "assigneeType": "person", "accepted": true },
+            { "type": "combination", "code": "safe-combination-2", "assignee": "ckaravaneas", "assigneeType": "person", "accepted": true }
+        ],
+        "combinations": [
+            { "lock": "safe", "code": "safe-combination-1", "value": "1234" },
+            { "lock": "safe", "code": "safe-combination-2", "value": "4321" },
+            { "lock": "building", "code": "building-combination", "value": "1111" },
+            { "lock": "office", "code": "office-combination", "value": "2222" }            
+        ],
+        "keys": [
+            { "code": "building-key-1", "lock": "building", "type": "red", "features": [ "must-be-assigned" ] },
+            { "code": "building-key-2", "lock": "building", "type": "red", "features": [ "must-be-assigned", "store-only" ] },
+            { "code": "building-key-3", "lock": "building", "type": "red", "features": [ "must-be-assigned" ] },
+            { "code": "safe-key", "lock": "safe", "type": "gray", "features": [ "must-be-assigned", "person-only" ] },
+            { "code": "kitchen-key", "lock": "kitchen", "type": "blue", "features": [  ] },
+            { "code": "cupboard-key", "lock": "cupboard", "type": "blue", "features": [ "person-only" ] }
+        ],
+        "keyFeatures": [
+            { "code": "store-only", "title": "Αποκλειστικά σε κατάστημα" },
+            { "code": "person-only", "title": "Αποκλειστικά σε υπάλληλο" },
+            { "code": "must-be-assigned", "title": "Υποχρεωτικά ανατεθειμένο" }
+        ],
+        "keyTypes": [
+            { "code": "red", "title": "Κόκκινο" },
+            { "code": "skeleton", "title": "Γκρι" },
+            { "code": "blue", "title": "Μπλε" }
+        ],
+        "locks": [
+            { "code": "building", "title": "Κατάστημα" },
+            { "code": "safe", "title": "Χρηματοκιβώτιο" },
+            { "code": "office", "title": "Γραφείο 1" },
+            { "code": "kitchen", "title": "Κουζίνα" },
+            { "code": "cupboard", "title": "Ντουλάπια" }
+        ],
+        "logEntries": [
+
+        ],
+        "roles": [
+            { "code": "manager", "title": "Διευθυντής" },
+            { "code": "assistant-manager", "title": "Υποιευθυντής" },
+            { "code": "teller", "title": "Ταμίας" },
+            { "code": "officer", "title": "Officer" },
+            { "code": "vault", "title": "Vault" }
+        ],
+        "stores": [
+            { "code": "nea-ionia", "title": "Κατάστημα Νέας Ιωνίας" },
+            { "code": "kolwnaki", "title": "Κατάστημα Κολωνακίου" },
+            { "code": "ampelokipoi", "title": "Κατάστημα Αμπελοκήπων" },
+            { "code": "panepistimiou", "title": "Κατάστημα Πανεπιστημίου" },
+            { "code": "syntagma", "title": "Κατάστημα Συντάγματος" }
+        ],
+        "users": [
+            { 
+                "username": "ekakalos",
+                "password": "ekakalos",
+                "firstName": "Επαμεινώνδας",
+                "lastName": "Κάκαλος",
+                "role": "manager"
+            },
+            { 
+                "username": "ckaravaneas",
+                "password": "ckaravaneas",
+                "firstName": "Χαράλαμπος",
+                "lastName": "Καραβανέας",
+                "role": "assistant-manager"
+            },
+            { 
+                "username": "ekerantari",
+                "password": "ekerantari",
+                "firstName": "Ελισάβετ",
+                "lastName": "Κεραντάρη",
+                "role": "teller"
+            },
+            { 
+                "username": "gvlachos",
+                "password": "gvlachos",
+                "firstName": "Γεώργιος",
+                "lastName": "Βλάχος",
+                "role": "teller"
+            },
+            { 
+                "username": "gdalas",
+                "password": "gdalas",
+                "firstName": "Τζιοβάνι",
+                "lastName": "Ντάλας",
+                "role": "teller"
+            },
+            { 
+                "username": "dplapoutas",
+                "password": "dplapoutas",
+                "firstName": "Δημοσθένης",
+                "lastName": "Πλαπούτας",
+                "role": "teller"
+            },
+            { 
+                "username": "tspiouneas",
+                "password": "tspiouneas",
+                "firstName": "Τρύφων",
+                "lastName": "Σπιουνέας",
+                "role": "officer"
+            }
+        ]
+    }
+}
