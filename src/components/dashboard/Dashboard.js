@@ -77,6 +77,10 @@ class Dashboard extends Component {
         )
     }
 
+    componentWillUnmount() {
+        console.log('dashboard unmounting');
+    }
+
     render() {
         let user = AuthHelper.getUser();
         return (

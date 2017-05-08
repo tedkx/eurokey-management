@@ -1,5 +1,6 @@
 import React, { Component }     from 'react';
 import { Switch, Route }        from 'react-router-dom';
+import CSSTransitionGroup       from 'react-transition-group/CSSTransitionGroup'
 
 import Authorize                from './helper/Authorize';
 

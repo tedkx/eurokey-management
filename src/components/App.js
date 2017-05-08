@@ -6,10 +6,6 @@ import Sidebar      from '../containers/SidebarContainer';
 import Main         from './layout/Main';
 
 class App extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         let layoutContainerClass = 'layout-container' + (true ? '' : ' sidebar-offcanvas');
 
@@ -18,8 +14,8 @@ class App extends React.Component {
                 <div className="loader app-loader loader-hidden"></div>
                 <div className={ layoutContainerClass }>
                     <Header />
-                    <Sidebar />
-                    <Main>
+                    <Sidebar location={ this.props.history.location } />
+                    <Main location={ this.props.history.location }>
                         <Routing />
                     </Main>
                 </div>

@@ -3,16 +3,23 @@
   font-family: Calibri, "Segoe UI", Thonburi, Arial, Verdana, sans-serif;
   font-size: 10pt;
   color: #222;
-/* this is for the rowGroupPanel, that appears along the top of the grid */
-/* this is for the column drops that appear in the toolPanel */
+  min-height: 150px;
 }
 .ag-euro img {
   vertical-align: middle;
   border: 0;
 }
-.ag-euro .ag-root {
-  border: 1px solid #9bc2e6;
+/*
+.ag-euro .ag-bl {
+  opacity: 0;
+  transition: opacity 0s;
 }
+.ag-euro.initialized .ag-bl {
+  opacity: 1;
+  transition: opacity 0.3s linear 0.3s;
+  border: 1px solid #e0e0e0;
+}
+*/
 .ag-euro .ag-cell-not-inline-editing {
   padding: 2px;
 }
@@ -28,13 +35,18 @@
 .ag-euro .ag-cell-range-selected-4:not(.ag-cell-focus) {
   background-color: rgba(0,0,0,0.4);
 }
-.ag-euro .ag-cell-focus {
+.ag-euro:not(.no-cell-focus) .ag-cell-focus {
   border: 2px solid #217346;
+}
+.ag-euro.no-cell-focus .ag-cell-focus {
+  border-top: 2px solid transparent;
+  border-bottom: 1px solid #e0e0e0;
 }
 .ag-euro .ag-cell-no-focus {
   border-top: 2px solid transparent;
-  border-bottom: 1px dotted #9bc2e6;
+  border-bottom: 1px solid #e0e0e0;
 }
+/*
 .ag-euro .ag-ltr .ag-cell-no-focus {
   border-right: 1px dotted #9bc2e6;
   border-left: 2px solid transparent;
@@ -58,6 +70,7 @@
 .ag-euro .ag-cell-highlight {
   border: 1px solid #006400;
 }
+*/
 .ag-euro .ag-cell-highlight-animation {
   -webkit-transition: border 1s;
   -moz-transition: border 1s;
@@ -118,10 +131,13 @@
   line-height: 0;
 }
 .ag-euro .ag-header {
+  /*
   color: #fff;
   background: #5b9bd5;
   border-bottom: 1px solid #9bc2e6;
+  */
   font-weight: 600;
+  border-bottom: 2px solid #e0e0e0;
 }
 .ag-euro .ag-header-icon {
   color: #fff;
@@ -132,12 +148,14 @@
   background: #5b9bd5;
   border-bottom: 1px solid #9bc2e6;
 }
+/*
 .ag-euro .ag-ltr .ag-header-cell {
   border-right: 1px solid #9bc2e6;
 }
 .ag-euro .ag-rtl .ag-header-cell {
   border-left: 1px solid #9bc2e6;
 }
+*/
 .ag-euro .ag-header-cell-moving .ag-header-cell-label {
   opacity: 0.5;
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
@@ -198,10 +216,10 @@
   border: 1px solid #9bc2e6;
 }
 .ag-euro .ag-body {
-  background-color: #f6f6f6;
+  /*background-color: #f6f6f6;*/
 }
 .ag-euro .ag-row-odd {
-  background-color: #ddebf7;
+  background-color: #f6f6f6;
 }
 .ag-euro .ag-row-even {
   background-color: #fff;

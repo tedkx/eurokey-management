@@ -1,17 +1,24 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
+import CSSTransitionGroup   from 'react-transition-group/CSSTransitionGroup'
 
-import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup' // ES6
+import Helper               from '../../lib/Helper' 
 
 class Main extends Component {
     render() {
+        let key = Helper.getSubstringUntilNth(this.props.location.pathname, '/', 2);
+
         return (
-            <main className="main-container">
-                <CSSTransitionGroup  transitionName="cubic-bezier-opacity"
-                    transitionEnterTimeout={500} transitionLeaveTimeout={300}
-                    component="section">
-                    { this.props.children }
-                </CSSTransitionGroup>
-            </main>
+            <CSSTransitionGroup
+                transitionName="page-transition"
+                transitionEnter={ true }
+                transitionLeave={ false }
+                transitionAppear= { true }
+                transitionAppearTimeout={ 500 }
+                transitionEnterTimeout={ 500 }
+                component="main"
+                className="main-container">
+                <section key={ key }>{ this.props.children }</section>
+            </CSSTransitionGroup>
         );
     }
 }

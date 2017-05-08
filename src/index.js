@@ -9,10 +9,12 @@ import App                  from './components/App';
 
 import createHistory        from 'history/createBrowserHistory';
 
+const history = createHistory();
+
 ReactDOM.render(
     <Provider store={ Store }>
-        <ConnectedRouter history={ createHistory() }>
-            <App />
+        <ConnectedRouter history={ history }>
+            <App history={ history } />
         </ConnectedRouter>
     </Provider>,
     document.getElementById('app-wrap')
