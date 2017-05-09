@@ -1,9 +1,10 @@
-import React, { Component } from 'react';
-import PropTypes            from 'prop-types';
+import React                from 'react'
+import PropTypes            from 'prop-types'
 import { Link }             from 'react-router-dom';
 
-import avatarMale           from '../../static/img/avatar-male.jpg';
-import avatarFemale         from '../../static/img/avatar-female.jpg';
+import avatarMale           from '../../static/img/avatar-male.jpg'
+import avatarFemale         from '../../static/img/avatar-female.jpg'
+import eurologo             from '../../static/img/euro.png'
 
 const menuItemData = [
     { order: 1, title: 'Dashboard', icon: 'tachometer', route: '/' },
@@ -12,14 +13,14 @@ const menuItemData = [
     { order: 4, title: 'Logs', icon: 'list-alt', route: '/logs' }
 ]
 
-class Sidebar extends Component {
+class Sidebar extends React.Component {
     render() {
         
         return (
             <aside className="sidebar-container">
                 <div className="sidebar-header">
                     <a href="" className="sidebar-header-logo">
-                        <i className="fa fa-home" aria-hidden="true" />
+                        <img src={ eurologo } />
                         <span className="sidebar-header-logo-text">Euro KeyMan</span>
                     </a>
                 </div>

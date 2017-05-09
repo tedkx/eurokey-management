@@ -5,7 +5,7 @@ import SummaryBox           from './SummaryBox';
 
 class NumericSummary extends Component {
     render() {
-        var display = <span className={ 'badge badge-40 ' + (this.props.colorClassName || 'bg-info') }>{ this.props.value }</span>;
+        var display = <span className={ 'badge badge-60 ' + (this.props.colorClassName || 'bg-info') }>{ this.props.value }</span>;
         return (
             <SummaryBox { ...this.props } display={ display }>
                 { this.props.title }

@@ -1,11 +1,6 @@
-import Helper   from './Helper';
-import Store    from '../store/Store';
-
-import { loginComplete } from '../store/actions/App.actions';
-import { fetchDataComplete as fetchDashboardDataComplete } 
-                from '../store/actions/Dashboard.actions';
-
-const DELAY = 1; //1500;
+import Store        from '../store/Store'
+import Helper       from './Helper'
+import Req          from './RequestHelper'
 
 const Api = {
     /* App */
@@ -21,17 +16,13 @@ const Api = {
     },
 
     /* Dashboard */
-    fetchDashboardData: () => {
-        setTimeout(() => fetchDashboardDataComplete({
-            pendingAcceptancesCount: 3,
-            totalLocks: 10,
-            totalKeyCount: 25,
-            totalCombinationCount: 15,
-            unassignedLockCount: 3,
-            unassignedKeyCount: 5,
-            unassignedCombinationCount: 2
-        }), DELAY);
-    }
+    fetchDashboardData: () => Req.getJson('summary'),
+
+    /* Locks Management */
+    fetchLocks: () => Req.getJson('locks'),
+
+    /* Keys Management */
+    fetchKeys: () =>Req.getJson('keys')
 };
 
 export default Api;

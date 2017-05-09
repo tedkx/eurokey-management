@@ -8,7 +8,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
-        onMounting: () => dispatch(fetchData())
+        fetchData: () => dispatch(fetchData())
     }
 }
 

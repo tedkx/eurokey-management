@@ -21,18 +21,33 @@
             { "type": "combination", "code": "safe-combination-2", "assignee": "ckaravaneas", "assigneeType": "person", "accepted": true }
         ],
         "combinations": [
-            { "lock": "safe", "code": "safe-combination-1", "value": "1234" },
+            { "lock": "vault", "code": "vault-1", "value": "1234", "type": "main" },
             { "lock": "safe", "code": "safe-combination-2", "value": "4321" },
             { "lock": "building", "code": "building-combination", "value": "1111" },
             { "lock": "office", "code": "office-combination", "value": "2222" }            
         ],
         "keys": [
-            { "code": "building-key-1", "lock": "building", "type": "red", "features": [ "must-be-assigned" ] },
-            { "code": "building-key-2", "lock": "building", "type": "red", "features": [ "must-be-assigned", "store-only" ] },
-            { "code": "building-key-3", "lock": "building", "type": "red", "features": [ "must-be-assigned" ] },
-            { "code": "safe-key", "lock": "safe", "type": "gray", "features": [ "must-be-assigned", "person-only" ] },
-            { "code": "kitchen-key", "lock": "kitchen", "type": "blue", "features": [  ] },
-            { "code": "cupboard-key", "lock": "cupboard", "type": "blue", "features": [ "person-only" ] }
+            { "code": "vault-1", "lock": "vault", "type": "main", "features": [ "must-be-assigned" ] },
+            { "code": "time-delay-1", "lock": "time-delay", "type": "main" },
+            { "code": "time-delay-2", "lock": "time-delay", "type": "main", "features": ["store-only", "backup"] },
+            { "code": "time-delay-override", "lock": "time-delay", "type": "default", "features": [ "wertheim" ] },
+            { "code": "strong-room", "lock": "strong-room", "type": "secondary" },
+            { "code": "back-cover", "lock": "back-cover", "type": "default" },
+            { "code": "mini-safe", "lock": "mini-safe", "type": "default"} ,
+            { "code": "atm", "lock": "atm", "type": "default" },
+            { "code": "fire-locker", "lock": "fire-locker", "type": "default" },
+            { "code": "store", "lock": "store", "type": "default" },
+            { "code": "prevention-door", "lock": "prevention-door", "type": "default" },
+            { "code": "fire-escape", "lock": "fire-escape", "type": "default" },
+            { "code": "alarm-restore", "lock": "alarm-restore", "type": "default" },
+            { "code": "locker", "lock": "locker", "type": "default" },
+            { "code": "locker-internal", "lock": "locker-internal", "type": "default" },
+            { "code": "customer-locker", "lock": "customer-locker", "type": "default", "features": ["customer-only"], "title": "Κλειδιά Πελατών" },
+            { "code": "offices", "lock": "offices", "type": "default" },
+            { "code": "storeroom", "lock": "storeroom", "type": "default" },
+            { "code": "telecom-room", "lock": "telecom-room", "type": "default" },
+            { "code": "closets", "lock": "closets", "type": "default" },
+            { "code": "kitchen-farmacy", "lock": "kitchen-farmacy", "type": "default" }
         ],
         "keyFeatures": [
             { "code": "store-only", "title": "Αποκλειστικά σε κατάστημα" },
@@ -40,16 +55,37 @@
             { "code": "must-be-assigned", "title": "Υποχρεωτικά ανατεθειμένο" }
         ],
         "keyTypes": [
-            { "code": "red", "title": "Κόκκινο" },
-            { "code": "skeleton", "title": "Γκρι" },
-            { "code": "blue", "title": "Μπλε" }
+            { "code": "main", "title": "Κύριο" },
+            { "code": "default", "title": "" },
+            { "code": "secondary", "title": "Δευτερεύον" }
+        ],
+        "lockCategories": [
+            { "code": "financial-management", "title": "Διαχείριση Χρηματικού / Αξιών" },
+            { "code": "store-entrance", "title": "Είσοδος στο κατάστημα" },
+            { "code": "lockers", "title": "Θυρίδες" },
+            { "code": "helper", "title": "Βοηθητικά" }
         ],
         "locks": [
-            { "code": "building", "title": "Κατάστημα" },
-            { "code": "safe", "title": "Χρηματοκιβώτιο" },
-            { "code": "office", "title": "Γραφείο 1" },
-            { "code": "kitchen", "title": "Κουζίνα" },
-            { "code": "cupboard", "title": "Ντουλάπια" }
+            { "code": "vault", "title": "Vault", "category": "financial-management" },
+            { "code": "time-delay", "title": "Μηχανισμός Χρονοκαθυστέρησης", "category": "financial-management" },
+            { "code": "strong-room", "title": "Strong Room", "category": "financial-management" },
+            { "code": "safe-back-cover", "title": "Οπισθόφυλλος Έλεγχος Μηχανισμού Θύρας Χρηματοκιβωτίων", "category": "financial-management" },
+            { "code": "mini-safe", "title": "Μίνι Χρηματοκιβώτιο ταμείων", "category": "financial-management" },
+            { "code": "cashier-desk", "title": "Ταμείο", "category": "financial-management" },
+            { "code": "atm", "title": "ATM", "category": "financial-management" },
+            { "code": "fire-locker", "title": "Πυρασφαλείς Φοριαμοί", "category": "financial-management" },
+            { "code": "store", "title": "Master Key", "category": "store-entrance" },
+            { "code": "prevention-door", "title": "Είσοδος - Θύρες Αποτροπής", "category": "store-entrance" },
+            { "code": "fire-escape", "title": "Έξοδος Κινδύνου", "category": "store-entrance" },
+            { "code": "alarm-restore", "title": "Επαναφορά κομβίων κινδύνου συναγερμού", "category": "store-entrance" },
+            { "code": "locker", "title": "Θυρίδες", "category": "lockers" },
+            { "code": "locker-internal", "title": "Εσωτερική θύρα θησαυροφυλακίων θυρίδων", "category": "lockers" },
+            { "code": "customer-locker", "title": "Θυρίδες", "category": "lockers" },
+            { "code": "offices", "title": "Γραφεία", "category": "helper" },
+            { "code": "storeroom", "title": "Αποθήκη", "category": "helper" },
+            { "code": "telecom-room", "title": "Telecom Room", "category": "helper" },
+            { "code": "closets", "title": "Ντουλάπες", "category": "helper" },
+            { "code": "kitchen-farmacy", "title": "Κουζίνα / Φαρμακείο", "category": "helper" }
         ],
         "logEntries": [
 

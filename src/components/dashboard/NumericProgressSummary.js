@@ -6,7 +6,7 @@ import CircularProgress     from '../widgets/CircularProgress'
 
 class NumericProgressSummary extends Component {
     render() {
-        var display = <CircularProgress />
+        var display = <CircularProgress { ...this.props } />
         return (
             <SummaryBox { ...this.props } display={ display }>
                 { this.props.title }

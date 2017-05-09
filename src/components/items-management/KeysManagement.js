@@ -34,7 +34,7 @@ class KeysManagement extends React.Component {
     }
 
     componentDidMount() {
-        setTimeout(() => this.setState({ loading: false }), 3000);
+        setTimeout(() => this.setState({ loading: false }), 1500);
     }
 
     render() {
@@ -48,7 +48,7 @@ class KeysManagement extends React.Component {
                         enableSorting={ true }
                         columnDefs={ this._columnDefs }
                         rowData={ data }
-                        loading={ data == null }
+                        loading={ this.state.loading }
                         />
                 </div>
             </div>

@@ -13,6 +13,7 @@ module.exports = {
     },
     entry: {
         'vendor': [
+            'babel-polyfill',
             'axios',
             'react-transition-group',
             'react-bootstrap',
@@ -51,11 +52,15 @@ module.exports = {
                 include: /src/,
                 //exclude: /node_modules/,
                 loader: 'babel-loader',
-                query: { presets: [ 'react', 'es2015', 'stage-2', 'flow' ] }
+                options: {
+                    presets: [ 'react', 'es2015', 'stage-2', 'flow' ],
+                    plugins: [require('babel-plugin-transform-regenerator')]
+                }
             },
             { test: /\.css$/, loader: 'style-loader!css-loader' },
             { test: /\.(png|jpg|gif|ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: 'file-loader' },
             { test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: 'url-loader?limit=10000&mimetype=application/font-woff' },
+            { test: /\.json$/, loader: 'json-loader' }
         ]
     }
 };

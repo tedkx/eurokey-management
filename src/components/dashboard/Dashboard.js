@@ -8,19 +8,23 @@ import NumericSummary       from './NumericSummary';
 import NumericProgressSummary       from './NumericProgressSummary';
 
 class Dashboard extends Component {
+    componentWillMount() {
+        this.props.fetchData();
+    }
+
     widgetsForManager() {
         return (
             <div className="container-fluid">
                 <div className="row">
                     <NumericProgressSummary containerClassName="col-xs-6 col-lg-3" title="Ανατεθειμένες Κλειδαριές"
                         url="/locks-management" value={ this.props.totalLockCount - this.props.unassignedLockCount } 
-                        totalValue={ this.props.totalLockCount } />
+                        totalValue={ this.props.totalLockCount } theme="green" />
                     <NumericProgressSummary containerClassName="col-xs-6 col-lg-3" colorClassName="bg-indigo-500" title="Ανατεθειμένα Κλειδιά"
                         url="/keys-management" value={ this.props.totalKeyCount - this.props.unassignedKeyCount } 
                         totalValue={ this.props.totalKeyCount } delay={ 300 } />
                     <NumericProgressSummary containerClassName="col-xs-6 col-lg-3" colorClassname="bg-purple-400" title="Ανατεθειμένοι Συνδιασμοί" 
                         url="/combinations-management" delay={ 600 } value={ this.props.totalCombinationCount - this.props.unassignedCombinationCount } 
-                        totalValue={ this.props.totalCombinationCount }/>
+                        totalValue={ this.props.totalCombinationCount } theme="purple" />
                     <NumericSummary containerClassName="col-xs-6 col-lg-3" colorClassName="bg-indigo-500" title="Εκκρεμείς Αποδοχές"
                         url="/keys-management" value={ this.props.pendingAcceptancesCount } color="#CFC" />
                 </div>
@@ -75,10 +79,6 @@ class Dashboard extends Component {
                 </Box>
             </div>
         )
-    }
-
-    componentWillUnmount() {
-        console.log('dashboard unmounting');
     }
 
     render() {

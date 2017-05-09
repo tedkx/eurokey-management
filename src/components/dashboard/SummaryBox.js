@@ -8,14 +8,14 @@ const defaults = {
 class SummaryBox extends Component {
     render() {
         return (
-            <div className={ this.props.containerClassName || defaults.containerClassName }>
+            <div className={ (this.props.containerClassName || defaults.containerClassName) + ' summary-box' }>
                 <div className="card">
                     <div className="card-body pv">
                         <div className="clearfix">
-                            <div className="pull-left">
+                            <div className="pull-left summary-title">
                                 { this.props.children }
                             </div>
-                            <div className="pull-right mt-lg">
+                            <div className="pull-right">
                                 { this.props.display }
                             </div>
                         </div>

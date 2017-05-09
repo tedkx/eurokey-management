@@ -1,11 +1,10 @@
-import { DASH_ACTION_TYPES } from '../actions/Dashboard.actions';
-import Api from '../../lib/Api';
+import { DASH_ACTION_TYPES as DAT } from '../actions/Dashboard.actions';
 
 export const defaultState = {
     fetching: false,
     myItems: [],
     pendingAcceptancesCount: null,
-    totalLocks: null,
+    totalLockCount: null,
     totalKeyCount: null,
     totalCombinationCount: null,
     unassignedLockCount: null,
@@ -15,20 +14,12 @@ export const defaultState = {
 
 const dashboard = (state = defaultState, action) => {
     switch (action.type) {
-        case DASH_ACTION_TYPES.FETCH:
-            Api.fetchDashboardData();
+        case DAT.FETCH_DATA:
             return Object.assign({}, state, { fetching: true });
-        case DASH_ACTION_TYPES.FETCH_COMPLETE:
-            return Object.assign({}, state, { 
-                fetching: false, 
-                pendingAcceptancesCount: action.payload.pendingAcceptancesCount,
-                totalLocks: action.payload.totalLocks,
-                totalKeyCount: action.payload.totalKeyCount,
-                totalCombinationCount: action.payload.totalCombinationCount,
-                unassignedLockCount: action.payload.unassignedLockCount,
-                unassignedKeyCount: action.payload.unassignedKeyCount,
-                unassignedCombinationCount: action.payload.unassignedCombinationCount
-            });
+        case DAT.FETCH_DATA_SUCCESS:
+            return Object.assign({}, state, action.payload, { fetching: false });
+        case DAT.FETCH_DATA_FAIL:
+            return Object.assign({}, state, { fetching: false });
         default:
             return state;
     }

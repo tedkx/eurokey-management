@@ -4,12 +4,8 @@ import ReactDOM             from 'react-dom';
 import { Provider }         from 'react-redux';
 import { ConnectedRouter }  from 'react-router-redux';
 
-import Store                from './store/Store';
+import Store, { history }   from './store/Store';
 import App                  from './components/App';
-
-import createHistory        from 'history/createBrowserHistory';
-
-const history = createHistory();
 
 ReactDOM.render(
     <Provider store={ Store }>
