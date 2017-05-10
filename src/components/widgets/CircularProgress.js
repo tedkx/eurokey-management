@@ -2,6 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Motion, spring } from 'react-motion'
 
+import Helper from '../../lib/Helper'
+
 const denomValue = 300;
 
 const defaults = {
@@ -22,7 +24,7 @@ class CircularProgress extends React.Component {
         this.theme = themes[this.props.theme] || themes[defaults.theme];
         this.delay = typeof this.props.delay === 'number' && this.props.delay >= 0 ? this.props.delay : defaults.delay;
 
-        this.calculateSpringStyle = this.calculateSpringStyle.bind(this);
+        Helper.bind(this, ['calculateSpringStyle', 'renderTemplate']);
     }
 
     calculateSpringStyle(props) {
@@ -52,32 +54,36 @@ class CircularProgress extends React.Component {
         this.calculateSpringStyle(this.props);
     }
 
+    renderTemplate(obj) {
+        let loaded = !Helper.isNil(obj) && !Helper.isNil(obj.x) 
+        return (
+            <div className="circular-progress">
+                { 
+                    loaded
+                        ?   <div className="circular-progress-label">
+                                { Math.round(this.props.totalValue - (obj.x * this.props.totalValue / denomValue)) }/{ this.props.totalValue }
+                            </div>
+                        :   <div className="circular-progress-label">...</div>
+                }
+                <svg viewBox="0 0 100 100">
+                    <path d="M 50,50 m 0,-47 a 47,47 0 1 1 0,94 a 47,47 0 1 1 0,-94" stroke="#eee" strokeWidth="1" fillOpacity="0" />
+                    <path d="M 50,50 m 0,-47 a 47,47 0 1 1 0,94 a 47,47 0 1 1 0,-94" stroke={ this.theme.strokeColor } strokeWidth="6" fillOpacity="0" 
+                        style={ { strokeDasharray: `${denomValue}, ${denomValue}`, strokeDashoffset: loaded ? obj.x : denomValue } } />
+                </svg>
+            </div>
+        );
+    }
+
     render() {
         if(this.state.springStyle == null)
-            return (
-                <div className="circular-progress">
-                    <div className="circular-progress-label" />
-                </div>
-            );
+            return this.renderTemplate();
 
 
         return (
             <Motion defaultStyle={ this.state.springStyle.from } style={ this.state.springStyle.to }>
                 {
-                    ({ x }) => (
-                        <div className="circular-progress">
-                            <div className="circular-progress-label">
-                                { Math.round(this.props.totalValue - (x * this.props.totalValue / denomValue)) }/{ this.props.totalValue }
-                            </div>
-                            <svg viewBox="0 0 100 100">
-                                <path d="M 50,50 m 0,-47 a 47,47 0 1 1 0,94 a 47,47 0 1 1 0,-94" stroke="#eee" strokeWidth="1" fillOpacity="0" />
-                                <path d="M 50,50 m 0,-47 a 47,47 0 1 1 0,94 a 47,47 0 1 1 0,-94" stroke={ this.theme.strokeColor } strokeWidth="6" fillOpacity="0" 
-                                    style={ { strokeDasharray: `${denomValue}, ${denomValue}`, strokeDashoffset: x } } />
-                            </svg>
-                        </div>
-                    )
+                    this.renderTemplate
                 }
-               
             </Motion>
         );
     }

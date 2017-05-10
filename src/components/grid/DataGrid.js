@@ -15,11 +15,17 @@ const HeightModes = {
     Auto: 3 // based on grid rows
 }
 
+const defaultGridProps = {
+    animateRows: true,
+    suppressMovableColumns: true,
+    rowHeight: defaultRowHeight
+}
+
 class DataGrid extends React.Component {
     constructor(props) {
         super(props);
 
-        this._gridProps = Object.assign({}, props);
+        this._gridProps = Object.assign({}, defaultGridProps, props);
         delete this._gridProps['onGridReady'];
         delete this._gridProps['gridSizeChanged'];
         if(typeof this._gridProps.rowHeight !== 'number')

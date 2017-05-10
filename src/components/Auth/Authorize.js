@@ -14,8 +14,10 @@ const Authorize = (...allowedRoles) => {
             }
 
             render() {
+                console.log('isloggedin', AuthHelper.isLoggedIn(),
+                    'isinrole', AuthHelper.isInRole(allowedRoles));
                 if(!AuthHelper.isLoggedIn())
-                    return console.log('redirecting to login'); //this.props.history.replace('/login')
+                    this.props.history.replace('/login')
                     
                 if (AuthHelper.isInRole(allowedRoles))
                     return <WrappedComponent { ...this.props } />

@@ -7,14 +7,16 @@ export const defaultState = {
     suggestions: [],
     suggestionsLoading: false,
     suggestionsSearchTerm: '',
-    user: { firstName: 'Γιώργος', lastName: 'Παπαδάκης', role: 'manager', accessToken: '1234' }
+    //user: { firstName: 'Γιώργος', lastName: 'Παπαδάκης', role: 'manager', accessToken: '1234' }
+    user: null
 }
 
 const app = (state = defaultState, action) => {
     switch (action.type) {
         case APP_ACTION_TYPES.LOGIN:
+            console.log('reducer got login');
             return Object.assign({}, state, { authenticating: true });
-        case APP_ACTION_TYPES.LOGIN_COMPLETE:
+        case APP_ACTION_TYPES.LOGIN_SUCCESS:
             return Object.assign({}, state, { authenticating: false, user: action.payload });
         case APP_ACTION_TYPES.LOGOUT:
             return Object.assign({}, state, { user: null });

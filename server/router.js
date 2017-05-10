@@ -10,8 +10,20 @@ const json = function(req, res, next) { res.type('json'); next() };
 
 router.use(function (req, res, next) {
     req.user = auth.authenticate(req);
+    console.log('authenticated', req.route, 'user', req.user);
     next();
 });
+
+/* login / logout */
+router.post('/api/login', function(req, res) {
+    console.log('post api/login');
+    //console.log('body', req.body);
+    //console.log('username', req.body.username, 'password', req.body.password);
+    //let user = auth.authenticate(req);
+    if(req.user == null)
+        res.status(401).end();
+    res.send(user);
+})
 
 /*
  * Dashboard

@@ -3,7 +3,6 @@ import PropTypes            from 'prop-types'
 import CSSTransitionGroup   from 'react-transition-group/CSSTransitionGroup'
 
 import RippleLoader         from '../shared/RippleLoader'
-import PacmanLoader         from '../shared/PacmanLoader'
 
 class LoaderOverlay extends React.Component {
     render() {
@@ -21,7 +20,7 @@ class LoaderOverlay extends React.Component {
                     this.props.loading === true
                         ? (
                             <div className="loader">
-                                <PacmanLoader />
+                                <RippleLoader />
                             </div>
                         )
                         : false

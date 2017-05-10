@@ -4,16 +4,7 @@ import Req          from './RequestHelper'
 
 const Api = {
     /* App */
-    login: (credentials) => {
-        setTimeout(() => {
-            Store.dispatch(loginComplete({
-                firstName: 'Γιώργος', 
-                lastName: 'Παπαδάκης', 
-                role: 'manager', 
-                accessToken: '1234'
-            }))
-        })
-    },
+    login: (credentials) => Req.postJson('login', credentials),
 
     /* Dashboard */
     fetchDashboardData: () => Req.getJson('summary'),

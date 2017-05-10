@@ -8,9 +8,11 @@ import eurologo             from '../../static/img/euro.png'
 
 const menuItemData = [
     { order: 1, title: 'Dashboard', icon: 'tachometer', route: '/' },
-    { order: 2, title: 'Διαχείριση Κλειδιών', icon: 'key', route: '/keys-management' },
-    { order: 3, title: 'Διαχείριση Συνδιασμών', icon: 'unlock-alt', route: '/combination-management' },
-    { order: 4, title: 'Logs', icon: 'list-alt', route: '/logs' }
+    { order: 100, title: 'Διαμόρφωση Καταστήματος', icon: 'cubes', route: '/branches' },
+    { order: 200, title: 'Διαχείριση Κλειδαριών', icon: 'lock', route: '/keys-management' },
+    { order: 300, title: 'Διαχείριση Κλειδιών', icon: 'key', route: '/keys-management' },
+    { order: 400, title: 'Διαχείριση Συνδιασμών', icon: 'unlock-alt', route: '/combination-management' },
+    { order: 500, title: 'Συμβάντα', icon: 'list-alt', route: '/logs' }
 ]
 
 class Sidebar extends React.Component {
@@ -27,11 +29,17 @@ class Sidebar extends React.Component {
                 <div className="sidebar-content ">
                     <div className="sidebar-toolbar text-center ">
                         <a href="javascript:;" style={ { display: 'none' } }><img src={ avatarMale } alt="Profile" className="img-circle thumb64" /></a>
-                        <div className="mt">
-                            { `${this.props.user.firstName} ${this.props.user.lastName}` }
-                            <br />
-                            { this.props.user.role }
-                        </div>
+                        {
+                            this.props.user == null
+                                ? false
+                                : (
+                                    <div className="mt">
+                                        { `${this.props.user.firstName} ${this.props.user.lastName}` }
+                                        <br />
+                                        { this.props.user.role }
+                                    </div>
+                                )
+                        }
                     </div>
                     <nav className="sidebar-nav ">
                         <ul>

@@ -1,5 +1,6 @@
 const path =    require('path'),
     express =   require('express'),
+    bodyParser = require('body-parser'),
     webpack =   require('webpack'),
     config =    require('./webpack.config'),
     devmd =     require('webpack-dev-middleware'),
@@ -31,6 +32,10 @@ app.use(devmd(compiler, {
 }));
 app.use(hotmd(compiler));
 app.use(errHandler);
+
+app.use(bodyParser.json());
+//app.use(bodyParser.urlencoded({ extended: true }));
+
 app.use('/', router, function (req, res) {
   res.send(html);
 });

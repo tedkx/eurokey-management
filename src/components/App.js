@@ -7,7 +7,7 @@ import Main         from './layout/Main';
 
 class App extends React.Component {
     render() {
-        let layoutContainerClass = 'layout-container' + (true ? '' : ' sidebar-offcanvas');
+        let layoutContainerClass = 'layout-container' + (this.props.user == null ? ' sidebar-offcanvas unauthenticated' : ' ');
 
         return (
             <div id="app">

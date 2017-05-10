@@ -36,6 +36,11 @@ body {
     min-height: calc(100% - 60px)
 }
 
+.layout-container.unauthenticated .main-container,
+.layout-container.unauthenticated .main-container>section {
+    min-height: 0;
+}
+
 .btn,
 .btn-link,
 :focus,
@@ -145,6 +150,10 @@ a {
     float: left;
     padding: 17px;
     position: relative;
+     -webkit-transition: -webkit-transform .28s ease-in-out;
+    -moz-transition: -moz-transform .28s ease-in-out;
+    -o-transition: -o-transform .28s ease-in-out;
+    transition: transform .28s ease-in-out;
 }
 
 .header-container .app-search input {
@@ -170,6 +179,13 @@ a {
     top: 25px;
     right: 28px;
     color: #0f0464;
+}
+.layout-container.sidebar-offcanvas .header-container .app-search {
+    transform: translateX(-105%);
+     -webkit-transition: -webkit-transform 0s;
+    -moz-transition: -moz-transform 0s;
+    -o-transition: -o-transform 0s;
+    transition: transform 0s;
 }
 
 .sidebar-container {
@@ -246,6 +262,13 @@ a {
     .no-csstransforms3d .sidebar-visible .sidebar-container {
         margin-left: 0
     }
+}
+
+.sidebar-offcanvas .sidebar-container {
+    -webkit-transition: -webkit-transform 0s;
+    -moz-transition: -moz-transform 0s;
+    -o-transition: -o-transform 0s;
+    transition: transform 0s;
 }
 
 @font-face {
@@ -371,9 +394,14 @@ a.text-muted:hover {
 .sidebar-header>.sidebar-header-logo>img,
 .sidebar-header>.sidebar-header-logo>svg {
     display: inline-block;
-    width: 24px;
-    height: 24px;
-    vertical-align: -5%
+    width: 34px;
+    height: 34px;
+    vertical-align: -5%;
+    box-shadow: 2px 2px 5px #B99;
+    border-radius: 50%;
+    background-color: #de2402;
+    vertical-align: middle;
+    margin-top: -6px;
 }
 
 .sidebar-header>.sidebar-header-logo>img+.sidebar-header-logo-text,
@@ -773,6 +801,14 @@ a.text-muted:hover {
 .summary-box .card-body .summary-title {
     width: 50%;
     margin-top: 12px;
+}
+
+/* Specifics */
+.login-wrap .card-box {
+    margin: 30px auto;
+    position: relative;
+    max-width: 420px;
+    margin-top: 6%;
 }
 
 /* CSS Transition Groups */

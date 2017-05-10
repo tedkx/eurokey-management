@@ -1,3 +1,5 @@
+import { T_STR, T_OBJ, T_FUNC } from './Constants'
+
 const chars = window.chars ={
     numeric: Array.from(Array(10).keys()).map(e => e + ''),
     upperCase: Array.from(Array(26).keys()).map(e => String.fromCharCode(e + 65)),
@@ -9,7 +11,7 @@ const Helper = {
         if(Helper.isNil(component))
             return;
 
-        if(typeof functionNames === 'string') 
+        if(typeof functionNames === T_STR) 
             if(Helper.isNullOrWhitespace(functionNames))
                 return;
             else
@@ -19,7 +21,7 @@ const Helper = {
             return;
         
         for(let functionName of functionNames)
-            if(typeof component[functionName] === 'function')
+            if(typeof component[functionName] === T_FUNC)
                 component[functionName] = component[functionName].bind(component);
     },
 
@@ -39,7 +41,8 @@ const Helper = {
 
     isArray: obj => Array.isArray(obj) || obj instanceof Array,
     isNil: obj => obj === void 0 || obj === null,
-    isNullOrWhitespace: obj => typeof obj !== 'string' || obj.replace(/ /g, '').length === 0
+    isNullOrWhitespace: obj => typeof obj !== T_STR || obj.replace(/ /g, '').length === 0,
+    isObject: obj => typeof obj === T_OBJ && obj !== null
 }
 
 export default Helper;

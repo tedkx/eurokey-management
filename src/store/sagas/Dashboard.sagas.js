@@ -1,4 +1,4 @@
-import { call, put, takeEvery, takeLatest } from 'redux-saga/effects'
+import { call, put, all, takeLatest } from 'redux-saga/effects'
 
 import StoreHelper from '../../lib/StoreHelper'
 import Api from '../../lib/Api'
@@ -13,8 +13,12 @@ function* fetchDashboardData(action) {
     }
 }
 
-function* dashboardSagas() {
+function* watchFetchDashboardData() {
     yield takeLatest(DAT.FETCH_DATA, fetchDashboardData);
 }
 
-export default dashboardSagas;
+export default function* dashboardSagas() {
+    yield all([
+        watchFetchDashboardData()
+    ])
+};
