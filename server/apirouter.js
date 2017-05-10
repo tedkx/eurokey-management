@@ -1,5 +1,5 @@
 const express = require('express'),
-    router =    express.Router(),
+    apirouter =    express.Router(),
     auth =      require('./auth'),
     dm =        require('./datamodel'),
     prefix = '[ROUTER]',
@@ -8,27 +8,28 @@ const express = require('express'),
 const delay = function(req, res, next) { setTimeout(next, DELAY); }
 const json = function(req, res, next) { res.type('json'); next() };
 
-router.use(function (req, res, next) {
+apirouter.use(function (req, res, next) {
     req.user = auth.authenticate(req);
-    console.log('authenticated', req.route, 'user', req.user);
     next();
 });
 
 /* login / logout */
-router.post('/api/login', function(req, res) {
-    console.log('post api/login');
-    //console.log('body', req.body);
-    //console.log('username', req.body.username, 'password', req.body.password);
-    //let user = auth.authenticate(req);
-    if(req.user == null)
-        res.status(401).end();
+apirouter.post('/login', function(req, res) {
+    let user = req.body && req.body.username && req.body.password
+        ? dm.findUser(req.body.username, req.body.password)
+        : null
+
+    if(user == null)
+        return res.status(401).end();
+
+    user.accessToken = auth.generateAccessToken(user);
     res.send(user);
 })
 
 /*
  * Dashboard
  */ 
-router.get('/api/summary', auth.authorize, delay, json, function(req, res) {
+apirouter.get('/summary', auth.authorize, delay, json, function(req, res) {
     res.send({
         pendingAcceptancesCount: 3,
         totalLockCount: 10,
@@ -43,34 +44,36 @@ router.get('/api/summary', auth.authorize, delay, json, function(req, res) {
 /*
  * Locks
  */
-router.get('/api/locks?/:code?', auth.authorize, delay, json, function(req, res) {
+apirouter.get('/locks?/:code?', auth.authorize, delay, json, function(req, res) {
     res.send(dm.getLocks(req.params.code));
 });
-router.post('/api/lock', auth.authorize, json, function (req, res) {
+apirouter.post('/api/lock', auth.authorize, json, function (req, res) {
     res.send('POST /api/lock');
 });
 
 /*
  * Keys / Combinations
  */
-router.get('/api/keys', json, function(req, res) {
+apirouter.get('/keys', json, function(req, res) {
     res.send(req.user.role == 'manager' || req.user.role == 'assistant-manager'
         ? dm.getUnlockers('keys')
         : []
     );
 });
-router.get('/api/mykeys', json, function(req, res) {
+apirouter.get('/api/mykeys', json, function(req, res) {
     res.send(dm.getUnlockers('keys', req.user.username));
 });
 
-router.get('/api/combinations', function(req, res) {
+apirouter.get('/combinations', function(req, res) {
     res.type('json').send(req.user.role == 'manager' || req.user.role == 'assistant-manager'
         ? dm.getUnlockers('combinations')
         : []
     );
 });
-router.get('/api/mycombinations', function(req, res) {
+apirouter.get('/mycombinations', function(req, res) {
     res.type('json').send(dm.getUnlockers('combinations', req.user.username));
 });
 
-module.exports = router;
+apirouter.all('/*', (req, res) => res.status(404))
+
+module.exports = apirouter;

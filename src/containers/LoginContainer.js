@@ -4,9 +4,9 @@ import { login } from '../store/actions/App.actions'
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        authenticating: state.authenticating,
-        user: state.user,
-        message: state.loginError
+        authenticating: state.app.authenticating,
+        user: state.app.user,
+        message: state.app.loginError
     }
 }
 

@@ -13,7 +13,7 @@ function* login(action) {
     }
 }
 
-function* watchLogin() {
+export function* watchLogin() {
      yield takeLatest(AT.LOGIN, login);
 }
 

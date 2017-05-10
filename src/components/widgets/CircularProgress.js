@@ -2,6 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Motion, spring } from 'react-motion'
 
+import CSSTransitionGroup   from 'react-transition-group/CSSTransitionGroup'
+
+import Spinner, { spinnerTypes } from '../shared/Spinner'
 import Helper from '../../lib/Helper'
 
 const denomValue = 300;
@@ -58,12 +61,22 @@ class CircularProgress extends React.Component {
         let loaded = !Helper.isNil(obj) && !Helper.isNil(obj.x) 
         return (
             <div className="circular-progress">
+                <CSSTransitionGroup
+                    transitionName="cubic-bezier-opacity"
+                    transitionEnterTimeout={ 500 }
+                    transitionLeaveTimeout={ 500 }
+                    component="div">
+                    {
+                        loaded ? false : <Spinner type={ spinnerTypes.LineScale } />
+                    }
+                </CSSTransitionGroup>
                 { 
                     loaded
                         ?   <div className="circular-progress-label">
                                 { Math.round(this.props.totalValue - (obj.x * this.props.totalValue / denomValue)) }/{ this.props.totalValue }
                             </div>
-                        :   <div className="circular-progress-label">...</div>
+                        :   false
+                        
                 }
                 <svg viewBox="0 0 100 100">
                     <path d="M 50,50 m 0,-47 a 47,47 0 1 1 0,94 a 47,47 0 1 1 0,-94" stroke="#eee" strokeWidth="1" fillOpacity="0" />

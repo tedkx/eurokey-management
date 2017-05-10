@@ -4,7 +4,7 @@ import Req          from './RequestHelper'
 
 const Api = {
     /* App */
-    login: (credentials) => Req.postJson('login', credentials),
+    login: (credentials) => Req.anonymousPostJson('login', credentials),
 
     /* Dashboard */
     fetchDashboardData: () => Req.getJson('summary'),

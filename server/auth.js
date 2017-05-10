@@ -1,46 +1,37 @@
 const db =      require('./db'),
+    dm =        require('./datamodel'),
     prefix =    '[AUTH]';
 
-const parseCredentials = (obj) => {
-    if(obj.headers && obj['Authorization']) {
-        let val = obj['Authorization'];
-        console.log('parsing creds from header', val);
-        if(val.match('^Basic') != null) {
-            creds = val.split(':');
-            return { username: creds[0], password: creds[1] };
-        } else if(val.match('^Bearer') != null) {
-            return { token: val };
-        }
-        return null;
-    }
+const parseCredentials = (req) => {
+    let auth = req.get('authorization');
     
-    if(obj.body) {
-        console.log('authenticating from body', obj.body);
-
-        if(obj.body.username && obj.body.password) 
-            return { username: obj.body.username, password: obj.body.password };
-        
-        if(obj.body.token)
-            return { token: obj.body.token };
-    }
-
-    console.log('no auth data found');
+    if(!auth)
+        return null;
+    
+    let parts = auth.split(' ');
+    if(parts.length !== 2)
+        return null;
+    
+    if(parts[0] == 'Basic') {
+        creds = parts[1].split(':');
+        return creds.length === 2
+            ? { method: 'basic', username: creds[0], password: creds[1] }
+            : null;
+    } 
+    
+    if(parts[0] == 'Bearer')
+        return { method: 'token', token: parts[1] };
+    
     return null;
 }
 
 module.exports = {
     authenticate: function(req) {
         let credentials = parseCredentials(req);
-        if(credentials != null && credentials.username && credentials.password) {
-            let users =  db.getCollection('users').find({
-                '$and': [
-                    { 'username': { '$eq': credentials.username } },
-                    { 'password': { '$eq': credentials.password } }
-                ]
-            });
-            if(users.length === 1)
-                return users[0];
-        }
+        if(credentials != null)
+            return credentials.method == 'basic' ? dm.findUser(credentials.username, credentials.password)
+                : credentials.method == 'token' ? dm.getUserByToken(credentials.token)
+                : null
 
         return null;
 
@@ -53,5 +44,7 @@ module.exports = {
         if(!req.user)
             return res.status(401).end();
         next();
-    }
+    },
+
+    generateAccessToken: (user) => user.username
 }

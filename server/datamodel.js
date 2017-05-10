@@ -17,6 +17,26 @@ const db =      require('./db'),
     };
 
 const datamodel = {
+    findUser: (username, password) => {
+        let users =  db.getCollection('users').find({
+            '$and': [
+                { 'username': { '$eq': username } },
+                { 'password': { '$eq': password } }
+            ]
+        });
+        return users.length === 1
+            ? users[0]
+            : null;
+    },
+
+    //TODO: Token auth
+    getUserByToken: (token) => { 
+        let users = db.getCollection('users').find({ username: { '$eq' : token } });
+        return users.length === 1
+            ? users[0]
+            : null;
+    },
+
     getLocks: (code) => {
         return typeof code === 'string'
             ? stripMetadata(db.getCollection('locks').find({code: { '$eq': req.params.code } }))

@@ -2,7 +2,8 @@ import React                from 'react'
 import PropTypes            from 'prop-types'
 import CSSTransitionGroup   from 'react-transition-group/CSSTransitionGroup'
 
-import RippleLoader         from '../shared/RippleLoader'
+import Spinner, { spinnerTypes }
+                            from '../shared/Spinner'
 
 class LoaderOverlay extends React.Component {
     render() {
@@ -20,7 +21,7 @@ class LoaderOverlay extends React.Component {
                     this.props.loading === true
                         ? (
                             <div className="loader">
-                                <RippleLoader />
+                                <Spinner type={ spinnerTypes.Ripple } />
                             </div>
                         )
                         : false

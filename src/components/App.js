@@ -14,8 +14,8 @@ class App extends React.Component {
                 <div className="loader app-loader loader-hidden"></div>
                 <div className={ layoutContainerClass }>
                     <Header />
-                    <Sidebar location={ this.props.history.location } />
-                    <Main location={ this.props.history.location }>
+                    <Sidebar location={ this.props.location } />
+                    <Main location={ this.props.location }>
                         <Routing />
                     </Main>
                 </div>

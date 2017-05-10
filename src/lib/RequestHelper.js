@@ -18,8 +18,9 @@ const jsonct = 'application/json'
 
 // Add authentication headers to the request
 const configWithAuth = (configObj) => {
-    let headerValue = 'Bearer' + Auth.getAuthToken()
+    let headerValue = 'Bearer ' + Auth.getAuthToken();
 
+    console.log('token header', headerValue);
     if(Helper.isNil(configObj))
         configObj = {};
 
@@ -39,7 +40,6 @@ const requestWithCancellation = (type, resource, config, data, anonymous) => {
             request = type === REQ_GET
                 ? axios.get(constructUrl(resource), formattedConfig)
                 : axios.post(constructUrl(resource), data, formattedConfig);
-        console.log('is get', type === REQ_GET);
         request[CANCEL] = () => source.cancel()
         return request
     }
@@ -63,6 +63,7 @@ const constructUrl = (resource) => `${config.baseUrl}api/${resource}`;
 
 const RequestHelper = {
     anonymousPost: (resource, data, config) => requestWithCancellation(REQ_POST, resource, config, data, true),
+    anonymousPostJson: (resource, data, config) => withJsonResponse(requestWithCancellation(REQ_POST, resource, config, data, true)),
     constructUrl,
     get: (resource, config) => requestWithCancellation(REQ_GET, resource, config),
     getJson: (resource, config) => withJsonResponse(requestWithCancellation(REQ_GET, resource, config)),

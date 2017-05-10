@@ -1,4 +1,5 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom'
 
 import Helper from '../../lib/Helper'
 
@@ -11,15 +12,13 @@ class Login extends React.Component {
     constructor(props) {
         super(props);
 
-        console.log('login props', props);
-
         this.state = {
-            username: '',
-            password: '',
+            username: 'ekakalos',
+            password: 'ekakalos',
             message: ''
         };
 
-        Helper.bind(this, ['onKeyDown', 'onChange', 'handleSubmit', 'getPreviousLocation']);
+        Helper.bind(this, ['onChange', 'handleSubmit', 'getPreviousLocation']);
     }
 
     componentWillReceiveProps(nextProps, nextState) {
@@ -32,11 +31,6 @@ class Login extends React.Component {
 
     getPreviousLocation() {
         return this.props.location.from || { pathname: '/' }
-    }
-
-    onKeyDown(e) {
-        if(e.keyCode == 13)
-            this.handleSubmit();
     }
 
     onChange(input, e) {
@@ -72,7 +66,6 @@ class Login extends React.Component {
                                         ref={ (input) => this._usernameRef = input }
                                         autoFocus={ true }
                                         onChange={ (e) => this.onChange('username', e) }
-                                        onKeyDown={ this.onKeyDown }
                                         value={ this.state.username }
                                         />
                                 </div>
@@ -83,7 +76,6 @@ class Login extends React.Component {
                                     <input className="form-control" type="password" placeholder="Κωδικός"
                                         ref={ (input) => this._passwordRef = input }
                                         onChange={ (e) => this.onChange('password', e) }
-                                        onKeyDown={ this.onKeyDown }
                                         value={ this.state.password } 
                                         />
                                 </div>

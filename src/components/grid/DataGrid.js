@@ -2,7 +2,7 @@ import React            from 'react'
 import ReactDOM         from 'react-dom'
 import { AgGridReact }  from 'ag-grid-react'
 
-import LoaderOverlay    from '../layout/LoaderOverlay'
+import LoaderOverlay    from '../shared/LoaderOverlay'
 import Helper           from '../../lib/Helper'
 import UiHelper         from '../../lib/UiHelper'
 
@@ -31,6 +31,11 @@ class DataGrid extends React.Component {
         if(typeof this._gridProps.rowHeight !== 'number')
             this._gridProps.rowHeight = defaultRowHeight;
 
+        this.rowHeightClass = this._gridProps.rowHeight > 48 ? 'ag-row-height-50'
+            : this._gridProps.rowHeight > 43 ? 'ag-row-height-45'
+            : this._gridProps.rowHeight > 38 ? 'ag-row-height-40'
+            : ''
+
         this.state = { 
             height: this.props.height,
             wrapHeightSet: false,
@@ -53,8 +58,6 @@ class DataGrid extends React.Component {
             this.setAutoHeight();
         else
             this.updateDimensions();
-
-        //setTimeout(() => params.api.sizeColumnsToFit());
     }
 
     onGridSizeChanged() {
@@ -130,7 +133,8 @@ class DataGrid extends React.Component {
     }
     
     render() {
-        let classNames = 'card-box ag-blue ag-euro no-cell-focus container-fluid ' + (this.state.initialized ? 'initialized' : '');
+        let initClass = this.state.initialized ? 'initialized' : '',
+            classNames = `card-box ag-blue ag-euro no-cell-focus container-fluid ${this.rowHeightClass} ${initClass}`;
         return (
             <div style={ { height: this.state.height } } ref={ (elem) => this._wrap = elem }
                 className={ classNames }>

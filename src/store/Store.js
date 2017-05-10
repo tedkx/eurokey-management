@@ -30,6 +30,7 @@ import appSagas         from './sagas/App.sagas'
 import dashboardSagas   from './sagas/Dashboard.sagas'
 import branchesSagas    from './sagas/Branches.sagas'
 import itemsSagas       from './sagas/Items.sagas'
+
 function* rootSaga() {
     yield all([
         appSagas(),

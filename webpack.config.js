@@ -26,6 +26,7 @@ module.exports = {
             './src/static/css/theme_app.css',
             './src/static/css/grid_theme.css',
             './src/static/css/app.css',
+            './src/static/css/animations.css',
             './src/static/css/colors.css',
             'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000'
         ]

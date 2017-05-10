@@ -5,7 +5,7 @@ const path =    require('path'),
     config =    require('./webpack.config'),
     devmd =     require('webpack-dev-middleware'),
     hotmd =     require('webpack-hot-middleware'),
-    router =    require('./server/router'),
+    apirouter = require('./server/apirouter'),
     errHandler = require('./server/error-handler');
 
 const html = `<!DOCTYPE html>
@@ -36,9 +36,9 @@ app.use(errHandler);
 app.use(bodyParser.json());
 //app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use('/', router, function (req, res) {
-  res.send(html);
-});
+app.use('/api', apirouter);
+
+app.all('*', (req, res) => res.send(html));
 
 app.listen(port, address, (err) => {
     if(err)

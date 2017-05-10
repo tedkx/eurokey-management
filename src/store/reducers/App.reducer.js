@@ -1,4 +1,6 @@
-import { APP_ACTION_TYPES } from '../actions/App.actions';
+import { APP_ACTION_TYPES } from '../actions/App.actions'
+
+import Crypto   from '../../lib/Crypto'
 
 export const defaultState = {
     authenticating: false,
@@ -14,9 +16,9 @@ export const defaultState = {
 const app = (state = defaultState, action) => {
     switch (action.type) {
         case APP_ACTION_TYPES.LOGIN:
-            console.log('reducer got login');
             return Object.assign({}, state, { authenticating: true });
         case APP_ACTION_TYPES.LOGIN_SUCCESS:
+            action.payload.accessToken = Crypto.encryptToken(action.payload.accessToken);
             return Object.assign({}, state, { authenticating: false, user: action.payload });
         case APP_ACTION_TYPES.LOGOUT:
             return Object.assign({}, state, { user: null });

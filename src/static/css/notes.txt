@@ -2,3 +2,7 @@ http://themicon.co/theme/centric/v1.6/angularjs/#/app/dashboard
 
 http://coderthemes.com/flacto_1.5/light_red_2_light/index.html
 http://coderthemes.com/flacto_1.5/blue_1_light/index.html
+
+
+nice components and widgets
+https://genesisui.com/demo/clever/bootstrap4-static/index.html
