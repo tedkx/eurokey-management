@@ -65,9 +65,16 @@ apirouter.get('/branch/:code', auth.forRoles('security', 'manager'), auth.author
     res.respond(dm.getBranch(req.params.code));
 });
 
+apirouter.get('/branch/:code/locks', auth.forRoles('security', 'manager', 'assistant-manager'), auth.authorize, delay, json, (req, res) => {
+    if(req.user.role != 'supervisor' && req.user.branch != req.params.code)
+        res.respond(null, null, false, 401);
+    else
+        res.respond(dm.getLocks(req.params.code));
+});
+
 /* Locks */
 
-apirouter.get('/locks', auth.authorize, delay, json, (req, res) => res.respond(dm.getLocks(req.user.branch)));
+apirouter.get('/locks', auth.forRoles('security'), auth.authorize, delay, json, (req, res) => res.respond(dm.getLocks()));
 apirouter.get('/lock/:code', auth.authorize, delay, json, (req, res) =>  res.respond(dm.getLock(req.params.code, req.user)));
 
 apirouter.post('/api/lock', auth.authorize, json, function (req, res) {
@@ -88,24 +95,23 @@ apirouter.put('/api/lock/:code', auth.authorize, json, function (req, res) {
 /*
  * Keys / Combinations
  */
-apirouter.get('/keys', auth.authorize, json, function(req, res) {
-    respond(req.user.role == 'manager' || req.user.role == 'assistant-manager'
-        ? dm.getUnlockers('keys', req.user)
-        : []
-    );
-});
+//apirouter.get('/keytypes', delay, json, (req, res) => res.respond(dm.getKeyTypes()));
+//apirouter.get('/keytype/:code?', auth.forRoles('security'), auth.authorize, delay, json, (req, res) => res.respond(dm.getKeyType(req.params.code)));
+
+apirouter.get('/keys', auth.forRoles('security'), auth.authorize, delay, json, (req, res) => res.respond(dm.getUnlockers('keys')));
+
 apirouter.get('/mykeys', auth.authorize, json, function(req, res) {
-    respond(dm.getMyUnlockers('keys', req.user));
+    res.respond(dm.getMyUnlockers('keys', req.user));
 });
 
 apirouter.get('/combinations', auth.authorize, json, function(req, res) {
-    respond(req.user.role == 'manager' || req.user.role == 'assistant-manager'
+    res.respond(req.user.role == 'manager' || req.user.role == 'assistant-manager'
         ? dm.getUnlockers('combinations', req.user)
         : []
     );
 });
 apirouter.get('/mycombinations', auth.authorize, json, function(req, res) {
-    respond(dm.getMyUnlockers('combinations', req.user));
+    res.respond(dm.getMyUnlockers('combinations', req.user));
 });
 
 apirouter.all('/*', (req, res) => res.status(404).end())

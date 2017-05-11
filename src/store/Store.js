@@ -51,7 +51,7 @@ function* rootSaga() {
 /* Middleware */
 export const history = createHistory();
 const sagaMiddleware = createSagaMiddleware();
-const middleware = applyMiddleware(sagaMiddleware);
+const middleware = applyMiddleware(routerMiddleware(history), sagaMiddleware);
 
 const Store = typeof window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ === 'function'
     ? createStore(rootReducer, defaultState, window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__(middleware))

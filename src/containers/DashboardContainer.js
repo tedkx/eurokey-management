@@ -3,7 +3,7 @@ import Dashboard from '../components/dashboard/Dashboard';
 import { fetchData } from '../store/actions/Dashboard.actions';
 
 const mapStateToProps = (state, ownProps) => {
-    return Object.assign({}, state.dashboard);
+    return Object.assign({}, state.dashboard, { user: state.app.user });
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {

@@ -20,6 +20,16 @@
             { "type": "combination", "code": "safe-combination-1", "assignee": "gdalas", "assigneeType": "person", "accepted": true },
             { "type": "combination", "code": "safe-combination-2", "assignee": "ckaravaneas", "assigneeType": "person", "accepted": true }
         ],
+        "branches": [
+            { "code": "nea-ionia", "title": "Κατάστημα Νέας Ιωνίας" },
+            { "code": "kolwnaki", "title": "Κατάστημα Κολωνακίου" },
+            { "code": "ampelokipoi", "title": "Κατάστημα Αμπελοκήπων" },
+            { "code": "panepistimiou", "title": "Κατάστημα Πανεπιστημίου" },
+            { "code": "syntagma", "title": "Κατάστημα Συντάγματος" }
+        ],
+        "branchLocks": [
+            
+        ],
         "combinations": [
             { "lock": "vault", "code": "vault-1", "value": "1234", "type": "main" },
             { "lock": "safe", "code": "safe-combination-2", "value": "4321" },
@@ -65,30 +75,38 @@
             { "code": "lockers", "title": "Θυρίδες" },
             { "code": "helper", "title": "Βοηθητικά" }
         ],
+        "lockSignificance": [
+            { "code": "main", "title": "Κύριο" },
+            { "code": "default", "title": "" },
+            { "code": "secondary", "title": "Δευτερεύον" }
+        ],
         "locks": [
-            { "code": "vault", "title": "Vault", "category": "financial-management", "branch": "nea-ionia" },
-            { "code": "time-delay", "title": "Μηχανισμός Χρονοκαθυστέρησης", "category": "financial-management", "branch": "nea-ionia" },
-            { "code": "strong-room", "title": "Strong Room", "category": "financial-management", "branch": "nea-ionia" },
-            { "code": "safe-back-cover", "title": "Οπισθόφυλλος Έλεγχος Μηχανισμού Θύρας Χρηματοκιβωτίων", "category": "financial-management", "branch": "nea-ionia" },
-            { "code": "mini-safe", "title": "Μίνι Χρηματοκιβώτιο ταμείων", "category": "financial-management", "branch": "nea-ionia" },
-            { "code": "cashier-desk", "title": "Ταμείο", "category": "financial-management", "branch": "nea-ionia" },
-            { "code": "atm", "title": "ATM", "category": "financial-management", "branch": "nea-ionia" },
-            { "code": "fire-locker", "title": "Πυρασφαλείς Φοριαμοί", "category": "financial-management", "branch": "nea-ionia" },
-            { "code": "master", "title": "Master Key", "category": "store-entrance", "branch": "nea-ionia" },
-            { "code": "prevention-door", "title": "Είσοδος - Θύρες Αποτροπής", "category": "store-entrance", "branch": "nea-ionia" },
-            { "code": "fire-escape", "title": "Έξοδος Κινδύνου", "category": "store-entrance", "branch": "nea-ionia" },
-            { "code": "alarm-restore", "title": "Επαναφορά κομβίων κινδύνου συναγερμού", "category": "store-entrance", "branch": "nea-ionia" },
-            { "code": "locker", "title": "Θυρίδες", "category": "lockers", "branch": "nea-ionia" },
-            { "code": "locker-internal", "title": "Εσωτερική θύρα θησαυροφυλακίων θυρίδων", "category": "lockers", "branch": "nea-ionia" },
-            { "code": "customer-locker", "title": "Θυρίδες", "category": "lockers", "branch": "nea-ionia" },
-            { "code": "offices", "title": "Γραφεία", "category": "helper", "branch": "nea-ionia" },
-            { "code": "storeroom", "title": "Αποθήκη", "category": "helper", "branch": "nea-ionia" },
-            { "code": "telecom-room", "title": "Telecom Room", "category": "helper", "branch": "nea-ionia" },
-            { "code": "closets", "title": "Ντουλάπες", "category": "helper", "branch": "nea-ionia" },
-            { "code": "kitchen-farmacy", "title": "Κουζίνα / Φαρμακείο", "category": "helper", "branch": "nea-ionia" }
+            { "code": "vault", "title": "Vault", "category": "financial-management", "significance": "main" },
+            { "code": "time-delay", "title": "Μηχανισμός Χρονοκαθυστέρησης", "category": "financial-management", "significance": "main" },
+            { "code": "strong-room", "title": "Strong Room", "category": "financial-management", "significance": "secondary" },
+            { "code": "safe-back-cover", "title": "Οπισθόφυλλος Έλεγχος Μηχανισμού Θύρας Χρηματοκιβωτίων", "category": "financial-management", "significance": "default" },
+            { "code": "mini-safe", "title": "Μίνι Χρηματοκιβώτιο ταμείων", "category": "financial-management", "significance": "default" },
+            { "code": "cashier-desk", "title": "Ταμείο", "category": "financial-management", "significance": "default" },
+            { "code": "atm", "title": "ATM", "category": "financial-management", "significance": "default" },
+            { "code": "fire-locker", "title": "Πυρασφαλείς Φοριαμοί", "category": "financial-management", "significance": "default" },
+            { "code": "master", "title": "Master Key", "category": "store-entrance", "significance": "default" },
+            { "code": "prevention-door", "title": "Είσοδος - Θύρες Αποτροπής", "category": "store-entrance", "significance": "default" },
+            { "code": "fire-escape", "title": "Έξοδος Κινδύνου", "category": "store-entrance", "significance": "default" },
+            { "code": "alarm-restore", "title": "Επαναφορά κομβίων κινδύνου συναγερμού", "category": "store-entrance", "significance": "default" },
+            { "code": "locker", "title": "Θυρίδες", "category": "lockers", "significance": "default" },
+            { "code": "locker-internal", "title": "Εσωτερική θύρα θησαυροφυλακίων θυρίδων", "category": "lockers", "significance": "default" },
+            { "code": "customer-locker", "title": "Θυρίδες", "category": "lockers", "significance": "default" },
+            { "code": "offices", "title": "Γραφεία", "category": "helper", "significance": "default" },
+            { "code": "storeroom", "title": "Αποθήκη", "category": "helper", "significance": "default" },
+            { "code": "telecom-room", "title": "Telecom Room", "category": "helper", "significance": "default" },
+            { "code": "closets", "title": "Ντουλάπες", "category": "helper", "significance": "default" },
+            { "code": "kitchen-farmacy", "title": "Κουζίνα / Φαρμακείο", "category": "helper", "significance": "default" }
         ],
         "logEntries": [
 
+        ],
+        "logEntryTypes": [
+            
         ],
         "roles": [
             { "code": "security", "title": "Φυσική Ασφάλεια" },
@@ -97,13 +115,6 @@
             { "code": "teller", "title": "Ταμίας" },
             { "code": "supervisor", "title": "Προϊστάμενος" },
             { "code": "vault", "title": "Vault" }
-        ],
-        "branches": [
-            { "code": "nea-ionia", "title": "Κατάστημα Νέας Ιωνίας" },
-            { "code": "kolwnaki", "title": "Κατάστημα Κολωνακίου" },
-            { "code": "ampelokipoi", "title": "Κατάστημα Αμπελοκήπων" },
-            { "code": "panepistimiou", "title": "Κατάστημα Πανεπιστημίου" },
-            { "code": "syntagma", "title": "Κατάστημα Συντάγματος" }
         ],
         "users": [
             { 
@@ -159,7 +170,7 @@
                 "password": "tspiouneas",
                 "firstName": "Τρύφων",
                 "lastName": "Σπιουνέας",
-                "role": "supervisor"
+                "role": "security"
             }
         ]
     }

@@ -9,13 +9,23 @@ export const ITEMS_ACTION_TYPES = {
     KEYS_FETCH: 'KEYS_FETCH',
     KEYS_FETCH_SUCCESS: 'KEYS_FETCH_SUCCESS',
     KEYS_FETCH_FAIL: 'KEYS_FETCH_FAIL',
+    KEYS_CLEAR: 'KEYS_CLEAR',
+    KEY_TYPES_FETCH: 'KEY_TYPES_FETCH',
+    KEY_TYPES_FETCH_SUCCESS: 'KEY_TYPES_FETCH_SUCCESS',
+    KEY_TYPES_FETCH_FAIL: 'KEY_TYPES_FETCH_FAIL',
+    KEY_TYPES_CLEAR: 'KEY_TYPES_CLEAR',
     LOCKS_FETCH: 'LOCKS_FETCH',
     LOCKS_FETCH_SUCCESS: 'LOCKS_FETCH_SUCCESS',
-    LOCKS_FETCH_FAIL: 'LOCKS_FETCH_FAIL'
+    LOCKS_FETCH_FAIL: 'LOCKS_FETCH_FAIL',
+    LOCKS_CLEAR: 'LOCKS_CLEAR'
 }
 
 export const fetchCombinations = () => StoreHelper.createAction(ITEMS_ACTION_TYPES.COMBINATIONS_FETCH)
 
 export const fetchKeys = () => StoreHelper.createAction(ITEMS_ACTION_TYPES.KEYS_FETCH)
 
+export const fetchKeyTypes = () => StoreHelper.createAction(ITEMS_ACTION_TYPES.KEY_TYPES_FETCH)
+
 export const fetchLocks = () => StoreHelper.createAction(ITEMS_ACTION_TYPES.LOCKS_FETCH)
+
+export const clearLocks = () => StoreHelper.createAction(ITEMS_ACTION_TYPES.LOCKS_CLEAR)

@@ -1,6 +1,8 @@
 import React                from 'react'
 import PropTypes            from 'prop-types'
-import { Link }             from 'react-router-dom';
+import { Link }             from 'react-router-dom'
+
+import Helper               from '../../lib/Helper'
 
 import avatarMale           from '../../static/img/avatar-male.jpg'
 import avatarFemale         from '../../static/img/avatar-female.jpg'
@@ -8,22 +10,21 @@ import eurologo             from '../../static/img/euro.png'
 
 const menuItemData = [
     { order: 1, title: 'Dashboard', icon: 'tachometer', route: '/' },
-    { order: 100, title: 'Διαμόρφωση Καταστήματος', icon: 'cubes', route: '/branches' },
-    { order: 200, title: 'Διαχείριση Κλειδαριών', icon: 'lock', route: '/keys-management' },
-    { order: 300, title: 'Διαχείριση Κλειδιών', icon: 'key', route: '/keys-management' },
-    { order: 400, title: 'Διαχείριση Συνδιασμών', icon: 'unlock-alt', route: '/combination-management' },
+    { order: 100, title: 'Διαμόρφωση Καταστήματος', icon: 'cubes', route: '/branches', roles: ['security'] },
+    { order: 150, title: 'Διαχείριση Κλειδαριών', icon: 'lock', route: '/locks', roles: ['security', 'supervisor', 'manager', 'assistant-manager'] },
+    { order: 200, title: 'Διαχείριση Κλειδιών', icon: 'key', route: '/keytypes', roles: ['security', 'supervisor', 'manager', 'assistant-manager'] },
+    { order: 300, title: 'Ανάθεση', icon: 'key', route: '/assignments', roles: ['manager', 'assistant-manager'] },
     { order: 500, title: 'Συμβάντα', icon: 'list-alt', route: '/logs' }
 ]
 
 class Sidebar extends React.Component {
     render() {
-        
         return (
             <aside className="sidebar-container">
                 <div className="sidebar-header">
                     <a href="" className="sidebar-header-logo">
                         <img src={ eurologo } />
-                        <span className="sidebar-header-logo-text">Euro KeyMan</span>
+                        <span className="sidebar-header-logo-text">EuroKeyMan</span>
                     </a>
                 </div>
                 <div className="sidebar-content ">
@@ -44,14 +45,16 @@ class Sidebar extends React.Component {
                     <nav className="sidebar-nav ">
                         <ul>
                             {
-                                menuItemData.map((item, idx) => (
-                                    <li key={ 'menu-item-' + idx } className={ false ? 'active' : '' }>
-                                        <Link to={ item.route }>
-                                            <i className={ 'fa fa-' + item.icon } aria-hidden="true" />
-                                            <span>{ item.title }</span>
-                                        </Link>
-                                    </li>
-                                ))
+                                this.props.user == null
+                                    ? false
+                                    : menuItemData.filter(m => !Helper.isArray(m.roles) || m.roles.indexOf(this.props.user.role) >= 0).map((item, idx) => (
+                                        <li key={ 'menu-item-' + idx } className={ false ? 'active' : '' }>
+                                            <Link to={ item.route }>
+                                                <i className={ 'fa fa-' + item.icon } aria-hidden="true" />
+                                                <span>{ item.title }</span>
+                                            </Link>
+                                        </li>
+                                    ))
                             }
                         </ul>
                     </nav>

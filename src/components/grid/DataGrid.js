@@ -118,13 +118,12 @@ class DataGrid extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        let differentData = !Helper.isArray(this.props.rowData) && Helper.isArray(nextProps.rowData) ||
-            (!Helper.isArray(this.props.rowData) ? 0 : this.props.rowData.length) != nextProps.rowData.length;
-
-        if (differentData) {
-            this._gridProps.rowData = nextProps.rowData;
-            this.setState({ wrapHeightSet: false });
-            setTimeout(this.setAutoHeight);
+        if(Helper.isArray(nextProps.rowData)) {
+            if(!Helper.isArray(this.props.rowData) || this.props.rowData.length != nextProps.rowData.length) { //todo: deep check
+                this._gridProps.rowData = nextProps.rowData;
+                this.setState({ wrapHeightSet: false });
+                setTimeout(this.setAutoHeight);
+            }
         }
     }
 
@@ -135,7 +134,7 @@ class DataGrid extends React.Component {
     
     render() {
         let initClass = this.state.initialized ? 'initialized' : '',
-            classNames = `card-box ag-blue ag-euro no-cell-focus container-fluid ${this.rowHeightClass} ${initClass} ${this.props.className}`;
+            classNames = `card-box ag-blue ag-euro no-cell-focus ${this.rowHeightClass} ${initClass} ${this.props.className}`;
         return (
             <div style={ { height: this.state.height } } ref={ (elem) => this._wrap = elem }
                 className={ classNames }>

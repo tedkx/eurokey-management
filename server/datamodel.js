@@ -14,7 +14,9 @@ const db =      require('./db'),
             delete newobj[mp];
         return newobj;
     },
-    single = arr => Array.isArray(arr) && arr.length == 1 ? arr[0] : null
+    single = arr => Array.isArray(arr) && arr.length == 1 ? arr[0] : null,
+    dbFind = (collectionName, filter) => stripMetadata(db.getCollection(collectionName).find(filter)),
+    dbData = (collectionName) => stripMetadata(db.getCollection(collectionName).data)
 
 const datamodel = {
     findUser: (username, password) => {
@@ -32,10 +34,10 @@ const datamodel = {
     getBranches: () => stripMetadata(db.getCollection('branches').data),
     getBranchesWithSummary: () => {
         let branches = datamodel.getBranches(),
-            locks = db.getCollection('locks').find({ branch: { '$in': branches.map(b => b.code) } }),
+            locks = dbFind('locks', { branch: { '$in': branches.map(b => b.code) } }),
 
-            keys = db.getCollection('keys').find({ lock: { '$in': locks.map(l => l.code) } }),
-            combinations = db.getCollection('combinations').find({ lock: { '$in': locks.map(l => l.code) } });
+            keys = dbFind('keys', { lock: { '$in': locks.map(l => l.code) } }),
+            combinations = dbFind('combinations', { lock: { '$in': locks.map(l => l.code) } });
         locks = locks.map(l => {
             return Object.assign(l, { 
                 keyCount: keys.filter(k => k.lock == l.code),
@@ -52,18 +54,29 @@ const datamodel = {
             });
         });       
     },
-    getBranch: (code) => stripMetadata(db.getCollection('branches').find({ code })),
+    getBranch: (code) => dbFind('branches', { code }),
 
-    getLock: (code) => stripMetadata(db.getCollection('locks').find({ code })),
-    getLocks: (branch) =>  stripMetadata(db.getCollection('locks').find({ branch })),
+    getLock: (code) => dbFind('locks', { code }),
+    getLocks: (branch) => {
+         let locks = dbFind('locks'),
+            categories = dbFind('lockCategories'),
+            significances = dbFind('lockSignificance');
+        
+        return locks.map(l => Object.assign(l, {
+            category: categories.find((c) =>  c.code == l.category),
+            significance: significances.find(s => s.code == l.significance)
+        }));
+    },
+
+    getKeyTypes: () => dbData('keyTypes'),
 
     getUnlockers: (type, user) => {
         let validType = type === 'keys' || type === 'combinations',
             lockCodes = datamodel.getLocks(user).map(l => l.code),
             unlockers = validType
-                ? db.getCollection(type).find({ code: { '$in': lockCodes } })
-                : db.getCollection('keys').find({ code: { '$in': lockCodes } })
-                    .concat(db.getCollection('combinations').find({ code: { '$in': lockCodes } }));
+                ? dbFind(type, { code: { '$in': lockCodes } })
+                : dbFind('keys', { code: { '$in': lockCodes } })
+                    .concat(dbFind('combinations', { code: { '$in': lockCodes } }));
         
         return stripMetadata(unlockers);
     },

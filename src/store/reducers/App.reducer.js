@@ -19,6 +19,7 @@ const app = (state = defaultState, action) => {
             return Object.assign({}, state, { authenticating: true });
         case APP_ACTION_TYPES.LOGIN_SUCCESS:
             action.payload.accessToken = Crypto.encryptToken(action.payload.accessToken);
+            delete action.payload.password;
             return Object.assign({}, state, { authenticating: false, user: action.payload });
         case APP_ACTION_TYPES.LOGOUT:
             return Object.assign({}, state, { user: null });

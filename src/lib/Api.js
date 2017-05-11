@@ -18,7 +18,7 @@ const Api = {
     updateLock: (lock) => Req.putJson(`lock/${lock.code}`, lock),
 
     /* Keys Management */
-    fetchKeys: () =>Req.getJson('keys')
+    fetchKeys: () => Req.getJson('keys')
 };
 
 export default Api;
