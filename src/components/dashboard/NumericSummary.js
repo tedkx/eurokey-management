@@ -5,8 +5,12 @@ import CSSTransitionGroup   from 'react-transition-group/CSSTransitionGroup'
 import SummaryBox           from './SummaryBox';
 
 class NumericSummary extends Component {
+    shouldComponentUpdate(nextProps, nextState) {
+        return this.props.title != nextProps.title || 
+            this.props.value != nextProps.value;
+    }
+
     render() {
-        console.log('value', this.props.value, 'is null', this.props.value == null);
         let display = <CSSTransitionGroup
             transitionName="cubic-bezier-opacity"
             transitionEnterTimeout={ 500 }

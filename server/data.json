@@ -13,8 +13,8 @@
             { "role": "aftoforakias", "keyType": "blue" }
         ],
         "assignments": [
-            { "type": "key", "code": "building-key-1", "assignee": "ckaravaneas", "assigneeType": "person", "accepted": true },
-            { "type": "key", "code": "building-key-2", "assignee": "kolwnaki", "assigneeType": "store", "accepted": true },
+            { "type": "key", "code": "time-delay-1", "assignee": "ckaravaneas", "assigneeType": "person", "accepted": true },
+            { "type": "key", "code": "building-key-2", "assignee": "kolwnaki", "assigneeType": "branch", "accepted": true },
             { "type": "key", "code": "safe-key", "assignee": "ekerantari", "assigneeType": "person", "accepted": true },
             { "type": "key", "code": "kitchen-key", "assignee": "gdalas", "assigneeType": "person", "accepted": true },
             { "type": "combination", "code": "safe-combination-1", "assignee": "gdalas", "assigneeType": "person", "accepted": true },
@@ -29,14 +29,14 @@
         "keys": [
             { "code": "vault-1", "lock": "vault", "type": "main", "features": [ "must-be-assigned" ] },
             { "code": "time-delay-1", "lock": "time-delay", "type": "main" },
-            { "code": "time-delay-2", "lock": "time-delay", "type": "main", "features": ["store-only", "backup"] },
+            { "code": "time-delay-2", "lock": "time-delay", "type": "main", "features": ["branch-only", "backup"] },
             { "code": "time-delay-override", "lock": "time-delay", "type": "default", "features": [ "wertheim" ] },
             { "code": "strong-room", "lock": "strong-room", "type": "secondary" },
             { "code": "back-cover", "lock": "back-cover", "type": "default" },
             { "code": "mini-safe", "lock": "mini-safe", "type": "default"} ,
             { "code": "atm", "lock": "atm", "type": "default" },
             { "code": "fire-locker", "lock": "fire-locker", "type": "default" },
-            { "code": "store", "lock": "store", "type": "default" },
+            { "code": "master", "lock": "master", "type": "default" },
             { "code": "prevention-door", "lock": "prevention-door", "type": "default" },
             { "code": "fire-escape", "lock": "fire-escape", "type": "default" },
             { "code": "alarm-restore", "lock": "alarm-restore", "type": "default" },
@@ -50,7 +50,7 @@
             { "code": "kitchen-farmacy", "lock": "kitchen-farmacy", "type": "default" }
         ],
         "keyFeatures": [
-            { "code": "store-only", "title": "Αποκλειστικά σε κατάστημα" },
+            { "code": "branch-only", "title": "Αποκλειστικά σε κατάστημα" },
             { "code": "person-only", "title": "Αποκλειστικά σε υπάλληλο" },
             { "code": "must-be-assigned", "title": "Υποχρεωτικά ανατεθειμένο" }
         ],
@@ -61,31 +61,31 @@
         ],
         "lockCategories": [
             { "code": "financial-management", "title": "Διαχείριση Χρηματικού / Αξιών" },
-            { "code": "store-entrance", "title": "Είσοδος στο κατάστημα" },
+            { "code": "branch-entrance", "title": "Είσοδος στο κατάστημα" },
             { "code": "lockers", "title": "Θυρίδες" },
             { "code": "helper", "title": "Βοηθητικά" }
         ],
         "locks": [
-            { "code": "vault", "title": "Vault", "category": "financial-management", "store": "nea-ionia" },
-            { "code": "time-delay", "title": "Μηχανισμός Χρονοκαθυστέρησης", "category": "financial-management", "store": "nea-ionia" },
-            { "code": "strong-room", "title": "Strong Room", "category": "financial-management", "store": "nea-ionia" },
-            { "code": "safe-back-cover", "title": "Οπισθόφυλλος Έλεγχος Μηχανισμού Θύρας Χρηματοκιβωτίων", "category": "financial-management", "store": "nea-ionia" },
-            { "code": "mini-safe", "title": "Μίνι Χρηματοκιβώτιο ταμείων", "category": "financial-management", "store": "nea-ionia" },
-            { "code": "cashier-desk", "title": "Ταμείο", "category": "financial-management", "store": "nea-ionia" },
-            { "code": "atm", "title": "ATM", "category": "financial-management", "store": "nea-ionia" },
-            { "code": "fire-locker", "title": "Πυρασφαλείς Φοριαμοί", "category": "financial-management", "store": "nea-ionia" },
-            { "code": "store", "title": "Master Key", "category": "store-entrance", "store": "nea-ionia" },
-            { "code": "prevention-door", "title": "Είσοδος - Θύρες Αποτροπής", "category": "store-entrance", "store": "nea-ionia" },
-            { "code": "fire-escape", "title": "Έξοδος Κινδύνου", "category": "store-entrance", "store": "nea-ionia" },
-            { "code": "alarm-restore", "title": "Επαναφορά κομβίων κινδύνου συναγερμού", "category": "store-entrance", "store": "nea-ionia" },
-            { "code": "locker", "title": "Θυρίδες", "category": "lockers", "store": "nea-ionia" },
-            { "code": "locker-internal", "title": "Εσωτερική θύρα θησαυροφυλακίων θυρίδων", "category": "lockers", "store": "nea-ionia" },
-            { "code": "customer-locker", "title": "Θυρίδες", "category": "lockers", "store": "nea-ionia" },
-            { "code": "offices", "title": "Γραφεία", "category": "helper", "store": "nea-ionia" },
-            { "code": "storeroom", "title": "Αποθήκη", "category": "helper", "store": "nea-ionia" },
-            { "code": "telecom-room", "title": "Telecom Room", "category": "helper", "store": "nea-ionia" },
-            { "code": "closets", "title": "Ντουλάπες", "category": "helper", "store": "nea-ionia" },
-            { "code": "kitchen-farmacy", "title": "Κουζίνα / Φαρμακείο", "category": "helper", "store": "nea-ionia" }
+            { "code": "vault", "title": "Vault", "category": "financial-management", "branch": "nea-ionia" },
+            { "code": "time-delay", "title": "Μηχανισμός Χρονοκαθυστέρησης", "category": "financial-management", "branch": "nea-ionia" },
+            { "code": "strong-room", "title": "Strong Room", "category": "financial-management", "branch": "nea-ionia" },
+            { "code": "safe-back-cover", "title": "Οπισθόφυλλος Έλεγχος Μηχανισμού Θύρας Χρηματοκιβωτίων", "category": "financial-management", "branch": "nea-ionia" },
+            { "code": "mini-safe", "title": "Μίνι Χρηματοκιβώτιο ταμείων", "category": "financial-management", "branch": "nea-ionia" },
+            { "code": "cashier-desk", "title": "Ταμείο", "category": "financial-management", "branch": "nea-ionia" },
+            { "code": "atm", "title": "ATM", "category": "financial-management", "branch": "nea-ionia" },
+            { "code": "fire-locker", "title": "Πυρασφαλείς Φοριαμοί", "category": "financial-management", "branch": "nea-ionia" },
+            { "code": "master", "title": "Master Key", "category": "store-entrance", "branch": "nea-ionia" },
+            { "code": "prevention-door", "title": "Είσοδος - Θύρες Αποτροπής", "category": "store-entrance", "branch": "nea-ionia" },
+            { "code": "fire-escape", "title": "Έξοδος Κινδύνου", "category": "store-entrance", "branch": "nea-ionia" },
+            { "code": "alarm-restore", "title": "Επαναφορά κομβίων κινδύνου συναγερμού", "category": "store-entrance", "branch": "nea-ionia" },
+            { "code": "locker", "title": "Θυρίδες", "category": "lockers", "branch": "nea-ionia" },
+            { "code": "locker-internal", "title": "Εσωτερική θύρα θησαυροφυλακίων θυρίδων", "category": "lockers", "branch": "nea-ionia" },
+            { "code": "customer-locker", "title": "Θυρίδες", "category": "lockers", "branch": "nea-ionia" },
+            { "code": "offices", "title": "Γραφεία", "category": "helper", "branch": "nea-ionia" },
+            { "code": "storeroom", "title": "Αποθήκη", "category": "helper", "branch": "nea-ionia" },
+            { "code": "telecom-room", "title": "Telecom Room", "category": "helper", "branch": "nea-ionia" },
+            { "code": "closets", "title": "Ντουλάπες", "category": "helper", "branch": "nea-ionia" },
+            { "code": "kitchen-farmacy", "title": "Κουζίνα / Φαρμακείο", "category": "helper", "branch": "nea-ionia" }
         ],
         "logEntries": [
 
@@ -98,7 +98,7 @@
             { "code": "supervisor", "title": "Προϊστάμενος" },
             { "code": "vault", "title": "Vault" }
         ],
-        "stores": [
+        "branches": [
             { "code": "nea-ionia", "title": "Κατάστημα Νέας Ιωνίας" },
             { "code": "kolwnaki", "title": "Κατάστημα Κολωνακίου" },
             { "code": "ampelokipoi", "title": "Κατάστημα Αμπελοκήπων" },
@@ -111,42 +111,48 @@
                 "password": "ekakalos",
                 "firstName": "Επαμεινώνδας",
                 "lastName": "Κάκαλος",
-                "role": "manager"
+                "role": "manager",
+                "branch": "nea-ionia"
             },
             { 
                 "username": "ckaravaneas",
                 "password": "ckaravaneas",
                 "firstName": "Χαράλαμπος",
                 "lastName": "Καραβανέας",
-                "role": "assistant-manager"
+                "role": "assistant-manager",
+                "branch": "nea-ionia"
             },
             { 
                 "username": "ekerantari",
                 "password": "ekerantari",
                 "firstName": "Ελισάβετ",
                 "lastName": "Κεραντάρη",
-                "role": "teller"
+                "role": "supervisor",
+                "branch": "nea-ionia"
             },
             { 
                 "username": "gvlachos",
                 "password": "gvlachos",
                 "firstName": "Γεώργιος",
                 "lastName": "Βλάχος",
-                "role": "teller"
+                "role": "teller",
+                "branch": "nea-ionia"
             },
             { 
                 "username": "gdalas",
                 "password": "gdalas",
                 "firstName": "Τζιοβάνι",
                 "lastName": "Ντάλας",
-                "role": "teller"
+                "role": "teller",
+                "branch": "nea-ionia"
             },
             { 
                 "username": "dplapoutas",
                 "password": "dplapoutas",
                 "firstName": "Δημοσθένης",
                 "lastName": "Πλαπούτας",
-                "role": "teller"
+                "role": "teller",
+                "branch": "nea-ionia"
             },
             { 
                 "username": "tspiouneas",

@@ -50,6 +50,17 @@ class Box extends Component {
     }
 }
 
+class Footer extends React.Component {
+    render() {
+        <div>
+            <h3>Box.Footer</h3>
+            { this.props.children }
+        </div>
+    }
+}
+
+Box.Footer = Footer
+
 Box.propTypes = {
     collapsible: PropTypes.bool,
     containerClassName: PropTypes.string,

@@ -3,6 +3,13 @@ const db =      require('./db'),
     prefix =    '[AUTH]';
 
 const parseCredentials = (req) => {
+    //TODO: Remove this
+    if(req.query && req.query.username && req.query.password)
+        return { method: 'basic', username: req.query.username, password: req.query.password };
+
+    if(req.query && req.query.token)
+        return { method: 'token', token: req.query.token };    
+
     let auth = req.get('authorization');
     
     if(!auth)
@@ -27,23 +34,26 @@ const parseCredentials = (req) => {
 
 module.exports = {
     authenticate: function(req) {
-        let credentials = parseCredentials(req);
-        if(credentials != null)
-            return credentials.method == 'basic' ? dm.findUser(credentials.username, credentials.password)
-                : credentials.method == 'token' ? dm.getUserByToken(credentials.token)
-                : null
-
-        return null;
-
-        // TODO: implement token authentication
-        if (!req.headers['x-auth']) 
-            return { name: 'Name', token: 'Token' }
-        return null;
+        let credentials = parseCredentials(req) || {};
+        req.user = credentials.method == 'basic' ? dm.findUser(credentials.username, credentials.password)
+            : credentials.method == 'token' ? dm.getUserByToken(credentials.token)
+            : null
     },
     authorize: function(req, res, next) {
         if(!req.user)
             return res.status(401).end();
+        
+        if(req.authRoles)
+            console.log('authorizing for roles', req.authRoles, 'current role', req.user.role);
+
         next();
+    },
+
+    forRoles(...roles) {
+        return (req, res, next) => {
+            req.authRoles = roles;
+            next();
+        }
     },
 
     generateAccessToken: (user) => user.username

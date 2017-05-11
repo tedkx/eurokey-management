@@ -6,8 +6,8 @@ import { BRANCHES_ACTION_TYPES as BAT } from '../actions/Branches.actions'
 
 function* fetchBranches(action) {
     try {
-        const response = yield call(Api.fetchBranches, action.payload);
-        yield put(StoreHelper.createAction(BAT.BRANCHES_FETCH_SUCCESS, response.data));
+        const content = yield call(Api.fetchBranches, action.payload);
+        yield put(StoreHelper.createAction(BAT.BRANCHES_FETCH_SUCCESS, content));
     } catch (e) {
         yield put(StoreHelper.errorFromSaga(BAT.BRANCHES_FETCH_FAIL, e));
     }

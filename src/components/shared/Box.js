@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react'
+import PropTypes from 'prop-types'
 
-class Box extends Component {
+class Box extends React.Component {
     render() {
         return (
             <div className={ this.props.className }>
@@ -18,6 +19,13 @@ class Box extends Component {
             </div>
         );
     }
+}
+
+Box.propTypes = {
+    className: PropTypes.string,
+    footer: PropTypes.any,
+    headerClassName: PropTypes.string,
+    title: PropTypes.string
 }
 
 export default Box;

@@ -8,4 +8,4 @@ export const BRANCHES_ACTION_TYPES = {
     BRANCHES_FETCH_FAIL: 'BRANCHES_FETCH_FAIL'
 }
 
-export const fetchBranches = () => StoreHelper.createAction(STORES_ACTION_TYPES.BRANCHES_FETCH);
+export const fetchBranches = () => StoreHelper.createAction(BRANCHES_ACTION_TYPES.BRANCHES_FETCH);

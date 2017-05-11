@@ -28,20 +28,36 @@ class Dashboard extends Component {
                     <NumericSummary containerClassName="col-xs-6 col-lg-3" colorClassName="bg-indigo-500" title="Εκκρεμείς Αποδοχές"
                         url="/keys-management" value={ this.props.pendingAcceptancesCount } color="#CFC" />
                 </div>
-                <Box>
-                    <table>
-                    {
-                        Helper.isArray(this.props.pendingAcceptances)
-                            ? this.props.pendingAcceptances.map(pa => (
-                                <tr>
-                                    <td>{ a.type }</td>
-                                    <td>{ a.code }</td>
-                                </tr>
-                            ))
-                            : false
-                    }
-                    </table>
-                </Box>
+                
+                <div className="row">
+                    <div className="col-md-8">
+                        <Box title="Grid"></Box>
+                    </div>
+                    <div className="col-md-4">
+                        <Box title="Πρόσφατα Συμβάντα">
+
+                        </Box>
+                    </div>
+                </div>
+
+                <div className="row">
+                    <div className="col-md-12">
+                        <Box>
+                            <table>
+                            {
+                                Helper.isArray(this.props.pendingAcceptances)
+                                    ? this.props.pendingAcceptances.map(pa => (
+                                        <tr>
+                                            <td>{ a.type }</td>
+                                            <td>{ a.code }</td>
+                                        </tr>
+                                    ))
+                                    : false
+                            }
+                            </table>
+                        </Box>
+                    </div>
+                </div>
             </div>
         );
     }

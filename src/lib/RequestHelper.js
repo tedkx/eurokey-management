@@ -2,7 +2,7 @@ import axios, { CancelToken }
                     from 'axios'
 import { CANCEL }   from 'redux-saga'
 
-import { REQ_GET, REQ_POST }       
+import { REQ_GET, REQ_PUT, REQ_POST }       
                     from './Constants'
 import Helper       from './Helper'
 import Auth         from './AuthHelper'
@@ -20,7 +20,6 @@ const jsonct = 'application/json'
 const configWithAuth = (configObj) => {
     let headerValue = 'Bearer ' + Auth.getAuthToken();
 
-    console.log('token header', headerValue);
     if(Helper.isNil(configObj))
         configObj = {};
 
@@ -37,9 +36,9 @@ const requestWithCancellation = (type, resource, config, data, anonymous) => {
             formattedConfig = anonymous === true
                 ? configWithCancellation(config, source.token)
                 : configWithAuth(configWithCancellation(config, source.token)),
-            request = type === REQ_GET
-                ? axios.get(constructUrl(resource), formattedConfig)
-                : axios.post(constructUrl(resource), data, formattedConfig);
+            request = type === REQ_POST ? axios.post(constructUrl(resource), data, formattedConfig)
+                : type === REQ_PUT ? axios.put(constructUrl(resource), data, formattedConfig)
+                : axios.get(constructUrl(resource), formattedConfig);
         request[CANCEL] = () => source.cancel()
         return request
     }
@@ -49,12 +48,21 @@ const requestWithCancellation = (type, resource, config, data, anonymous) => {
     }
 }
 
-// Check if response has JSON conten type
+// Check if response has JSON content type
 const withJsonResponse = (requestPromise) => requestPromise.then((resp) => {
-        if(resp.headers && resp.headers[cth] && resp.headers[cth] && resp.headers[cth].match(jsonct))
-            return resp;
+        if(resp.headers && resp.headers[cth] && resp.headers[cth] && resp.headers[cth].match(jsonct)) {
+            if(resp.data && resp.data.success === true) {
+                return resp.data.content;
+            }
+
+            throw { 
+                message: (resp.data && resp.data.messages) || 'Empty response',
+                response: resp
+            };
+        }
+        
         throw { 
-            message: 'Invalid response',
+            message: 'Invalid response format',
             response: resp
         };
     });
@@ -68,7 +76,9 @@ const RequestHelper = {
     get: (resource, config) => requestWithCancellation(REQ_GET, resource, config),
     getJson: (resource, config) => withJsonResponse(requestWithCancellation(REQ_GET, resource, config)),
     post: (resource, data, config) => requestWithCancellation(REQ_POST, resource, config, data),
-    postJson: (resource, data, config) => withJsonResponse(requestWithCancellation(REQ_POST, resource, config, data))
+    postJson: (resource, data, config) => withJsonResponse(requestWithCancellation(REQ_POST, resource, config, data)),
+    put: (resource, data, config) => requestWithCancellation(REQ_PUT, resource, config, data),
+    putJson: (resource, data, config) => withJsonResponse(requestWithCancellation(REQ_PUT, resource, config, data))
 }
 
 export default RequestHelper

@@ -17,6 +17,7 @@ const HeightModes = {
 
 const defaultGridProps = {
     animateRows: true,
+    enableSorting: true,
     suppressMovableColumns: true,
     rowHeight: defaultRowHeight
 }
@@ -118,7 +119,7 @@ class DataGrid extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         let differentData = !Helper.isArray(this.props.rowData) && Helper.isArray(nextProps.rowData) ||
-            this.props.rowData.length != nextProps.rowData.length;
+            (!Helper.isArray(this.props.rowData) ? 0 : this.props.rowData.length) != nextProps.rowData.length;
 
         if (differentData) {
             this._gridProps.rowData = nextProps.rowData;
@@ -134,7 +135,7 @@ class DataGrid extends React.Component {
     
     render() {
         let initClass = this.state.initialized ? 'initialized' : '',
-            classNames = `card-box ag-blue ag-euro no-cell-focus container-fluid ${this.rowHeightClass} ${initClass}`;
+            classNames = `card-box ag-blue ag-euro no-cell-focus container-fluid ${this.rowHeightClass} ${initClass} ${this.props.className}`;
         return (
             <div style={ { height: this.state.height } } ref={ (elem) => this._wrap = elem }
                 className={ classNames }>

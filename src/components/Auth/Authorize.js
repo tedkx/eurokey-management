@@ -11,6 +11,12 @@ const Authorize = (...allowedRoles) => {
 
     return (WrappedComponent) => {
         return class WithAuthorization extends React.Component {
+            constructor(props) {
+                super(props);
+                if(WrappedComponent.name == 'Dashboard')
+                    console.log('AUTHORIZE constructing', WrappedComponent);
+            }
+
             render() {
                 if(!AuthHelper.isLoggedIn())
                     return (

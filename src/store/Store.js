@@ -13,16 +13,24 @@ import AppReducer, { defaultState as AppDefaults }
                             from './reducers/App.reducer'
 import DashboardReducer, { defaultState as DashboardDefaults } 
                             from './reducers/Dashboard.reducer'
+import BranchesReducer, { defaultState as BranchesDefaults } 
+                            from './reducers/Branches.reducer'
+import ItemsReducer, { defaultState as ItemsDefaults } 
+                            from './reducers/Items.reducer'
 
 const rootReducer = combineReducers({
     app: AppReducer,
     dashboard: DashboardReducer,
+    branches: BranchesReducer,
+    items: ItemsReducer,
     routing: routerReducer
 });
 
 const defaultState = {
     app: AppDefaults,
-    dashboard: DashboardDefaults
+    dashboard: DashboardDefaults,
+    branches: BranchesDefaults,
+    items: ItemsDefaults
 };
 
 /* Sagas */

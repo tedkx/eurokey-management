@@ -6,8 +6,8 @@ import { DASH_ACTION_TYPES as DAT } from '../actions/Dashboard.actions'
 
 function* fetchDashboardData(action) {
     try {
-        const response = yield call(Api.fetchDashboardData);
-        yield put(StoreHelper.createAction(DAT.FETCH_DATA_SUCCESS, response.data));
+        const content = yield call(Api.fetchDashboardData);
+        yield put(StoreHelper.createAction(DAT.FETCH_DATA_SUCCESS, content));
     } catch (e) {
         yield put(StoreHelper.errorFromSaga(DAT.FETCH_DATA_FAIL, e));
     }

@@ -811,6 +811,24 @@ a.text-muted:hover {
     margin-top: 6%;
 }
 
+.ag-euro.branches-grid .ag-cell.branch-items-summary .left-summary { 
+    float: left;
+    width: 45%;
+}
+.ag-euro.branches-grid .ag-cell.branch-items-summary .right-summary { 
+    float: right;
+    line-height: 20px !important;
+    width: 45%;
+}
+.ag-euro.branches-grid .ag-cell.branch-items-summary .right-summary > div,
+.ag-euro.branches-grid .ag-cell.branch-items-summary .left-summary > div { 
+    float: left;
+}
+.ag-euro.branches-grid .ag-cell.branch-items-summary .right-summary > span,
+.ag-euro.branches-grid .ag-cell.branch-items-summary .left-summary > span { 
+    float: right;
+    display: block;
+}
 /* CSS Transition Groups */
 .cubic-bezier-opacity-enter, .cubic-bezier-opacity-apper { opacity: 0; }
 .cubic-bezier-opacity-enter.cubic-bezier-opacity-enter-active,
