@@ -34,49 +34,66 @@ const datamodel = {
     getBranches: () => stripMetadata(db.getCollection('branches').data),
     getBranchesWithSummary: () => {
         let branches = datamodel.getBranches(),
-            locks = dbFind('locks', { branch: { '$in': branches.map(b => b.code) } }),
+            locks = dbFind('locks', { branch: { '$in': branches.map(b => b.id) } }),
 
-            keys = dbFind('keys', { lock: { '$in': locks.map(l => l.code) } }),
-            combinations = dbFind('combinations', { lock: { '$in': locks.map(l => l.code) } });
+            keys = dbFind('keys', { lock: { '$in': locks.map(l => l.v) } }),
+            combinations = dbFind('combinations', { lock: { '$in': locks.map(l => l.id) } });
         locks = locks.map(l => {
             return Object.assign(l, { 
-                keyCount: keys.filter(k => k.lock == l.code),
-                combinationCount: combinations.filter(c => c.lock == l.code)
+                keyCount: keys.filter(k => k.lockId == l.id),
+                combinationCount: combinations.filter(c => c.lockId == l.id)
             });
         });
 
         return branches.map(b => {
-            let branchLockCodes = locks.filter(l => l.branch == b.code).map(l => l.code);
+            let branchLockIds = locks.filter(l => l.branchId == b.id).map(l => l.id);
             return Object.assign(b, {
-                combinationCount: combinations.filter(c => branchLockCodes.indexOf(c.lock) >= 0).length,
-                keyCount: keys.filter(k => branchLockCodes.indexOf(k.lock) >= 0).length,
-                lockCount: branchLockCodes.length
+                combinationCount: combinations.filter(c => branchLockIds.indexOf(c.lockId) >= 0).length,
+                keyCount: keys.filter(k => branchLockIds.indexOf(k.lockId) >= 0).length,
+                lockCount: branchLockIds.length
             });
         });       
     },
-    getBranch: (code) => dbFind('branches', { code }),
+    getBranch: (id) => dbFind('branches', { id }),
 
-    getLock: (code) => dbFind('locks', { code }),
+    getLock: (id) => dbFind('locks', { id }),
     getLocks: (branch) => {
          let locks = dbFind('locks'),
             categories = dbFind('lockCategories'),
-            significances = dbFind('lockSignificance');
+            significances = dbFind('lockSignificances');
         
         return locks.map(l => Object.assign(l, {
-            category: categories.find((c) =>  c.code == l.category),
-            significance: significances.find(s => s.code == l.significance)
+            category: categories.find((c) =>  c.id == l.categoryId),
+            significance: significances.find(s => s.id == l.significanceId)
         }));
+    },
+    getBranchAssignmentsForLock: (id) => {
+        let assignedBranchIds = dbFind('branchLocks', { lockId: id }).map(a => a.branchId);
+        return dbData('branches').map(b => Object.assign(b, { lockAssigned: assignedBranchIds.indexOf(b.id) >= 0 }));
+    },
+    persistBranchAssignmentsForLock: (id, assignments) => {
+        if(!Array.isArray(assignments))
+            return false;
+
+        let la = dbFind('branchLocks', { lockId: id }),
+            notAssignedBranchIds = assignments.filter(a => !a.lockAssigned).map(a => a.id),
+            assignedBranchIds = assignments.filter(a => a.lockAssigned).map(a => a.id);
+        db.getCollection('branchLocks').chain().find(bl => notAssignedBranchIds.indexOf(bl.branchId) >= 0).remove();
+            toDelete = la.filter(l => notAssignedl.branchId)
+        console.log('found', la.length, 'branches for lock', id);
+
+        
     },
 
     getKeyTypes: () => dbData('keyTypes'),
 
     getUnlockers: (type, user) => {
         let validType = type === 'keys' || type === 'combinations',
-            lockCodes = datamodel.getLocks(user).map(l => l.code),
+            lockIds = datamodel.getLocks(user).map(l => l.id),
             unlockers = validType
-                ? dbFind(type, { code: { '$in': lockCodes } })
-                : dbFind('keys', { code: { '$in': lockCodes } })
-                    .concat(dbFind('combinations', { code: { '$in': lockCodes } }));
+                ? dbFind(type, { id: { '$in': lockIds } })
+                : dbFind('keys', { id: { '$in': lockIds } })
+                    .concat(dbFind('combinations', { id: { '$in': lockIds } }));
         
         return stripMetadata(unlockers);
     },
@@ -91,21 +108,21 @@ const datamodel = {
                         ]
                     }
                 :   { assignee: user.username },
-            assignmentCodes = db.getCollection('assignments').find(assignmentsFilter).map(k => k.code),
+            assignmentIds = db.getCollection('assignments').find(assignmentsFilter).map(k => k.id),
             unlockers = validType
-                ? db.getCollection(type).find({ code: { '$in': assignmentCodes } })
-                : db.getCollection('keys').find({ code: { '$in': assignmentCodes } })
-                    .concat(db.getCollection('combinations').find({ code: { '$in': assignmentCodes } }))
+                ? db.getCollection(type).find({ id: { '$in': assignmentIds } })
+                : db.getCollection('keys').find({ id: { '$in': assignmentIds } })
+                    .concat(db.getCollection('combinations').find({ v: { '$in': assignmentIds } }))
                     .map(obj => {
                         obj.type = !obj.value ? 'key' : 'combination';
                         return obj;
                     }),
-            locks = stripMetadata(db.getCollection('locks').find({ code: { '$in': unlockers.map(u => u.lock) }}));
+            locks = stripMetadata(db.getCollection('locks').find({ id: { '$in': unlockers.map(u => u.lockId) }}));
         
-        //console.log('validType', validType, 'filter', JSON.stringify(assignmentsFilter), 'assignments', assignmentCodes.join(' | '),
-        //    'unlockers', unlockers.map(u => u.code).join(' | '));        
+        //console.log('validType', validType, 'filter', JSON.stringify(assignmentsFilter), 'assignments', assignmentIds.join(' | '),
+        //    'unlockers', unlockers.map(u => u.id).join(' | '));        
 
-        return stripMetadata(unlockers).map(u => Object.assign(u, { lock: locks.find({ code: u.lock }) }));
+        return stripMetadata(unlockers).map(u => Object.assign(u, { lock: locks.find({ id: u.lockId }) }));
     },
 
     insert: (item, collectionName) => {
@@ -113,7 +130,7 @@ const datamodel = {
             return false;
         
         let collection = db.getCollection(collectionName),
-            existing = collection.find({ code: item.code });
+            existing = collection.find({ id: item.id });
         
         if(existing)
             return false;
@@ -126,7 +143,7 @@ const datamodel = {
             return false;
         
         let collection = db.getCollection(collectionName),
-            existing = stripMetadata(isingle(locks.find({ code: lock.code })));
+            existing = stripMetadata(isingle(locks.find({ id: lock.id })));
         
         if(!existing)
             return false;

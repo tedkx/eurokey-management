@@ -5,7 +5,7 @@ import Helper               from '../../lib/Helper'
 
 class Main extends Component {
     render() {
-        let key = Helper.getSubstringUntilNth(this.props.location.pathname, '/', 2);
+        let key = this.props.location ? Helper.getSubstringUntilNth(this.props.location.pathname, '/', 2) : '';
 
         return (
             <CSSTransitionGroup

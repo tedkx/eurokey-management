@@ -9,8 +9,8 @@ export const defaultState = {
     suggestions: [],
     suggestionsLoading: false,
     suggestionsSearchTerm: '',
-    //user: { firstName: 'Γιώργος', lastName: 'Παπαδάκης', role: 'manager', accessToken: '1234' }
-    user: null
+    user: { firstName: 'Γιώργος', lastName: 'Παπαδάκης', role: 'manager', accessToken: 'ekakalos' }
+    //user: null
 }
 
 const app = (state = defaultState, action) => {

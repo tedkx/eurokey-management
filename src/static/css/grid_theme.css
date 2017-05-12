@@ -26,6 +26,13 @@
 .ag-euro.ag-row-height-45 .ag-cell { line-height: 37px }
 .ag-euro.ag-row-height-50 .ag-cell { line-height: 42px }
 
+.ag-euro .ag-cell.checkbox-cell { 
+  padding-top: 0;
+}
+.ag-euro .ag-cell.checkbox-cell .checkbox { 
+  margin-top: 5px;
+}
+
 .ag-euro .ag-cell-not-inline-editing {
   padding: 2px;
 }

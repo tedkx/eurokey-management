@@ -49,11 +49,31 @@ function* fetchLocks(action) {
 }
 function* watchFetchLocks() { yield takeLatest(IAT.LOCKS_FETCH, fetchLocks); }
 
+function* fetchLockBranchesAssignments(action) {
+    try {
+        const content = yield call(Api.fetchLockBranchesAssignments, action.payload);
+        yield put(StoreHelper.createAction(IAT.LOCK_BRANCHES_ASSIGNMENTS_FETCH_SUCCESS, content));
+    } catch (e) {
+        yield put(StoreHelper.errorFromSaga(IAT.LOCK_BRANCHES_ASSIGNMENTS_FETCH_FAIL, e));
+    }
+}
+function* watchFetchLockBranchesAssignments() { yield takeLatest(IAT.LOCK_BRANCHES_ASSIGNMENTS_FETCH, fetchLockBranchesAssignments); }
+
+function* saveLockBranchesAssignments(action) {
+    try {
+        const content = yield call(Api.saveLockBranchesAssignments, action.payload);
+        yield put(StoreHelper.createAction(IAT.LOCK_BRANCHES_ASSIGNMENTS_SAVE_SUCCESS, content));
+    } catch (e) {
+        yield put(StoreHelper.errorFromSaga(IAT.LOCK_BRANCHES_ASSIGNMENTS_SAVE_FAIL, e));
+    }
+}
+function* watchSaveLockBranchesAssignments() { yield takeLatest(IAT.LOCK_BRANCHES_ASSIGNMENTS_SAVE, saveLockBranchesAssignments); }
+
 export default function* itemsSagas() {
     yield all([
         watchFetchLocks(),
-        // watchFetchKeys(),
-        // watchFetchCombinations(),
+        watchFetchLockBranchesAssignments(),
+        watchSaveLockBranchesAssignments()
         // watchFetchKeys()
     ])
 }

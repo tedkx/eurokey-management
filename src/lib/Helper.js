@@ -7,6 +7,18 @@ const chars = window.chars ={
 }
 
 const Helper = {
+    arrayToObject: (arr, keyProp) => {
+        if(!Helper.isArray(arr))
+            return null;
+        if(typeof keyProp !== 'string' && typeof keyProp !== 'number')
+            return null;
+
+        let obj = {};
+        for(let item of arr)
+            obj[item[keyProp]] = item;
+        return obj;
+    },
+
     bind(component, functionNames) {
         if(Helper.isNil(component))
             return;

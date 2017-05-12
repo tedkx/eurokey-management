@@ -1,6 +1,5 @@
 import React        from 'react';
 
-import Routing      from './Routing';
 import Header       from '../containers/HeaderContainer';
 import Sidebar      from '../containers/SidebarContainer';
 import Main         from './layout/Main';
@@ -16,7 +15,7 @@ class App extends React.Component {
                     <Header />
                     <Sidebar location={ this.props.location } />
                     <Main location={ this.props.location }>
-                        <Routing />
+                        { this.props.children }
                     </Main>
                 </div>
             </div>

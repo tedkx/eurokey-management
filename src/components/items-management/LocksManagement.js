@@ -1,25 +1,10 @@
 import React from 'react';
 
-import { Switch, Route, Link } from 'react-router-dom'
+//import { Switch, Route, Link } from 'react-router-dom'
+import { Route, Link }  from 'react-router'
 
-import DataGrid from '../grid/DataGrid'
-
-
-class Asdf extends React.Component{
-    render() {
-        return <div>ASDF</div>
-    }
-}
-class Qwer extends React.Component{
-    render() {
-        return <div>Qwer</div>
-    }
-}
-class Zxcv extends React.Component{
-    render() {
-        return <div>Zxcv</div>
-    }
-}
+import CenteredOverlay  from '../shared/CenteredOverlay'
+import DataGrid         from '../grid/DataGrid'
 
 class LocksManagement extends React.Component {
     constructor(props) {
@@ -28,7 +13,22 @@ class LocksManagement extends React.Component {
         this.columnDefs = [
             { headerName: 'Ονομασία', field: 'title' },
             { headerName: 'Κατηγορία', valueGetter: (params) => params.data.category && params.data.category.title || '' },
-            { headerName: 'Τύπος', valueGetter: (params) => params.data.significance.title }
+            { headerName: 'Τύπος', valueGetter: (params) => params.data.significance.title },
+            {
+                headerName: '',
+                cellClass: 'pt0 text-right',
+                width: 75,
+                cellRendererFramework: (params) => (
+                    <div>
+                        <Link to={ `/locks/assign/${params.data.id}` } className="btn btn-primary btn-raised btn-sm">
+                            <i className="fa fa-share" />
+                        </Link>
+                        <button type="button" className="btn btn-danger btn-raised btn-sm ml-sm">
+                            <i className="fa fa-remove" />
+                        </button>
+                    </div>
+                )
+            }
         ]
     }
     
@@ -37,16 +37,15 @@ class LocksManagement extends React.Component {
     }
 
     componentDidMount() {
-        console.log('locks mounted', this.props);
         this.props.onMount();
     }
 
     componentWillUnmount() {
         this.props.onUnmount();
-        console.log('locks UNmounted');
     }
 
     render() {
+        let assigning = this.props.location.pathname.match(/\/locks\/assign/) != null;
         return (
             <div className="container-fluid">
                 <div className="row">
@@ -56,21 +55,14 @@ class LocksManagement extends React.Component {
                     <DataGrid columnDefs={ this.columnDefs }
                         rowData={ this.props.locks }
                         loading={ this.props.fetching }
-                        style={ { width: '100%' } }
-                        />
+                        className={ 'locks-grid' + (assigning ? ' col-md-4' : 'col-md-12') }>
+                        <CenteredOverlay visible={ assigning } />
+                    </DataGrid>
+                    
+                    <div className="col-md-8">
+                        { this.props.children }
+                    </div>
                 </div>
-
-                <div className="card">
-                    <Switch>
-                        <Route exact path="/locks" component={ Asdf } />
-                        <Route exact path="/locks/assign" component={ Zxcv } children={ <div>zxcv</div> } />
-                        <Route path="/locks/design" component={ Qwer } />
-                    </Switch>
-                </div>
-
-                <Link to="/locks/assign" onClick={ () => this.setState({ current: 'assign' }) }>/KeyTypes/Assign</Link>
-                <br />
-                <Link to="/locks/design" onClick={ () => this.setState({ current: 'design' }) }>/KeyTypes/Design</Link>
             </div>
         );
     }

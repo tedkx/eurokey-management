@@ -527,7 +527,7 @@ a.text-muted:hover {
   -moz-border-radius: 5px;
   background-clip: padding-box;
   margin-bottom: 20px;
-  box-sizing: content-box;
+  /*box-sizing: content-box;*/
   position: relative;
 }
 .card-box .card-drop {
@@ -803,6 +803,24 @@ a.text-muted:hover {
     margin-top: 12px;
 }
 
+.absolute-overlay {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    -webkit-transition: opacity 0.5, bottom 0s linear 0.5s;
+    -moz-transition: opacity 0.5, bottom 0s linear 0.5s;
+    -o-transition: opacity 0.5, bottom 0s linear 0.5s;
+    transition: opacity 0.5, bottom 0s linear 0.5s;
+}
+.absolute-overlay.visible {
+    opacity: 1;
+    -webkit-transition: opacity 0.5, bottom 0s linear 0s;
+    -moz-transition: opacity 0.5, bottom 0s linear 0s;
+    -o-transition: opacity 0.5, bottom 0s linear 0s;
+    transition: opacity 0.5, bottom 0s linear 0s;
+}
+
 /* Specifics */
 .login-wrap .card-box {
     margin: 30px auto;
@@ -829,6 +847,9 @@ a.text-muted:hover {
     float: right;
     display: block;
 }
+
+.locks-grid { transition: width 0.3s ease-out }
+
 /* CSS Transition Groups */
 .cubic-bezier-opacity-enter, .cubic-bezier-opacity-apper { opacity: 0; }
 .cubic-bezier-opacity-enter.cubic-bezier-opacity-enter-active,

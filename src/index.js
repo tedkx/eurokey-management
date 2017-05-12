@@ -1,17 +1,16 @@
-import React                from 'react';
-import ReactDOM             from 'react-dom';
+import React                from 'react'
+import ReactDOM             from 'react-dom'
+import { Provider }         from 'react-redux'
+import { Router }           from 'react-router'
 
-import { Provider }         from 'react-redux';
-import { ConnectedRouter }  from 'react-router-redux';
-
-import Store, { history }   from './store/Store';
-import App                  from './containers/AppContainer';
+import Store, { history }   from './store/Store'
+import Routes               from './components/Routing'
 
 ReactDOM.render(
     <Provider store={ Store }>
-        <ConnectedRouter history={ history }>
-            <App />
-        </ConnectedRouter>
+        <Router history={ history }>
+            { Routes }
+        </Router>
     </Provider>,
     document.getElementById('app-wrap')
 );

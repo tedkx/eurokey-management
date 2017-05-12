@@ -13,94 +13,99 @@
             { "role": "aftoforakias", "keyType": "blue" }
         ],
         "assignments": [
-            { "type": "key", "code": "time-delay-1", "assignee": "ckaravaneas", "assigneeType": "person", "accepted": true },
-            { "type": "key", "code": "building-key-2", "assignee": "kolwnaki", "assigneeType": "branch", "accepted": true },
-            { "type": "key", "code": "safe-key", "assignee": "ekerantari", "assigneeType": "person", "accepted": true },
-            { "type": "key", "code": "kitchen-key", "assignee": "gdalas", "assigneeType": "person", "accepted": true },
-            { "type": "combination", "code": "safe-combination-1", "assignee": "gdalas", "assigneeType": "person", "accepted": true },
-            { "type": "combination", "code": "safe-combination-2", "assignee": "ckaravaneas", "assigneeType": "person", "accepted": true }
+            { "type": "key", "id": "time-delay-1", "assignee": "ckaravaneas", "assigneeType": "person", "accepted": true },
+            { "type": "key", "id": "building-key-2", "assignee": "kolwnaki", "assigneeType": "branch", "accepted": true },
+            { "type": "key", "id": "safe-key", "assignee": "ekerantari", "assigneeType": "person", "accepted": true },
+            { "type": "key", "id": "kitchen-key", "assignee": "gdalas", "assigneeType": "person", "accepted": true },
+            { "type": "combination", "id": "safe-combination-1", "assignee": "gdalas", "assigneeType": "person", "accepted": true },
+            { "type": "combination", "id": "safe-combination-2", "assignee": "ckaravaneas", "assigneeType": "person", "accepted": true }
         ],
         "branches": [
-            { "code": "nea-ionia", "title": "Κατάστημα Νέας Ιωνίας" },
-            { "code": "kolwnaki", "title": "Κατάστημα Κολωνακίου" },
-            { "code": "ampelokipoi", "title": "Κατάστημα Αμπελοκήπων" },
-            { "code": "panepistimiou", "title": "Κατάστημα Πανεπιστημίου" },
-            { "code": "syntagma", "title": "Κατάστημα Συντάγματος" }
+            { "id": "nea-ionia", "title": "Κατάστημα Νέας Ιωνίας" },
+            { "id": "kolwnaki", "title": "Κατάστημα Κολωνακίου" },
+            { "id": "ampelokipoi", "title": "Κατάστημα Αμπελοκήπων" },
+            { "id": "panepistimiou", "title": "Κατάστημα Πανεπιστημίου" },
+            { "id": "syntagma", "title": "Κατάστημα Συντάγματος" }
         ],
         "branchLocks": [
-            
+            { "branchId": "nea-ionia", "lockId": "vault" },
+            { "branchId": "kolwnaki", "lockId": "vault" },
+            { "branchId": "nea-ionia", "lockId": "atm" },
+            { "branchId": "kolwnaki", "lockId": "atm" },
+            { "branchId": "nea-ionia", "lockId": "time-delay" },
+            { "branchId": "nea-ionia", "lockId": "strong-room" }            
         ],
         "combinations": [
-            { "lock": "vault", "code": "vault-1", "value": "1234", "type": "main" },
-            { "lock": "safe", "code": "safe-combination-2", "value": "4321" },
-            { "lock": "building", "code": "building-combination", "value": "1111" },
-            { "lock": "office", "code": "office-combination", "value": "2222" }            
+            { "lockId": "vault", "id": "vault-1", "value": "1234", "type": "main" },
+            { "lockId": "safe", "id": "safe-combination-2", "value": "4321" },
+            { "lockId": "building", "id": "building-combination", "value": "1111" },
+            { "lockId": "office", "id": "office-combination", "value": "2222" }            
         ],
         "keys": [
-            { "code": "vault-1", "lock": "vault", "type": "main", "features": [ "must-be-assigned" ] },
-            { "code": "time-delay-1", "lock": "time-delay", "type": "main" },
-            { "code": "time-delay-2", "lock": "time-delay", "type": "main", "features": ["branch-only", "backup"] },
-            { "code": "time-delay-override", "lock": "time-delay", "type": "default", "features": [ "wertheim" ] },
-            { "code": "strong-room", "lock": "strong-room", "type": "secondary" },
-            { "code": "back-cover", "lock": "back-cover", "type": "default" },
-            { "code": "mini-safe", "lock": "mini-safe", "type": "default"} ,
-            { "code": "atm", "lock": "atm", "type": "default" },
-            { "code": "fire-locker", "lock": "fire-locker", "type": "default" },
-            { "code": "master", "lock": "master", "type": "default" },
-            { "code": "prevention-door", "lock": "prevention-door", "type": "default" },
-            { "code": "fire-escape", "lock": "fire-escape", "type": "default" },
-            { "code": "alarm-restore", "lock": "alarm-restore", "type": "default" },
-            { "code": "locker", "lock": "locker", "type": "default" },
-            { "code": "locker-internal", "lock": "locker-internal", "type": "default" },
-            { "code": "customer-locker", "lock": "customer-locker", "type": "default", "features": ["customer-only"], "title": "Κλειδιά Πελατών" },
-            { "code": "offices", "lock": "offices", "type": "default" },
-            { "code": "storeroom", "lock": "storeroom", "type": "default" },
-            { "code": "telecom-room", "lock": "telecom-room", "type": "default" },
-            { "code": "closets", "lock": "closets", "type": "default" },
-            { "code": "kitchen-farmacy", "lock": "kitchen-farmacy", "type": "default" }
+            { "id": "vault-1", "lockId": "vault", "typeId": "main", "features": [ "must-be-assigned" ] },
+            { "id": "time-delay-1", "lockId": "time-delay", "typeId": "main" },
+            { "id": "time-delay-2", "lockId": "time-delay", "typeId": "main", "features": ["branch-only", "backup"] },
+            { "id": "time-delay-override", "lockId": "time-delay", "typeId": "default", "features": [ "wertheim" ] },
+            { "id": "strong-room", "lockId": "strong-room", "typeId": "secondary" },
+            { "id": "back-cover", "lockId": "back-cover", "typeId": "default" },
+            { "id": "mini-safe", "lockId": "mini-safe", "typeId": "default"} ,
+            { "id": "atm", "lockId": "atm", "typeId": "default" },
+            { "id": "fire-locker", "lockId": "fire-locker", "typeId": "default" },
+            { "id": "master", "lockId": "master", "typeId": "default" },
+            { "id": "prevention-door", "lockId": "prevention-door", "typeId": "default" },
+            { "id": "fire-escape", "lockId": "fire-escape", "typeId": "default" },
+            { "id": "alarm-restore", "lockId": "alarm-restore", "typeId": "default" },
+            { "id": "locker", "lockId": "locker", "typeId": "default" },
+            { "id": "locker-internal", "lockId": "locker-internal", "typeId": "default" },
+            { "id": "customer-locker", "lockId": "customer-locker", "typeId": "default", "features": ["customer-only"], "title": "Κλειδιά Πελατών" },
+            { "id": "offices", "lockId": "offices", "typeId": "default" },
+            { "id": "storeroom", "lockId": "storeroom", "typeId": "default" },
+            { "id": "telecom-room", "lockId": "telecom-room", "typeId": "default" },
+            { "id": "closets", "lockId": "closets", "typeId": "default" },
+            { "id": "kitchen-farmacy", "lockId": "kitchen-farmacy", "typeId": "default" }
         ],
         "keyFeatures": [
-            { "code": "branch-only", "title": "Αποκλειστικά σε κατάστημα" },
-            { "code": "person-only", "title": "Αποκλειστικά σε υπάλληλο" },
-            { "code": "must-be-assigned", "title": "Υποχρεωτικά ανατεθειμένο" }
+            { "id": "branch-only", "title": "Αποκλειστικά σε κατάστημα" },
+            { "id": "person-only", "title": "Αποκλειστικά σε υπάλληλο" },
+            { "id": "must-be-assigned", "title": "Υποχρεωτικά ανατεθειμένο" }
         ],
         "keyTypes": [
-            { "code": "main", "title": "Κύριο" },
-            { "code": "default", "title": "" },
-            { "code": "secondary", "title": "Δευτερεύον" }
+            { "id": "main", "title": "Κύριο" },
+            { "id": "default", "title": "" },
+            { "id": "secondary", "title": "Δευτερεύον" }
         ],
         "lockCategories": [
-            { "code": "financial-management", "title": "Διαχείριση Χρηματικού / Αξιών" },
-            { "code": "branch-entrance", "title": "Είσοδος στο κατάστημα" },
-            { "code": "lockers", "title": "Θυρίδες" },
-            { "code": "helper", "title": "Βοηθητικά" }
+            { "id": "financial-management", "title": "Διαχείριση Χρηματικού / Αξιών" },
+            { "id": "branch-entrance", "title": "Είσοδος στο κατάστημα" },
+            { "id": "lockers", "title": "Θυρίδες" },
+            { "id": "helper", "title": "Βοηθητικά" }
         ],
-        "lockSignificance": [
-            { "code": "main", "title": "Κύριο" },
-            { "code": "default", "title": "" },
-            { "code": "secondary", "title": "Δευτερεύον" }
+        "lockSignificances": [
+            { "id": "main", "title": "Κύριο" },
+            { "id": "default", "title": "" },
+            { "id": "secondary", "title": "Δευτερεύον" }
         ],
         "locks": [
-            { "code": "vault", "title": "Vault", "category": "financial-management", "significance": "main" },
-            { "code": "time-delay", "title": "Μηχανισμός Χρονοκαθυστέρησης", "category": "financial-management", "significance": "main" },
-            { "code": "strong-room", "title": "Strong Room", "category": "financial-management", "significance": "secondary" },
-            { "code": "safe-back-cover", "title": "Οπισθόφυλλος Έλεγχος Μηχανισμού Θύρας Χρηματοκιβωτίων", "category": "financial-management", "significance": "default" },
-            { "code": "mini-safe", "title": "Μίνι Χρηματοκιβώτιο ταμείων", "category": "financial-management", "significance": "default" },
-            { "code": "cashier-desk", "title": "Ταμείο", "category": "financial-management", "significance": "default" },
-            { "code": "atm", "title": "ATM", "category": "financial-management", "significance": "default" },
-            { "code": "fire-locker", "title": "Πυρασφαλείς Φοριαμοί", "category": "financial-management", "significance": "default" },
-            { "code": "master", "title": "Master Key", "category": "store-entrance", "significance": "default" },
-            { "code": "prevention-door", "title": "Είσοδος - Θύρες Αποτροπής", "category": "store-entrance", "significance": "default" },
-            { "code": "fire-escape", "title": "Έξοδος Κινδύνου", "category": "store-entrance", "significance": "default" },
-            { "code": "alarm-restore", "title": "Επαναφορά κομβίων κινδύνου συναγερμού", "category": "store-entrance", "significance": "default" },
-            { "code": "locker", "title": "Θυρίδες", "category": "lockers", "significance": "default" },
-            { "code": "locker-internal", "title": "Εσωτερική θύρα θησαυροφυλακίων θυρίδων", "category": "lockers", "significance": "default" },
-            { "code": "customer-locker", "title": "Θυρίδες", "category": "lockers", "significance": "default" },
-            { "code": "offices", "title": "Γραφεία", "category": "helper", "significance": "default" },
-            { "code": "storeroom", "title": "Αποθήκη", "category": "helper", "significance": "default" },
-            { "code": "telecom-room", "title": "Telecom Room", "category": "helper", "significance": "default" },
-            { "code": "closets", "title": "Ντουλάπες", "category": "helper", "significance": "default" },
-            { "code": "kitchen-farmacy", "title": "Κουζίνα / Φαρμακείο", "category": "helper", "significance": "default" }
+            { "id": "vault", "title": "Vault", "categoryId": "financial-management", "significanceId": "main" },
+            { "id": "time-delay", "title": "Μηχανισμός Χρονοκαθυστέρησης", "categoryId": "financial-management", "significanceId": "main" },
+            { "id": "strong-room", "title": "Strong Room", "categoryId": "financial-management", "significanceId": "secondary" },
+            { "id": "safe-back-cover", "title": "Οπισθόφυλλος Έλεγχος Μηχανισμού Θύρας Χρηματοκιβωτίων", "categoryId": "financial-management", "significanceId": "default" },
+            { "id": "mini-safe", "title": "Μίνι Χρηματοκιβώτιο ταμείων", "categoryId": "financial-management", "significanceId": "default" },
+            { "id": "cashier-desk", "title": "Ταμείο", "categoryId": "financial-management", "significanceId": "default" },
+            { "id": "atm", "title": "ATM", "category": "financial-management", "significanceId": "default" },
+            { "id": "fire-locker", "title": "Πυρασφαλείς Φοριαμοί", "categoryId": "financial-management", "significanceId": "default" },
+            { "id": "master", "title": "Master Key", "category": "store-entrance", "significanceId": "default" },
+            { "id": "prevention-door", "title": "Είσοδος - Θύρες Αποτροπής", "categoryId": "store-entrance", "significanceId": "default" },
+            { "id": "fire-escape", "title": "Έξοδος Κινδύνου", "categoryId": "store-entrance", "significanceId": "default" },
+            { "id": "alarm-restore", "title": "Επαναφορά κομβίων κινδύνου συναγερμού", "categoryId": "store-entrance", "significanceId": "default" },
+            { "id": "locker", "title": "Θυρίδες", "categoryId": "lockers", "significanceId": "default" },
+            { "id": "locker-internal", "title": "Εσωτερική θύρα θησαυροφυλακίων θυρίδων", "categoryId": "lockers", "significanceId": "default" },
+            { "id": "customer-locker", "title": "Θυρίδες", "categoryId": "lockers", "significanceId": "default" },
+            { "id": "offices", "title": "Γραφεία", "categoryId": "helper", "significanceId": "default" },
+            { "id": "storeroom", "title": "Αποθήκη", "categoryId": "helper", "significanceId": "default" },
+            { "id": "telecom-room", "title": "Telecom Room", "categoryId": "helper", "significanceId": "default" },
+            { "id": "closets", "title": "Ντουλάπες", "categoryId": "helper", "significanceId": "default" },
+            { "id": "kitchen-farmacy", "title": "Κουζίνα / Φαρμακείο", "categoryId": "helper", "significanceId": "default" }
         ],
         "logEntries": [
 
@@ -109,12 +114,12 @@
             
         ],
         "roles": [
-            { "code": "security", "title": "Φυσική Ασφάλεια" },
-            { "code": "manager", "title": "Διευθυντής" },
-            { "code": "assistant-manager", "title": "Υποδιευθυντής" },
-            { "code": "teller", "title": "Ταμίας" },
-            { "code": "supervisor", "title": "Προϊστάμενος" },
-            { "code": "vault", "title": "Vault" }
+            { "id": "security", "title": "Φυσική Ασφάλεια" },
+            { "id": "manager", "title": "Διευθυντής" },
+            { "id": "assistant-manager", "title": "Υποδιευθυντής" },
+            { "id": "teller", "title": "Ταμίας" },
+            { "id": "supervisor", "title": "Προϊστάμενος" },
+            { "id": "vault", "title": "Vault" }
         ],
         "users": [
             { 

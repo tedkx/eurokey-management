@@ -61,21 +61,28 @@ apirouter.get('/branches/:extradata?', auth.forRoles('security'), auth.authorize
         : dm.getBranches()
     );
 });
-apirouter.get('/branch/:code', auth.forRoles('security', 'manager'), auth.authorize, delay, json, function(req, res) {
-    res.respond(dm.getBranch(req.params.code));
+apirouter.get('/branch/:id', auth.forRoles('security', 'manager'), auth.authorize, delay, json, function(req, res) {
+    res.respond(dm.getBranch(req.params.id));
 });
 
-apirouter.get('/branch/:code/locks', auth.forRoles('security', 'manager', 'assistant-manager'), auth.authorize, delay, json, (req, res) => {
-    if(req.user.role != 'supervisor' && req.user.branch != req.params.code)
+apirouter.get('/branch/:id/locks', auth.forRoles('security', 'manager', 'assistant-manager'), auth.authorize, delay, json, (req, res) => {
+    if(req.user.role != 'supervisor' && req.user.branch != req.params.id)
         res.respond(null, null, false, 401);
     else
-        res.respond(dm.getLocks(req.params.code));
+        res.respond(dm.getLocks(req.params.id));
 });
 
 /* Locks */
 
 apirouter.get('/locks', auth.forRoles('security'), auth.authorize, delay, json, (req, res) => res.respond(dm.getLocks()));
-apirouter.get('/lock/:code', auth.authorize, delay, json, (req, res) =>  res.respond(dm.getLock(req.params.code, req.user)));
+apirouter.get('/lock/:id', auth.authorize, delay, json, (req, res) =>  res.respond(dm.getLock(req.params.id, req.user)));
+apirouter.get('/lock/:id/branch-asignments', auth.forRoles('security'), auth.authorize, delay, json, (req, res) => {
+    res.respond(dm.getBranchAssignmentsForLock(req.params.id));
+});
+apirouter.post('/lock/:id/branch-asignments', auth.forRoles('security'), auth.authorize, delay, json, (req, res) => {
+    console.log('received', req.body.length, 'assignments');
+    res.respond(dm.persistBranchAssignmentsForLock(req.params.id, req.body.length));
+});
 
 apirouter.post('/api/lock', auth.authorize, json, function (req, res) {
     var result = validator.validateForInsert(req.body);
@@ -83,9 +90,9 @@ apirouter.post('/api/lock', auth.authorize, json, function (req, res) {
         ? res.respond(dm.insertLock(req.body))
         : res.respond(null, result);    
 });
-apirouter.put('/api/lock/:code', auth.authorize, json, function (req, res) {
+apirouter.put('/api/lock/:id', auth.authorize, json, function (req, res) {
     if(req.body)
-        req.body.code = req.params.code;
+        req.body.id = req.params.id;
     var result = validator.validateForUpdate(req.body);
     return result === true
         ? res.respond(dm.updateLock(req.body))
@@ -96,7 +103,7 @@ apirouter.put('/api/lock/:code', auth.authorize, json, function (req, res) {
  * Keys / Combinations
  */
 //apirouter.get('/keytypes', delay, json, (req, res) => res.respond(dm.getKeyTypes()));
-//apirouter.get('/keytype/:code?', auth.forRoles('security'), auth.authorize, delay, json, (req, res) => res.respond(dm.getKeyType(req.params.code)));
+//apirouter.get('/keytype/:id?', auth.forRoles('security'), auth.authorize, delay, json, (req, res) => res.respond(dm.getKeyType(req.params.id)));
 
 apirouter.get('/keys', auth.forRoles('security'), auth.authorize, delay, json, (req, res) => res.respond(dm.getUnlockers('keys')));
 

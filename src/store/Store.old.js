@@ -1,8 +1,9 @@
 import { combineReducers, createStore, 
     applyMiddleware }       from 'redux'
 
-import { browserHistory } from 'react-router'
-import { syncHistoryWithStore, routerReducer } from 'react-router-redux'
+import createHistory        from 'history/createBrowserHistory'
+import { routerReducer, routerMiddleware, 
+        push }              from 'react-router-redux'
 
 import createSagaMiddleware from 'redux-saga'
 import { all }              from 'redux-saga/effects'
@@ -48,15 +49,14 @@ function* rootSaga() {
 }
 
 /* Middleware */
+export const history = createHistory();
 const sagaMiddleware = createSagaMiddleware();
-const middleware = applyMiddleware(sagaMiddleware);
+const middleware = applyMiddleware(routerMiddleware(history), sagaMiddleware);
 
 const Store = typeof window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ === 'function'
     ? createStore(rootReducer, defaultState, window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__(middleware))
     : createStore(rootReducer, defaultState, middleware);
 
 sagaMiddleware.run(rootSaga);
-
-export const history = syncHistoryWithStore(browserHistory, Store)
 
 export default Store;

@@ -12,7 +12,7 @@ module.exports = {
 
         let errors = [];
         
-        if(!obj.code)
+        if(!obj.id)
             errors.push('No id supplied');
 
         return errors.length === 0 || errors;

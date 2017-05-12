@@ -14,6 +14,9 @@ const Api = {
 
     /* Locks Management */
     fetchLocks: () => Req.getJson('locks'),
+    fetchLockBranchesAssignments: (lockId) => Req.getJson(`lock/${lockId}/branch-asignments`),
+    saveLockBranchesAssignments: ({ lockId, assignments }) => Req.postJson(`lock/${lockId}/branch-assignments`, assignments),
+
     createLock: (lock) => Req.postJson('lock', lock),
     updateLock: (lock) => Req.putJson(`lock/${lock.code}`, lock),
 

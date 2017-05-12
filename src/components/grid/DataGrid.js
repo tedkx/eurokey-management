@@ -4,6 +4,7 @@ import { AgGridReact }  from 'ag-grid-react'
 
 import LoaderOverlay    from '../shared/LoaderOverlay'
 import Helper           from '../../lib/Helper'
+import Comparer         from '../../lib/Comparer'
 import UiHelper         from '../../lib/UiHelper'
 
 const footerHeight = 20;
@@ -26,15 +27,14 @@ class DataGrid extends React.Component {
     constructor(props) {
         super(props);
 
-        this._gridProps = Object.assign({}, defaultGridProps, props);
-        delete this._gridProps['onGridReady'];
-        delete this._gridProps['gridSizeChanged'];
-        if(typeof this._gridProps.rowHeight !== 'number')
-            this._gridProps.rowHeight = defaultRowHeight;
+        let { onGridReady, gridSizeChanged, ...gridProps } = Object.assign({}, defaultGridProps, props);
+        if(typeof gridProps.rowHeight !== 'number')
+            gridProps.rowHeight = defaultRowHeight;
+        this._gridProps = gridProps;
 
-        this.rowHeightClass = this._gridProps.rowHeight > 48 ? 'ag-row-height-50'
-            : this._gridProps.rowHeight > 43 ? 'ag-row-height-45'
-            : this._gridProps.rowHeight > 38 ? 'ag-row-height-40'
+        this.rowHeightClass = gridProps.rowHeight > 48 ? 'ag-row-height-50'
+            : gridProps.rowHeight > 43 ? 'ag-row-height-45'
+            : gridProps.rowHeight > 38 ? 'ag-row-height-40'
             : ''
 
         this.state = { 
@@ -85,7 +85,7 @@ class DataGrid extends React.Component {
             bodyHeight = typeof maxVisibleRows === 'number' && maxVisibleRows > 0 && this._gridApi.rowModel.rowsToDisplay.length > maxVisibleRows
                 ? rowHeight * maxVisibleRows
                 : gridViewport.querySelector('.ag-body-container').scrollHeight,
-            fix = 5;
+            fix = 50;
 
         this.setState({ 
             height: (headerHeight + bodyHeight + fix) + 'px',
@@ -114,16 +114,15 @@ class DataGrid extends React.Component {
         else if (this._mode === HeightModes.Auto)
             this.setAutoHeight();
 
-        this.setState({ initialized: true });
+        //this.setState({ initialized: true });
     }
 
     componentWillReceiveProps(nextProps) {
-        if(Helper.isArray(nextProps.rowData)) {
-            if(!Helper.isArray(this.props.rowData) || this.props.rowData.length != nextProps.rowData.length) { //todo: deep check
-                this._gridProps.rowData = nextProps.rowData;
-                this.setState({ wrapHeightSet: false });
-                setTimeout(this.setAutoHeight);
-            }
+        if(!Comparer.equal(this.props.rowData, nextProps.rowData)) {
+            this._gridProps.rowData = nextProps.rowData;
+            this.setState({ wrapHeightSet: false });
+            this._gridApi.refreshView();
+            setTimeout(this.setAutoHeight);
         }
     }
 
@@ -133,8 +132,8 @@ class DataGrid extends React.Component {
     }
     
     render() {
-        let initClass = this.state.initialized ? 'initialized' : '',
-            classNames = `card-box ag-blue ag-euro no-cell-focus ${this.rowHeightClass} ${initClass} ${this.props.className}`;
+        let classNames = (this.props.noBox ? '' : 'card-box ') + 
+            `ag-blue ag-euro no-cell-focus ${this.rowHeightClass} ${this.props.className}`;
         return (
             <div style={ { height: this.state.height } } ref={ (elem) => this._wrap = elem }
                 className={ classNames }>
@@ -142,6 +141,7 @@ class DataGrid extends React.Component {
                 <AgGridReact { ...this._gridProps } onGridReady={ this.onGridReady.bind(this) }
                     onGridSizeChanged={ this.onGridSizeChanged.bind(this) }
                     />
+                { this.props.children }
             </div>
         );
     }
