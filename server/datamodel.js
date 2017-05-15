@@ -72,17 +72,23 @@ const datamodel = {
         return dbData('branches').map(b => Object.assign(b, { lockAssigned: assignedBranchIds.indexOf(b.id) >= 0 }));
     },
     persistBranchAssignmentsForLock: (id, assignments) => {
+        console.log('assignments is array', Array.isArray(assignments), JSON.stringify(assignments));
         if(!Array.isArray(assignments))
             return false;
 
         let la = dbFind('branchLocks', { lockId: id }),
             notAssignedBranchIds = assignments.filter(a => !a.lockAssigned).map(a => a.id),
-            assignedBranchIds = assignments.filter(a => a.lockAssigned).map(a => a.id);
-        db.getCollection('branchLocks').chain().find(bl => notAssignedBranchIds.indexOf(bl.branchId) >= 0).remove();
-            toDelete = la.filter(l => notAssignedl.branchId)
-        console.log('found', la.length, 'branches for lock', id);
-
+            assignedBranchIds = assignments.filter(a => a.lockAssigned && la.indexOf(a.id) < 0).map(a => a.id),
+            coll = db.getCollection('branchLocks');
+        console.log('toRemove', JSON.stringify(notAssignedBranchIds));
+        console.log('toAdd', JSON.stringify(assignedBranchIds));
         
+        if(notAssignedBranchIds.length > 0) {
+            let toRemove = coll.chain().find(bl => bl.lockId = id && notAssignedBranchIds.indexOf(bl.branchId) >= 0).data();
+            coll.remove(toRemove);
+        }
+        for(let assignedBranchId of assignedBranchIds)
+            db.getCollection('branchLocks').insert({ lockId: id, branchId: assignedBranchId });        
     },
 
     getKeyTypes: () => dbData('keyTypes'),

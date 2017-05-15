@@ -16,7 +16,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         clearData: () => dispatch(clearLockBranchesAssignments()),
         fetchData: () => dispatch(fetchLockBranchesAssignments(ownProps.params.id)),
-        saveData: (assignments) => dispatch(saveLockBranchesAssignments(assignments))
+        saveData: (assignments) => dispatch(saveLockBranchesAssignments(ownProps.params.id, assignments))
     }
 }
 

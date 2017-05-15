@@ -11,6 +11,7 @@ import BranchesList             from '../containers/BranchesListContainer'
 import LocksManagement          from '../containers/items-management/LocksManagementContainer'
 import LocksBranchesAssignmentsList 
                                 from '../containers/items-management/LocksBranchesAssignmentsListContainer'
+import LockCreation             from './items-management/LockCreation'
 import KeysManagement           from './items-management/KeysManagement'
 import CombinationsManagement   from './items-management/CombinationsManagement'
 import ItemAssignment           from './items-management/ItemAssignment'
@@ -37,6 +38,7 @@ const Routing = (
             <AuthorizedRoute path="/locks/assign" component={ Zxcv } />
             <AuthorizedRoute path="/locks/assign/:id" component={ LocksBranchesAssignmentsList } />
         </AuthorizedRoute>
+        <AuthorizedRoute exact path="/lock/create" component={ LockCreation } />
         <Route path="*" component={ NoRouteMatch }/>
     </Route>
 )

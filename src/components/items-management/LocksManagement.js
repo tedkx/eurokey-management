@@ -10,6 +10,8 @@ class LocksManagement extends React.Component {
     constructor(props) {
         super(props);
 
+        console.log('lm props', this.props);
+
         this.columnDefs = [
             { headerName: 'Ονομασία', field: 'title' },
             { headerName: 'Κατηγορία', valueGetter: (params) => params.data.category && params.data.category.title || '' },
@@ -49,7 +51,10 @@ class LocksManagement extends React.Component {
         return (
             <div className="container-fluid">
                 <div className="row">
-                    <h4 className="page-title">Διαχείριση Κλειδιών</h4>
+                    <h4 className="page-title">
+                        <Link to="/lock/create" className="btn btn-sm btn-raised btn-primary pull-right">Δημιουργία Κλειδαριάς</Link>
+                        Διαχείριση Θέσεων / Κλειδαριών
+                    </h4>
                 </div>
                 <div className="row">
                     <DataGrid columnDefs={ this.columnDefs }

@@ -76,12 +76,11 @@ apirouter.get('/branch/:id/locks', auth.forRoles('security', 'manager', 'assista
 
 apirouter.get('/locks', auth.forRoles('security'), auth.authorize, delay, json, (req, res) => res.respond(dm.getLocks()));
 apirouter.get('/lock/:id', auth.authorize, delay, json, (req, res) =>  res.respond(dm.getLock(req.params.id, req.user)));
-apirouter.get('/lock/:id/branch-asignments', auth.forRoles('security'), auth.authorize, delay, json, (req, res) => {
+apirouter.get('/lock/:id/branch-assignments', auth.forRoles('security'), auth.authorize, delay, json, (req, res) => {
     res.respond(dm.getBranchAssignmentsForLock(req.params.id));
 });
-apirouter.post('/lock/:id/branch-asignments', auth.forRoles('security'), auth.authorize, delay, json, (req, res) => {
-    console.log('received', req.body.length, 'assignments');
-    res.respond(dm.persistBranchAssignmentsForLock(req.params.id, req.body.length));
+apirouter.post('/lock/:id/branch-assignments', auth.forRoles('security'), auth.authorize, delay, json, (req, res) => {
+    res.respond(dm.persistBranchAssignmentsForLock(req.params.id, req.body));
 });
 
 apirouter.post('/api/lock', auth.authorize, json, function (req, res) {

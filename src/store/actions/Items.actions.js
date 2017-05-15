@@ -28,9 +28,9 @@ export const ITEMS_ACTION_TYPES = {
     LOCK_BRANCHES_ASSIGNMENTS_SAVE_SUCCESS: 'LOCK_BRANCHES_ASSIGNMENTS_SAVE_SUCCESS',
     LOCK_BRANCHES_ASSIGNMENTS_SAVE_FAIL: 'LOCK_BRANCHES_ASSIGNMENTS_SAVE_FAIL'
 }
-export const fetchLocks = () => StoreHelper.createAction(ITEMS_ACTION_TYPES.LOCKS_FETCH)
+export const fetchLocks = () => StoreHelper.createAction(ITEMS_ACTION_TYPES.LOCKS_FETCH);
 
-export const clearLocks = () => StoreHelper.createAction(ITEMS_ACTION_TYPES.v)
+export const clearLocks = () => StoreHelper.createAction(ITEMS_ACTION_TYPES.LOCKS_CLEAR);
 
 export const fetchLockBranchesAssignments = (lockId) => StoreHelper.createAction(ITEMS_ACTION_TYPES.LOCK_BRANCHES_ASSIGNMENTS_FETCH, lockId);
 
