@@ -13,21 +13,15 @@ import LocksBranchesAssignmentsList
                                 from '../containers/items-management/LocksBranchesAssignmentsListContainer'
 import LockCreation             from './items-management/LockCreation'
 import KeysManagement           from './items-management/KeysManagement'
-import CombinationsManagement   from './items-management/CombinationsManagement'
-import ItemAssignment           from './items-management/ItemAssignment'
+import UnlockersManagement      from '../containers/items-management/UnlockersManagementContainer'
+import UnlockerEmployeesAssignmentsList      
+                                from '../containers/items-management/UnlockerEmployeesAssignmentsListContainer'
 import Logs                     from './logging/Logs'
 import NoRouteMatch             from './shared/NoRouteMatch'
 
-class Qwer extends React.Component{
-    render() {
-        console.log('temp comp props', this.props)
-        return <div>Qwer</div>
-    }
-}
-class Zxcv extends React.Component{
-    render() {
-        return <div>Zxcv</div>
-    }
+const onAuthEnter = ({ routes, params, location }, replaceFn, nextFn) => {
+    nextFn();
+    return true;
 }
 
 const Routing = (
@@ -35,10 +29,12 @@ const Routing = (
         <IndexRoute component={ Dashboard }/>
         <Route path="/login" component={ Login } />
         <AuthorizedRoute path="/locks" component={ LocksManagement }>
-            <AuthorizedRoute path="/locks/assign" component={ Zxcv } />
             <AuthorizedRoute path="/locks/assign/:id" component={ LocksBranchesAssignmentsList } />
         </AuthorizedRoute>
-        <AuthorizedRoute exact path="/lock/create" component={ LockCreation } />
+        <AuthorizedRoute exact path="/lock/create" component={ LockCreation } onEnter={ onAuthEnter } />
+        <AuthorizedRoute path="/unlockers" component={ UnlockersManagement } onEnter={ onAuthEnter }>
+            <AuthorizedRoute path="/unlockers/assign/:type/:id" component={ UnlockerEmployeesAssignmentsList } />
+        </AuthorizedRoute>
         <Route path="*" component={ NoRouteMatch }/>
     </Route>
 )

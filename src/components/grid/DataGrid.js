@@ -85,7 +85,7 @@ class DataGrid extends React.Component {
             bodyHeight = typeof maxVisibleRows === 'number' && maxVisibleRows > 0 && this._gridApi.rowModel.rowsToDisplay.length > maxVisibleRows
                 ? rowHeight * maxVisibleRows
                 : gridViewport.querySelector('.ag-body-container').scrollHeight,
-            fix = 50;
+            fix = 55;
 
         this.setState({ 
             height: (headerHeight + bodyHeight + fix) + 'px',

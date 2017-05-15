@@ -8,7 +8,9 @@ const path =    require('path'),
     apirouter = require('./server/apirouter'),
     errHandler = require('./server/error-handler');
 
-const html = `<!DOCTYPE html>
+const getHtml = (req) => { 
+    let rel = (req.url.match(/\//g) || []).map(() => '../').join('');
+    return `<!DOCTYPE html>
 <html>
     <head>
         <title>Eurobank Key Management</title>
@@ -17,9 +19,10 @@ const html = `<!DOCTYPE html>
     <body>
         <div id="app-wrap"></div>
 
-        ` + Object.keys(config.entry).map((key) => `<script src="dist/${key}.js"></script>`).join('\n') + `
+        ` + Object.keys(config.entry).map((key) => `<script src="${rel}dist/${key}.js"></script>`).join('\n') + `
     </body>
-</html>`;
+</html>`
+};
 
 const app =     express(),
     compiler =  webpack(config),
@@ -38,7 +41,7 @@ app.use(bodyParser.json());
 
 app.use('/api', apirouter);
 
-app.all('*', (req, res) => res.send(html));
+app.all('*', (req, res) => res.send(getHtml(req)));
 
 app.listen(port, address, (err) => {
     if(err)

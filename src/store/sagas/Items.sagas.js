@@ -69,11 +69,44 @@ function* saveLockBranchesAssignments(action) {
 }
 function* watchSaveLockBranchesAssignments() { yield takeLatest(IAT.LOCK_BRANCHES_ASSIGNMENTS_SAVE, saveLockBranchesAssignments); }
 
+function* fetchUnlockers(action) {
+    try {
+        const content = yield call(Api.fetchUnlockers, action.payload);
+        yield put(StoreHelper.createAction(IAT.UNLOCKERS_FETCH_SUCCESS, content));
+    } catch (e) {
+        yield put(StoreHelper.errorFromSaga(IAT.UNLOCKERS_FETCH_FAIL, e));
+    }
+}
+function* watchFetchUnlockers() { yield takeLatest(IAT.UNLOCKERS_FETCH, fetchUnlockers); }
+
+function* fetchUnlockerEmployeesAssignments(action) {
+    try {
+        const content = yield call(Api.fetchUnlockerEmployeesAssignments, action.payload.type, action.payload.id);
+        yield put(StoreHelper.createAction(IAT.UNLOCKER_EMPLOYEES_ASSIGNMENTS_FETCH_SUCCESS, content));
+    } catch (e) {
+        yield put(StoreHelper.errorFromSaga(IAT.UNLOCKER_EMPLOYEES_ASSIGNMENTS_FETCH_FAIL, e));
+    }
+}
+function* watchFetchUnlockerEmployeesAssignments() { yield takeLatest(IAT.UNLOCKER_EMPLOYEES_ASSIGNMENTS_FETCH, fetchUnlockerEmployeesAssignments); }
+
+function* saveUnlockerEmployeesAssignments(action) {
+    try {
+        const content = yield call(Api.saveUnlockerEmployeesAssignments, action.payload.type, action.payload.id, action.payload.assignments);
+        yield put(StoreHelper.createAction(IAT.UNLOCKER_EMPLOYEES_ASSIGNMENTS_SAVE_SUCCESS, content));
+    } catch (e) {
+        yield put(StoreHelper.errorFromSaga(IAT.UNLOCKER_EMPLOYEES_ASSIGNMENTS_SAVE_FAIL, e));
+    }
+}
+function* watchSaveUnlockerEmployeesAssignments() { yield takeLatest(IAT.UNLOCKER_EMPLOYEES_ASSIGNMENTS_SAVE, saveUnlockerEmployeesAssignments); }
+
 export default function* itemsSagas() {
     yield all([
         watchFetchLocks(),
         watchFetchLockBranchesAssignments(),
-        watchSaveLockBranchesAssignments()
-        // watchFetchKeys()
+        watchSaveLockBranchesAssignments(),
+        
+        watchFetchUnlockers(),
+        watchFetchUnlockerEmployeesAssignments(),
+        watchSaveUnlockerEmployeesAssignments()
     ])
 }

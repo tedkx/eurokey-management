@@ -13,12 +13,20 @@
             { "role": "aftoforakias", "keyType": "blue" }
         ],
         "assignments": [
-            { "type": "key", "id": "time-delay-1", "assignee": "ckaravaneas", "assigneeType": "person", "accepted": true },
-            { "type": "key", "id": "building-key-2", "assignee": "kolwnaki", "assigneeType": "branch", "accepted": true },
-            { "type": "key", "id": "safe-key", "assignee": "ekerantari", "assigneeType": "person", "accepted": true },
-            { "type": "key", "id": "kitchen-key", "assignee": "gdalas", "assigneeType": "person", "accepted": true },
-            { "type": "combination", "id": "safe-combination-1", "assignee": "gdalas", "assigneeType": "person", "accepted": true },
-            { "type": "combination", "id": "safe-combination-2", "assignee": "ckaravaneas", "assigneeType": "person", "accepted": true }
+            { "type": "key", "id": "vault-1", "assignee": "ckaravaneas", "level": "owner", "accepted": true },
+            { "type": "key", "id": "vault-1", "assignee": "ekerantari", "level": "sub1", "accepted": true },
+            { "type": "key", "id": "vault-1", "assignee": "gdalas", "level": "sub2", "accepted": true },
+            { "type": "key", "id": "time-delay-1", "assignee": "gvlachos", "level": "owner", "accepted": true },
+            { "type": "key", "id": "time-delay-1", "assignee": "dplapoutas", "level": "sub1", "accepted": true },
+            { "type": "key", "id": "time-delay-2", "assignee": "kolwnaki", "accepted": true },
+            { "type": "key", "id": "strong-room", "assignee": "ekerantari", "level": "owner", "accepted": true },
+            { "type": "key", "id": "strong-room", "assignee": "dplapoutas", "level": "sub1", "accepted": true },
+            { "type": "key", "id": "atm", "assignee": "ckaravaneas", "level": "owner", "accepted": true },
+            { "type": "key", "id": "atm", "assignee": "ekerantari", "level": "sub1", "accepted": true },
+            { "type": "key", "id": "fire-locker", "assignee": "ekerantari", "accepted": true },
+            { "type": "key", "id": "mini-safe", "assignee": "gdalas", "accepted": true },
+            { "type": "combination", "id": "safe-combination-1", "assignee": "gdalas", "accepted": true },
+            { "type": "combination", "id": "safe-combination-2", "assignee": "ckaravaneas", "accepted": true }
         ],
         "branches": [
             { "id": "nea-ionia", "title": "Κατάστημα Νέας Ιωνίας" },

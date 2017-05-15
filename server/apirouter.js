@@ -101,8 +101,30 @@ apirouter.put('/api/lock/:id', auth.authorize, json, function (req, res) {
 /*
  * Keys / Combinations
  */
-//apirouter.get('/keytypes', delay, json, (req, res) => res.respond(dm.getKeyTypes()));
-//apirouter.get('/keytype/:id?', auth.forRoles('security'), auth.authorize, delay, json, (req, res) => res.respond(dm.getKeyType(req.params.id)));
+apirouter.get('/unlockers', auth.forRoles('manager', 'assistant-manager'), auth.authorize, delay, json, 
+    (req, res) => res.respond(dm.getUnlockers(req.user)));
+apirouter.get('/key/:id/employee-assignments', auth.forRoles('manager', 'assistant-manager'), auth.authorize, delay, json, 
+    (req, res) => res.respond(dm.getEmployeeAssignmentsForUnlocker('key', req.params.id)));
+apirouter.get('/combination/:id/employee-assignments', auth.forRoles('manager', 'assistant-manager'), auth.authorize, delay, json, 
+    (req, res) => res.respond(dm.getEmployeeAssignmentsForUnlocker('combination', req.params.id)));
+apirouter.post('/lock/:id/branch-assignments', auth.forRoles('security'), auth.authorize, delay, json, (req, res) => {
+    res.respond(dm.persistBranchAssignmentsForLock(req.params.id, req.body));
+});
+
+apirouter.post('/api/lock', auth.authorize, json, function (req, res) {
+    var result = validator.validateForInsert(req.body);
+    return result === true
+        ? res.respond(dm.insertLock(req.body))
+        : res.respond(null, result);    
+});
+apirouter.put('/api/lock/:id', auth.authorize, json, function (req, res) {
+    if(req.body)
+        req.body.id = req.params.id;
+    var result = validator.validateForUpdate(req.body);
+    return result === true
+        ? res.respond(dm.updateLock(req.body))
+        : res.respond(null, result);    
+});
 
 apirouter.get('/keys', auth.forRoles('security'), auth.authorize, delay, json, (req, res) => res.respond(dm.getUnlockers('keys')));
 

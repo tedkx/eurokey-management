@@ -58,10 +58,11 @@ const datamodel = {
 
     getLock: (id) => dbFind('locks', { id }),
     getLocks: (branch) => {
-         let locks = dbFind('locks'),
+        let filter = !!branch ? { id: { '$in': dbFind('branchLocks', { branchId: branch }).map(l => l.lockId) } } : undefined,
+            locks = dbFind('locks', filter),
             categories = dbFind('lockCategories'),
             significances = dbFind('lockSignificances');
-        
+
         return locks.map(l => Object.assign(l, {
             category: categories.find((c) =>  c.id == l.categoryId),
             significance: significances.find(s => s.id == l.significanceId)
@@ -72,7 +73,6 @@ const datamodel = {
         return dbData('branches').map(b => Object.assign(b, { lockAssigned: assignedBranchIds.indexOf(b.id) >= 0 }));
     },
     persistBranchAssignmentsForLock: (id, assignments) => {
-        console.log('assignments is array', Array.isArray(assignments), JSON.stringify(assignments));
         if(!Array.isArray(assignments))
             return false;
 
@@ -80,9 +80,7 @@ const datamodel = {
             notAssignedBranchIds = assignments.filter(a => !a.lockAssigned).map(a => a.id),
             assignedBranchIds = assignments.filter(a => a.lockAssigned && la.indexOf(a.id) < 0).map(a => a.id),
             coll = db.getCollection('branchLocks');
-        console.log('toRemove', JSON.stringify(notAssignedBranchIds));
-        console.log('toAdd', JSON.stringify(assignedBranchIds));
-        
+
         if(notAssignedBranchIds.length > 0) {
             let toRemove = coll.chain().find(bl => bl.lockId = id && notAssignedBranchIds.indexOf(bl.branchId) >= 0).data();
             coll.remove(toRemove);
@@ -93,15 +91,45 @@ const datamodel = {
 
     getKeyTypes: () => dbData('keyTypes'),
 
-    getUnlockers: (type, user) => {
+    getUnlockers: (user, type) => {
         let validType = type === 'keys' || type === 'combinations',
-            lockIds = datamodel.getLocks(user).map(l => l.id),
+            locks = datamodel.getLocks(user.branch),
+            lockIds = locks.map(l => l.id),
             unlockers = validType
                 ? dbFind(type, { id: { '$in': lockIds } })
-                : dbFind('keys', { id: { '$in': lockIds } })
-                    .concat(dbFind('combinations', { id: { '$in': lockIds } }));
+                : dbFind('keys', { lockId: { '$in': lockIds } }).map(k => Object.assign(k, { type: 'key' }))
+                    .concat(dbFind('combinations', { lockId: { '$in': lockIds } }).map(c => Object.assign(c, { type: 'combination' })));
         
-        return stripMetadata(unlockers);
+        return stripMetadata(unlockers).map(u => Object.assign(u, { lockTitle: locks.find(l => l.id == u.lockId).title }));
+            
+    },
+
+    getEmployeeAssignmentsForUnlocker: (type, id) => {
+        let assignments = dbFind('assignments', { '$and': [ { type }, { id } ] })
+        return dbData('users').map(u => ({
+            username: u.username,
+            firstName: u.firstName,
+            lastName: u.lastName,
+            role: u.role,
+            assigned: (assignments.find(a => a.assignee == u.username) || {}).level
+        }));
+    },
+    persistEmployeeAssignmentsForUnlocker: (type, id, assignments) => {
+        throw 'persisting of unlockers not implemented';
+        if(!Array.isArray(assignments))
+            return false;
+
+        let la = dbFind('branchLocks', { lockId: id }),
+            notAssignedBranchIds = assignments.filter(a => !a.lockAssigned).map(a => a.id),
+            assignedBranchIds = assignments.filter(a => a.lockAssigned && la.indexOf(a.id) < 0).map(a => a.id),
+            coll = db.getCollection('branchLocks');
+
+        if(notAssignedBranchIds.length > 0) {
+            let toRemove = coll.chain().find(bl => bl.lockId = id && notAssignedBranchIds.indexOf(bl.branchId) >= 0).data();
+            coll.remove(toRemove);
+        }
+        for(let assignedBranchId of assignedBranchIds)
+            db.getCollection('branchLocks').insert({ lockId: id, branchId: assignedBranchId });        
     },
 
     getMyUnlockers: (type, user) => {

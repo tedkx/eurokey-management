@@ -20,7 +20,11 @@ const Api = {
     createLock: (lock) => Req.postJson('lock', lock),
     updateLock: (lock) => Req.putJson(`lock/${lock.code}`, lock),
 
-    /* Keys Management */
+    /* Unlockers Management */
+    fetchUnlockers: () => Req.getJson('unlockers'),
+    fetchUnlockerEmployeesAssignments: ( type, id ) => Req.getJson(`${type}/${id}/employee-assignments`),
+    saveUnlockerEmployeesAssignments: ({ type, id, assignments }) => Req.postJson(`${type}/${lockId}/employee-assignments`, assignments),
+
     fetchKeys: () => Req.getJson('keys')
 };
 
