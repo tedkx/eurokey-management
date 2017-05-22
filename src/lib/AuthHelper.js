@@ -1,14 +1,15 @@
 import Helper   from './Helper'
 import Crypto   from './Crypto'
-import Store    from '../store/Store'
+import Store    from '../data/Store'
 
 const AuthHelper = {
     getUser: () => Store.getState().app.user,
     isInRole: (rolesList) => {
         if(rolesList === '*')
             return true;
+        
         return Helper.isArray(rolesList)
-            ? rolesList.includes(AuthHelper.getUser().role)
+            ? rolesList.indexOf(AuthHelper.getUser().role) >= 0
             : rolesList === AuthHelper.getUser().role
     },
     isLoggedIn: () => !Helper.isNil(Store.getState().app.user),

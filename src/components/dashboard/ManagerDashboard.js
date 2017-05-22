@@ -11,47 +11,25 @@ class ManagerDashboard extends React.Component {
         return (
             <div className="container-fluid">
                 <div className="row">
-                    <NumericProgressSummary containerClassName="col-xs-6 col-lg-3" title="Ανατεθειμένες Κλειδαριές"
-                        url="/locks-management" value={ this.props.totalLockCount - this.props.unassignedLockCount } 
-                        totalValue={ this.props.totalLockCount } theme="green" />
-                    <NumericProgressSummary containerClassName="col-xs-6 col-lg-3" colorClassName="bg-indigo-500" title="Ανατεθειμένα Κλειδιά"
+                    <NumericProgressSummary containerClassName="col-xs-6 col-md-4" colorClassName="bg-indigo-500" title="Ανατεθειμένα Κλειδιά"
                         url="/keys-management" value={ this.props.totalKeyCount - this.props.unassignedKeyCount } 
                         totalValue={ this.props.totalKeyCount } delay={ 300 } />
-                    <NumericProgressSummary containerClassName="col-xs-6 col-lg-3" colorClassname="bg-purple-400" title="Ανατεθειμένοι Συνδιασμοί" 
+                    <NumericProgressSummary containerClassName="col-xs-6 col-md-4" colorClassname="bg-purple-400" title="Ανατεθειμένοι Συνδιασμοί" 
                         url="/combinations-management" delay={ 600 } value={ this.props.totalCombinationCount - this.props.unassignedCombinationCount } 
                         totalValue={ this.props.totalCombinationCount } theme="purple" />
-                    <NumericSummary containerClassName="col-xs-6 col-lg-3" colorClassName="bg-indigo-500" title="Εκκρεμείς Αποδοχές"
-                        url="/keys-management" value={ this.props.pendingAcceptancesCount } color="#CFC" />
-                </div>
-                
-                <div className="row">
-                    <div className="col-md-8">
-                        <Box title="Grid"></Box>
-                    </div>
-                    <div className="col-md-4">
-                        <Box title="Πρόσφατα Συμβάντα">
-
-                        </Box>
-                    </div>
+                    <NumericSummary containerClassName="col-xs-6 col-md-4" colorClassName="bg-indigo-500" title="Εκκρεμείς Αποδοχές"
+                        url="/keys-management" value={ (this.props.pendingAcceptances || []).length } color="#CFC" />
                 </div>
 
                 <div className="row">
-                    <div className="col-md-12">
-                        <Box>
-                            <table>
-                            {
-                                Helper.isArray(this.props.pendingAcceptances)
-                                    ? this.props.pendingAcceptances.map(pa => (
-                                        <tr>
-                                            <td>{ a.type }</td>
-                                            <td>{ a.code }</td>
-                                        </tr>
-                                    ))
-                                    : false
-                            }
-                            </table>
-                        </Box>
-                    </div>
+                    <Card className="col-md-12" title="Πρόσφατα Συμβάντα" loading={ this.props.fetching }
+                            headingTemplate={ <Link to="/logs" className="btn btn-sm btn-raised btn-primary pull-right">Προβολή Όλων</Link> }>
+                        <DataGrid columnDefs={ this.columnDefs }
+                            rowData={ this.props.events }
+                            noBox={ true }
+                            className="col-md-12">
+                        </DataGrid>
+                    </Card>
                 </div>
             </div>
         );

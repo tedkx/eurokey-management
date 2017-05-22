@@ -1,4 +1,4 @@
-import Store        from '../store/Store'
+import Store        from '../data/Store'
 import Helper       from './Helper'
 import Req          from './RequestHelper'
 
@@ -22,7 +22,7 @@ const Api = {
 
     /* Unlockers Management */
     fetchUnlockers: () => Req.getJson('unlockers'),
-    fetchUnlockerEmployeesAssignments: ( type, id ) => Req.getJson(`${type}/${id}/employee-assignments`),
+    fetchUnlockerEmployeesAssignments: ({ type, id }) => Req.getJson(`${type}/${id}/employee-assignments`),
     saveUnlockerEmployeesAssignments: ({ type, id, assignments }) => Req.postJson(`${type}/${lockId}/employee-assignments`, assignments),
 
     fetchKeys: () => Req.getJson('keys')

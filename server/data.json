@@ -12,7 +12,7 @@
             { "role": "teller", "keyType": "gray" },
             { "role": "aftoforakias", "keyType": "blue" }
         ],
-        "assignments": [
+        "assignmentDefinitions": [
             { "type": "key", "id": "vault-1", "assignee": "ckaravaneas", "level": "owner", "accepted": true },
             { "type": "key", "id": "vault-1", "assignee": "ekerantari", "level": "sub1", "accepted": true },
             { "type": "key", "id": "vault-1", "assignee": "gdalas", "level": "sub2", "accepted": true },
@@ -44,33 +44,33 @@
             { "branchId": "nea-ionia", "lockId": "strong-room" }            
         ],
         "combinations": [
-            { "lockId": "vault", "id": "vault-1", "value": "1234", "type": "main" },
-            { "lockId": "safe", "id": "safe-combination-2", "value": "4321" },
-            { "lockId": "building", "id": "building-combination", "value": "1111" },
-            { "lockId": "office", "id": "office-combination", "value": "2222" }            
+            { "lockId": "vault", "id": "vault-1", "value": "1234", "type": "main" , "assignee": "dvlachos" , "assignDate": "2017-05-19T13:45:00Z", "acceptanceDate": "2017-05-22T10:00:00Z" },
+            { "lockId": "safe", "id": "safe-combination-2", "value": "4321" , "assignee": "gdalas" , "assignDate": "2017-05-19T13:45:00Z", "acceptanceDate": "2017-05-22T10:00:00Z" },
+            { "lockId": "building", "id": "building-combination", "value": "1111" , "assignee": "dplapoutas" , "assignDate": "2017-05-19T13:45:00Z", "acceptanceDate": "2017-05-22T10:00:00Z" },
+            { "lockId": "office", "id": "office-combination", "value": "2222" , "assignee": "gdalas" , "assignDate": "2017-05-19T13:45:00Z", "acceptanceDate": "2017-05-22T10:00:00Z" }            
         ],
         "keys": [
-            { "id": "vault-1", "lockId": "vault", "typeId": "main", "features": [ "must-be-assigned" ] },
-            { "id": "time-delay-1", "lockId": "time-delay", "typeId": "main" },
-            { "id": "time-delay-2", "lockId": "time-delay", "typeId": "main", "features": ["branch-only", "backup"] },
-            { "id": "time-delay-override", "lockId": "time-delay", "typeId": "default", "features": [ "wertheim" ] },
-            { "id": "strong-room", "lockId": "strong-room", "typeId": "secondary" },
-            { "id": "back-cover", "lockId": "back-cover", "typeId": "default" },
-            { "id": "mini-safe", "lockId": "mini-safe", "typeId": "default"} ,
-            { "id": "atm", "lockId": "atm", "typeId": "default" },
-            { "id": "fire-locker", "lockId": "fire-locker", "typeId": "default" },
-            { "id": "master", "lockId": "master", "typeId": "default" },
-            { "id": "prevention-door", "lockId": "prevention-door", "typeId": "default" },
-            { "id": "fire-escape", "lockId": "fire-escape", "typeId": "default" },
-            { "id": "alarm-restore", "lockId": "alarm-restore", "typeId": "default" },
-            { "id": "locker", "lockId": "locker", "typeId": "default" },
-            { "id": "locker-internal", "lockId": "locker-internal", "typeId": "default" },
-            { "id": "customer-locker", "lockId": "customer-locker", "typeId": "default", "features": ["customer-only"], "title": "Κλειδιά Πελατών" },
-            { "id": "offices", "lockId": "offices", "typeId": "default" },
-            { "id": "storeroom", "lockId": "storeroom", "typeId": "default" },
-            { "id": "telecom-room", "lockId": "telecom-room", "typeId": "default" },
-            { "id": "closets", "lockId": "closets", "typeId": "default" },
-            { "id": "kitchen-farmacy", "lockId": "kitchen-farmacy", "typeId": "default" }
+            { "id": "vault-1", "lockId": "vault", "typeId": "main", "features": [ "must-be-assigned" ], "assignee": "gdalas" , "assignDate": "2017-05-19T13:45:00Z", "acceptanceDate": "2017-05-22T10:00:00Z" },
+            { "id": "time-delay-1", "lockId": "time-delay", "typeId": "main", "assignee": "dplapoutas" , "assignDate": "2017-05-19T13:45:00Z", "acceptanceDate": "2017-05-22T10:00:00Z" },
+            { "id": "time-delay-2", "lockId": "time-delay", "typeId": "main", "features": ["branch-only", "backup"], "assignee": "gvlachos" , "assignDate": "2017-05-19T13:45:00Z", "acceptanceDate": "2017-05-22T10:00:00Z" },
+            { "id": "time-delay-override", "lockId": "time-delay", "typeId": "default", "features": [ "wertheim" ], "assignee": "dplapoutas" , "assignDate": "2017-05-19T13:45:00Z", "acceptanceDate": "2017-05-22T10:00:00Z" },
+            { "id": "strong-room", "lockId": "strong-room", "typeId": "secondary", "assignee": "gdalas" , "assignDate": "2017-05-19T13:45:00Z", "acceptanceDate": "2017-05-22T10:00:00Z" },
+            { "id": "back-cover", "lockId": "back-cover", "typeId": "default", "assignee": "dplapoutas" , "assignDate": "2017-05-19T13:45:00Z", "acceptanceDate": "2017-05-22T10:00:00Z" },
+            { "id": "mini-safe", "lockId": "mini-safe", "typeId": "default", "assignee": "gvlachos" , "assignDate": "2017-05-19T13:45:00Z", "acceptanceDate": "2017-05-22T10:00:00Z" } ,
+            { "id": "atm", "lockId": "atm", "typeId": "default", "assignee": "gvlachos" , "assignDate": "2017-05-19T13:45:00Z", "acceptanceDate": "2017-05-22T10:00:00Z" },
+            { "id": "fire-locker", "lockId": "fire-locker", "typeId": "default", "assignee": "dplapoutas" , "assignDate": "2017-05-19T13:45:00Z", "acceptanceDate": "2017-05-22T10:00:00Z" },
+            { "id": "master", "lockId": "master", "typeId": "default" , "assignee": "dplapoutas", "assignDate": "2017-05-19T13:45:00Z", "acceptanceDate": "2017-05-22T10:00:00Z" },
+            { "id": "prevention-door", "lockId": "prevention-door", "typeId": "default" , "assignee": "gvlachos", "assignDate": "2017-05-19T13:45:00Z", "acceptanceDate": "2017-05-22T10:00:00Z" },
+            { "id": "fire-escape", "lockId": "fire-escape", "typeId": "default" , "assignee": "gdalas", "assignDate": "2017-05-19T13:45:00Z", "acceptanceDate": "2017-05-22T10:00:00Z" },
+            { "id": "alarm-restore", "lockId": "alarm-restore", "typeId": "default" , "assignee": "dplapoutas", "assignDate": "2017-05-19T13:45:00Z", "acceptanceDate": "2017-05-22T10:00:00Z" },
+            { "id": "locker", "lockId": "locker", "typeId": "default" , "assignee": "dplapoutas", "assignDate": "2017-05-19T13:45:00Z", "acceptanceDate": "2017-05-22T10:00:00Z" },
+            { "id": "locker-internal", "lockId": "locker-internal", "typeId": "default" , "assignee": "gvlachos", "assignDate": "2017-05-19T13:45:00Z", "acceptanceDate": "2017-05-22T10:00:00Z" },
+            { "id": "customer-locker", "lockId": "customer-locker", "typeId": "default", "features": ["customer-only"], "title": "Κλειδιά Πελατών" , "assignee": "gdalas", "assignDate": "2017-05-19T13:45:00Z", "acceptanceDate": "2017-05-22T10:00:00Z" },
+            { "id": "offices", "lockId": "offices", "typeId": "default" , "assignee": "dplapoutas", "assignDate": "2017-05-19T13:45:00Z", "acceptanceDate": "2017-05-22T10:00:00Z" },
+            { "id": "storeroom", "lockId": "storeroom", "typeId": "default" , "assignee": "gdalas", "assignDate": "2017-05-19T13:45:00Z", "acceptanceDate": "2017-05-22T10:00:00Z" },
+            { "id": "telecom-room", "lockId": "telecom-room", "typeId": "default" , "assignee": "gvlachos", "assignDate": "2017-05-19T13:45:00Z", "acceptanceDate": "2017-05-22T10:00:00Z" },
+            { "id": "closets", "lockId": "closets", "typeId": "default" , "assignee": "dplapoutas", "assignDate": "2017-05-19T13:45:00Z", "acceptanceDate": "2017-05-22T10:00:00Z" },
+            { "id": "kitchen-farmacy", "lockId": "kitchen-farmacy", "typeId": "default" , "assignee": "gdalas", "assignDate": "2017-05-19T13:45:00Z", "acceptanceDate": "2017-05-22T10:00:00Z" }
         ],
         "keyFeatures": [
             { "id": "branch-only", "title": "Αποκλειστικά σε κατάστημα" },
@@ -115,11 +115,19 @@
             { "id": "closets", "title": "Ντουλάπες", "categoryId": "helper", "significanceId": "default" },
             { "id": "kitchen-farmacy", "title": "Κουζίνα / Φαρμακείο", "categoryId": "helper", "significanceId": "default" }
         ],
-        "logEntries": [
-
-        ],
-        "logEntryTypes": [
+        "events": [
             
+        ],
+        "eventTypes": [
+            { "id" : "key-loss", "title": "Απώλεια Κλειδιού" },
+            { "id" : "key-loss", "title": "Ασθένεια Κλειδούχου" },
+            { "id" : "key-loss", "title": "Απουσία Κλειδούχου" },
+            { "id" : "key-loss", "title": "Αντικατάσταση Κλειδιού" },
+            { "id" : "key-loss", "title": "Αντικατάσταση Συνδιασμού" },
+            { "id" : "key-loss", "title": "Φθορά Κλειδιού" }
+        ],
+        "auditEntries": [
+
         ],
         "roles": [
             { "id": "security", "title": "Φυσική Ασφάλεια" },

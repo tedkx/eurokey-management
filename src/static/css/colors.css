@@ -1,6 +1,12 @@
 .blue { color: #0f0464; }
+.deep-orange { color : #dd2c00; }
+.green-500 { color: #4caf50; }
+.indigo-500 { color: #3f51b5; }
 .red-600 { color: #e53935; }
-.bg-red-600 { background-color: #e53935; }
+.teal-500 { color: #009688; }
 .bg-blue { background-color: #0f0464; }
-.bg-indigo-500 { background-color: #3f51b5; }
+.bg-deep-orange { background-color : #dd2c00; }
 .bg-green-500 { background-color: #4caf50; }
+.bg-indigo-500 { background-color: #3f51b5; }
+.bg-red-600 { background-color: #e53935; }
+.bg-teal-500 { background-color: #009688; }

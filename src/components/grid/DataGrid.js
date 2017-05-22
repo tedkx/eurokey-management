@@ -132,11 +132,9 @@ class DataGrid extends React.Component {
     }
     
     render() {
-        let classNames = (this.props.noBox ? '' : 'card-box ') + 
-            `ag-blue ag-euro no-cell-focus ${this.rowHeightClass} ${this.props.className}`;
         return (
             <div style={ { height: this.state.height } } ref={ (elem) => this._wrap = elem }
-                className={ classNames }>
+                className={ `ag-blue ag-euro no-cell-focus ${this.rowHeightClass} ${this.props.className}` }>
                 <LoaderOverlay loading={ this.props.loading } />
                 <AgGridReact { ...this._gridProps } onGridReady={ this.onGridReady.bind(this) }
                     onGridSizeChanged={ this.onGridSizeChanged.bind(this) }

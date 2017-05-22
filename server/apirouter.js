@@ -26,7 +26,7 @@ apirouter.use(function (req, res, next) {
 });
 
 /* login / logout */
-apirouter.post('/login', function(req, res) {
+apirouter.post('/login', delay, json, function(req, res) {
     let user = req.body && req.body.username && req.body.password
         ? dm.findUser(req.body.username, req.body.password)
         : null
@@ -42,15 +42,24 @@ apirouter.post('/login', function(req, res) {
  * Dashboard
  */ 
 apirouter.get('/summary', auth.authorize, delay, json, function(req, res) {
-    res.respond({
-        pendingAcceptancesCount: 3,
-        totalLockCount: 10,
-        totalKeyCount: 25,
-        totalCombinationCount: 15,
-        unassignedLockCount: 3,
-        unassignedKeyCount: 5,
-        unassignedCombinationCount: 2
-    });
+    let data = req.user.role == 'security' ? {
+            totalLockCount: 10,
+            unassignedLockCount: 3,
+            pendingLockAcceptancesCount: 3,
+            notAcceptedLockCount: 2
+        }
+        : ['manager', 'assistant-manager', 'supervisor' ].indexOf(req.user.role) >= 0 ? {
+            pendingAcceptances: dm.getEmployeeAssignmentsForBranch.filter(ass => ass.accepted !== true),
+            totalKeyCount: 25,
+            totalCombinationCount: 15,
+            unassignedKeyCount: 5,
+            unassignedCombinationCount: 2
+        }
+        : { 
+            myUnlockers: dm.getUserUnlockers(req.user),
+            myPendingAcceptances: dm.getEmployeeAssignments(req.user)
+        };
+    res.respond(data);
 });
 
 /* Branches */

@@ -4,7 +4,9 @@ class CenteredOverlay extends React.Component {
     render() {
         return (
             <div className={ 'absolute-overlay' + (this.props.visible ? ' visible' : '' ) }>
-                { this.props.children }
+                <div className="absolute-overlay-child" style={ { width: this.props.width || "85%" } }>
+                    { this.props.children }
+                </div>
             </div>
         );
     }

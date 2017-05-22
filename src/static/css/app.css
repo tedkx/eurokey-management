@@ -511,6 +511,7 @@ a.text-muted:hover {
     color: #4F5256;
     border: 1px solid rgba(0, 0, 0, .12);
     margin-bottom: 8px;
+    overflow: hidden;
 }
 
 .card,
@@ -572,8 +573,9 @@ a.text-muted:hover {
 }
 
 .card .card-body {
-    position: relative;
-    padding: 16px
+    /* position: relative; */
+    padding: 16px;
+    overflow: hidden;
 }
 
 .card .card-footer {
@@ -804,21 +806,32 @@ a.text-muted:hover {
 }
 
 .absolute-overlay {
+    z-index: 9999;
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(255, 255, 255, 0.9);
     opacity: 0;
-    -webkit-transition: opacity 0.5, bottom 0s linear 0.5s;
-    -moz-transition: opacity 0.5, bottom 0s linear 0.5s;
-    -o-transition: opacity 0.5, bottom 0s linear 0.5s;
-    transition: opacity 0.5, bottom 0s linear 0.5s;
+    -webkit-transition: opacity 0.3s, bottom 0s linear 0.3s;
+    -moz-transition: opacity 0.3s, bottom 0s linear 0.3s;
+    -o-transition: opacity 0.3s, bottom 0s linear 0.3s;
+    transition: opacity 0.3s, bottom 0s linear 0.3s;
 }
 .absolute-overlay.visible {
     opacity: 1;
-    -webkit-transition: opacity 0.5, bottom 0s linear 0s;
-    -moz-transition: opacity 0.5, bottom 0s linear 0s;
-    -o-transition: opacity 0.5, bottom 0s linear 0s;
-    transition: opacity 0.5, bottom 0s linear 0s;
+    bottom: 0%;
+    -webkit-transition: opacity 0.3s5s, bottom 0s linear 0s;
+    -moz-transition: opacity 0.3s, bottom 0s linear 0s;
+    -o-transition: opacity 0.3s, bottom 0s linear 0s;
+    transition: opacity 0.3s, bottom 0s linear 0s;
+}
+.absolute-overlay .absolute-overlay-child {
+    margin: 30px auto 0;
+}
+
+.ag-euro .form-control {
+    height: 27px;
+    padding: 4px;
+    font-size: 13px;
 }
 
 /* Specifics */
@@ -848,7 +861,7 @@ a.text-muted:hover {
     display: block;
 }
 
-.locks-grid { transition: width 0.3s ease-out }
+.width-transition { transition: width 0.3s ease-out }
 
 /* CSS Transition Groups */
 .cubic-bezier-opacity-enter, .cubic-bezier-opacity-apper { opacity: 0; }

@@ -15,7 +15,7 @@ const menuItemData = [
     { order: 150, title: 'Διαχείριση Θέσεων / Κλειδαριών', icon: 'lock', route: '/locks', roles: ['security', 'manager', 'assistant-manager', 'supervisor'] },
     //{ order: 200, title: 'Διαχείριση Κλειδιών', icon: 'key', route: '/keytypes', roles: ['security', 'supervisor', 'manager', 'assistant-manager'] },
     //{ order: 200, title: 'Διαχείριση Κλειδιών', icon: 'key', route: '/keytypes', roles: ['security', 'supervisor', 'manager', 'assistant-manager'] },
-    { order: 300, title: 'Ανάθεση', icon: 'key', route: '/unlockers', roles: ['manager', 'assistant-manager'] },
+    { order: 300, title: 'Ανάθεση', icon: 'key', route: '/unlockers', roles: ['manager', 'assistant-manager', 'supervisor'] },
     { order: 500, title: 'Συμβάντα', icon: 'list-alt', route: '/logs' }
 ]
 
@@ -44,7 +44,7 @@ class Sidebar extends React.Component {
                                 )
                         }
                     </div>
-                    <nav className="sidebar-nav ">
+                    <nav className="sidebar-nav">
                         <ul>
                             {
                                 this.props.user == null

@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
-import BranchesList from '../components/stores/BranchesList'
-import { fetchBranches } from '../store/actions/Branches.actions'
+import BranchesList from '../components/data/BranchesList'
+import { fetchBranches } from '../data/branches/Branches.actions'
 
 const mapStateToProps = (state, ownProps) => {
     return {

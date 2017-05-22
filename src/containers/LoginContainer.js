@@ -1,12 +1,12 @@
 import { connect } from 'react-redux'
-import Login from '../components/auth/Login'
-import { login } from '../store/actions/App.actions'
+import Login from '../components/user/Login'
+import { login } from '../data/app/App.actions'
 
 const mapStateToProps = (state, ownProps) => {
     return {
         authenticating: state.app.authenticating,
         user: state.app.user,
-        message: state.app.loginError
+        error: state.app.loginError
     }
 }
 

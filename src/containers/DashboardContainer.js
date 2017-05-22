@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import Dashboard from '../components/dashboard/Dashboard';
-import { fetchData } from '../store/actions/Dashboard.actions';
+import { fetchSummary } from '../data/dashboard/Dashboard.actions';
 
 const mapStateToProps = (state, ownProps) => {
     return Object.assign({}, state.dashboard, { user: state.app.user });
@@ -8,7 +8,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
-        fetchData: () => dispatch(fetchData())
+        fetchData: () => dispatch(fetchSummary())
     }
 }
 

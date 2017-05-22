@@ -3,7 +3,6 @@ import React                from 'react'
 import Helper               from '../../lib/Helper'
 
 import ManagerDashboard     from './ManagerDashboard'
-import SupervisorDashboard  from './SupervisorDashboard'
 import SecurityDashboard    from './SecurityDashboard'
 import EmployeeDashboard    from './EmployeeDashboard'
 
@@ -19,9 +18,8 @@ class Dashboard extends React.Component {
         return (
             <div className="dashboard">
                 {
-                    this.props.user.role === 'manager' || this.props.user.role === 'assistant-manager' ? <ManagerDashboard { ...this.props } />
+                    ['manager','assistant-manager','supervisor'].indexOf(this.props.user.role) >= 0 ? <ManagerDashboard { ...this.props } />
                         : this.props.user.role === 'security' ? <SecurityDashboard { ...this.props } />
-                        : this.props.user.role === 'supervisor' ? <SupervisorDashboard { ...this.props } />
                         : <EmployeeDashboard { ...this.props } />
                 }
             </div>

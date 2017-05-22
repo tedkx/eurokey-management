@@ -98,23 +98,58 @@ const datamodel = {
             unlockers = validType
                 ? dbFind(type, { id: { '$in': lockIds } })
                 : dbFind('keys', { lockId: { '$in': lockIds } }).map(k => Object.assign(k, { type: 'key' }))
-                    .concat(dbFind('combinations', { lockId: { '$in': lockIds } }).map(c => Object.assign(c, { type: 'combination' })));
+                    .concat(dbFind('combinations', { lockId: { '$in': lockIds } }).map(c => Object.assign(c, { type: 'combination' }))),
+            assignmentDefinitions = dbFind('assignmentDefinitions', { id: { '$in': unlockers.map(u => u.id) } });
         
-        return stripMetadata(unlockers).map(u => Object.assign(u, { lockTitle: locks.find(l => l.id == u.lockId).title }));
-            
+        return stripMetadata(unlockers).map(u => {
+            let definition = assignmentDefinitions.find(a => a.id == u.id)
+            return Object.assign(u, { 
+                lockTitle: locks.find(l => l.id == u.lockId).title,
+                level: (definition || {}).level
+            });
+        });            
     },
 
-    getEmployeeAssignmentsForUnlocker: (type, id) => {
-        let assignments = dbFind('assignments', { '$and': [ { type }, { id } ] })
-        return dbData('users').map(u => ({
-            username: u.username,
-            firstName: u.firstName,
-            lastName: u.lastName,
-            role: u.role,
-            assigned: (assignments.find(a => a.assignee == u.username) || {}).level
-        }));
+    getUnassignedUnlockers: (user, type) => {
+
     },
-    persistEmployeeAssignmentsForUnlocker: (type, id, assignments) => {
+
+    getUnacceptedUnlockers: (user, type) => {
+
+    },
+
+    getEmployeeAssignmentsForBranch: (branch) => {
+        let locks = datamodel.getLocks(branch),
+            unlockers = datamodel.getUnlockers({ branch }),
+            users = dbData('users');
+        return dbFind('assignments', { lockId: { '$in': locks.map(l => l.id ) }})
+            .map(assignment => {
+                let user = users.find(u => u.username = assignment.assigne),
+                    unlocker = unlockers.find(u => u.type == assignment.type && u.id == assignment.id)
+                    lock = locks.find(l => l.id == unlocker.lockId);
+                return Object.assign(assignment, {
+                    firstName: user.firstName,
+                    lastName: user.lastName,
+                    username: username,
+                    lockTitle: lock.title
+                });
+            })
+    },
+
+    getAssignmentDefinitionssForUnlocker: (type, id) => {
+        let assignments = dbFind('assignments', { '$and': [ { type }, { id } ] })
+        return dbData('users').map(u => {
+            let assignment = assignments.find(a => a.assignee == u.username) || {};
+            return {
+                username: u.username,
+                firstName: u.firstName,
+                lastName: u.lastName,
+                role: u.role,
+                assigned: assignment.level
+            }
+        });
+    },
+    persistAssignmentDefinitionsForUnlocker: (type, id, assignments) => {
         throw 'persisting of unlockers not implemented';
         if(!Array.isArray(assignments))
             return false;

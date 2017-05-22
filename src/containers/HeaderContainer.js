@@ -2,7 +2,7 @@ import { connect }  from 'react-redux'
 
 import Header       from '../components/layout/Header'
 import { suggest, clearSuggestions } 
-                    from '../store/actions/App.actions';
+                    from '../data/app/App.actions';
 
 const mapStateToProps = (state, ownProps) => {
     return {
