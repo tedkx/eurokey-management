@@ -50,7 +50,7 @@ class DataGrid extends React.Component {
     } 
 
     onGridReady(params) {
-        this._gridApi = params.api;
+        this._gridApi = window.api = params.api;
 
         if(typeof this.props.onGridReady === 'function')
             this.props.onGridReady(params);
@@ -113,8 +113,6 @@ class DataGrid extends React.Component {
             window.addEventListener("resize", this.updateDimensions);
         else if (this._mode === HeightModes.Auto)
             this.setAutoHeight();
-
-        //this.setState({ initialized: true });
     }
 
     componentWillReceiveProps(nextProps) {
@@ -133,10 +131,11 @@ class DataGrid extends React.Component {
     
     render() {
         let selectable = this.props.selectable === true ? '' : 'no-cell-focus',
+            autoSize = this._mode == HeightModes.Auto ? 'grid-auto-size' : '',
             className = this.props.className || '';
         return (
             <div style={ { height: this.state.height } } ref={ (elem) => this._wrap = elem }
-                className={ `ag-blue ag-euro ${selectable} ${this.rowHeightClass} ${className}` }>
+                className={ `ag-euro ${selectable} ${this.rowHeightClass} ${className} ${autoSize}` }>
                 <LoaderOverlay loading={ this.props.loading } />
                 <AgGridReact { ...this._gridProps } onGridReady={ this.onGridReady.bind(this) }
                     onGridSizeChanged={ this.onGridSizeChanged.bind(this) }

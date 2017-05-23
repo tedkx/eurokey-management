@@ -15,8 +15,14 @@ const db =      require('./db'),
         return newobj;
     },
     single = arr => Array.isArray(arr) && arr.length == 1 ? arr[0] : null,
-    dbFind = (collectionName, filter) => stripMetadata(db.getCollection(collectionName).find(filter)),
-    dbData = (collectionName) => stripMetadata(db.getCollection(collectionName).data)
+    dbData = (collectionName) => stripMetadata(db.getCollection(collectionName).data),
+    dbFind = (collectionName, filter) => {
+        //console.log('collectionName', collectionName);
+        return Object.keys(filter || {}).length == 0
+            ? dbData(collectionName)
+            : stripMetadata(db.getCollection(collectionName).find(filter))
+    };
+    
 
 const datamodel = {
     findUser: (username, password) => {
@@ -58,7 +64,7 @@ const datamodel = {
 
     getLock: (id) => dbFind('locks', { id }),
     getLocks: (branch) => {
-        let filter = !!branch ? { id: { '$in': dbFind('branchLocks', { branchId: branch }).map(l => l.lockId) } } : undefined,
+        let filter = !!branch ? { id: { '$in': dbFind('branchLocks', { branchId: branch }).map(l => l.lockId) } } : {},
             locks = dbFind('locks', filter),
             categories = dbFind('lockCategories'),
             significances = dbFind('lockSignificances');
@@ -93,7 +99,7 @@ const datamodel = {
 
     getUnlockers: (user, type) => {
         let validType = type === 'keys' || type === 'combinations',
-            locks = datamodel.getLocks(user.branch),
+            locks = datamodel.getLocks((user || {}).branch),
             lockIds = locks.map(l => l.id),
             unlockers = validType
                 ? dbFind(type, { id: { '$in': lockIds } }).map(ul => Object.assign(ul, { type }))
@@ -182,17 +188,19 @@ const datamodel = {
         if(!!eventTypeId) {
             let events = db.getCollection('events');
             eventId = events.length;
-            datamodel.insert({ id: eventId, type: eventTypeId, reason, dt: now }, 'events');
+            datamodel.insert({ id: eventId, type: eventTypeId, reason, created: now, branch: user.branch, creator: user.username }, 'events');
         }
         let auditId = db.getCollection('auditEntries').length;
         datamodel.insert({ 
             id: auditId, 
+            eventId,
             description: "Ανάθεση " + (type == 'key' ? 'κλειδιού' : 'συνδυασμού') + ' σε χρήστη ' + assignee, 
+            branch: user.branch,
             entityId: id, 
             entityType: type, 
             creator: user.username,
             relatedUserId: assignee,
-            dt: now
+            created: now
         }, 'auditEntries');
     },
 
@@ -206,12 +214,55 @@ const datamodel = {
         datamodel.insert({ 
             id: auditId, 
             description: "Αποδοχή " + (type == 'key' ? 'κλειδιού' : 'συνδυασμού') + ' από χρήστη ' + user.username, 
+            branch: user.branch,
             entityId: id, 
             entityType: type, 
             creator: user.username,
             relatedUserId: user.username,
-            dt: now
+            created: now
         }, 'auditEntries');
+    },
+
+    getEvents: (branch) => {
+        let eventTypes = dbData('eventTypes'),
+            unlockers = datamodel.getUnlockers({ branch }),
+            users = dbData('users'),
+            filter = !!branch ? { branch } : {};
+        return dbFind('events', filter).map(ev => {
+            let creator = users.find(u => u.username == ev.creator);
+            return Object.assign(ev, { 
+                typeTitle: (eventTypes.find(t => t.id == ev.type) || {}).title,
+                creatorFirstName: creator.firstName,
+                creatorLastName: creator.lastName,
+                creatorRole: creator.role,
+            })
+        })
+    },
+
+    getAuditEntries: (branch, eventId) => {
+        let unlockers = datamodel.getUnlockers({ branch }),
+            eventTypes = dbData('eventTypes'),
+            users = dbData('users'),
+            filter = !!eventId && !! branch ? { '$and': [ { branch }, { eventId }]}
+                : !!eventId ? { eventId }
+                : !!branch ? { branch }
+                : {};
+        console.log('filter is', filter, 'returning');
+        return dbFind('auditEntries', filter).map(au => {
+            let creator = users.find(u => u.username == ev.creator) || {},
+                related = users.find(u => u.username == ev.relatedUserId) || {},
+                event = !au.eventId ? null : dbFind('events', { id: au.eventId });
+            return Object.assign(au, {
+                entityTitle: (unlockers.find(u => au.entityId == u.id && au.entityType == u.type) || {}).lockTitle,
+                eventTypeTitle: event == null ? null : (eventTypes.find(t => event.type == au.eventId) || {}).title,
+                creatorFirstName: creator.firstName,
+                creatorLastName: creator.lastName,
+                creatorRole: creator.role,
+                relatedFirstName: related.firstName,
+                relatedLastName: related.lastName,
+                relatedRole: related.role
+            });
+        });
     },
 
     insert: (item, collectionName) => {

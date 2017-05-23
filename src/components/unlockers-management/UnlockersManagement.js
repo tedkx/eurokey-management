@@ -8,22 +8,18 @@ import { DEFAULT_TOOLTIP_PLACEMENT as ttplace }
 import Card                 from '../shared/Card'
 import CenteredOverlay      from '../shared/CenteredOverlay'
 import DataGrid             from '../grid/DataGrid'
+import UnlockerTypeColumn   from '../grid/columns/UnlockerTypeColumn'
 
 class ItemsManagement extends React.Component {
     constructor(props) {
         super(props);
 
         this.columnDefs = [
-            { headerName: '', width: 70, cellClass: 'text-center', cellRendererFramework: ({ data }) => (
-                <span className={ 'label label-' + (data.type == 'key' ? 'info' : 'warning') }>
-                    { data.type == 'key' ? 'Κλειδι' : 'Συνδιασμός' }
-                </span>
-            )},
-            //{ headerName: 'Ονομασία', field: 'title' },
+            UnlockerTypeColumn(),
             { headerName: 'Θέση', field: 'lockTitle' },
             { headerName: 'Κατηγορία', valueGetter: ({ data }) => data.typeId == 'main' ? 'Κύριο' : data.typeId == 'secondary' ? 'Δευτερεύον' : 'Κανονικό' },
             { headerName: 'Ανατ/μένο Σε', headerClass: 'text-right', cellClass: 'text-right pr-sm', valueGetter: ({ data }) => `${data.assigneeLastName} ${data.assigneeFirstName}` },
-            { headerName: '', width: 60, cellRendererFramework: ({ data }) => (
+            { headerName: '', width: 80, minWidth: 80, cellRendererFramework: ({ data }) => (
                     <div>
                         <i className={ 'mr-sm blue fa fa-' + (data.assigneeRole === 'vault' ? 'university' : 'user')} />
                         {

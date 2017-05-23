@@ -75,7 +75,7 @@ class LocksBranchesAssignmentsList extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         if(nextProps.saved === true)
-            return history.push('/unlockers');
+            return history.push('/locks');
 
         // new lock requested, no need to rerender, clearData() will do it
         if(this.props.params.id != nextProps.params.id) {

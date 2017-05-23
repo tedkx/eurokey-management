@@ -37,12 +37,23 @@ const unlockersReducer = (state = defaultState, action) => {
         case AT.UNLOCKERS_CLEAR:
             return Object.assign({}, state, { unlockersFetching: false, unlockers: null, unlockerEmployeeDefinitionsSaved: false, employeeAssigned: false });
 
-        case AT.MY_UNLOCKERS_FETCH:
+        case AT.UNLOCKERS_MY_FETCH:
             return Object.assign({}, state, { myUnlockersFetching: true });
-        case AT.MY_UNLOCKERS_FETCH_SUCCESS:
+        case AT.UNLOCKERS_MY_FETCH_SUCCESS:
             return Object.assign({}, state, { myUnlockersFetching: false, myUnlockers: action.payload });
-        case AT.MY_UNLOCKERS_FETCH_FAIL:
+        case AT.UNLOCKERS_MY_FETCH_FAIL:
             return Object.assign({}, state, { myUnlockersFetching: false, error: errorMessage || GENERIC_ERROR });
+        case AT.UNLOCKERS_MY_CLEAR:
+            return Object.assign({}, state, { myUnlockersFetching: false, myUnlockers: null });
+
+        case AT.UNLOCKERS_MY_PENDING_ACCEPTANCES_FETCH:
+            return Object.assign({}, state, { myPendingAcceptancesFetching: true });
+        case AT.UNLOCKERS_MY_PENDING_ACCEPTANCES_FETCH_SUCCESS:
+            return Object.assign({}, state, { myPendingAcceptancesFetching: false, myPendingAcceptances: action.payload });
+        case AT.UNLOCKERS_MY_PENDING_ACCEPTANCES_FETCH_FAIL:
+            return Object.assign({}, state, { myPendingAcceptancesFetching: false, error: errorMessage || GENERIC_ERROR });
+        case AT.UNLOCKERS_MY_PENDING_ACCEPTANCES_CLEAR:
+            return Object.assign({}, state, { myPendingAcceptancesFetching: false, myPendingAcceptances: null });
         
         case AT.UNLOCKER_EMPLOYEES_DEFINITIONS_FETCH:
             return Object.assign({}, state, { unlockerEmployeeDefinitionsFetching: true });

@@ -11,12 +11,13 @@ import eurologo             from '../../static/img/euro.png'
 
 const menuItemData = [
     { order: 1, title: 'Dashboard', icon: 'tachometer', route: '/' },
-    { order: 100, title: 'Διαμόρφωση Καταστήματος', icon: 'cubes', route: '/branches', roles: ['security'] },
+    //{ order: 100, title: 'Διαμόρφωση Καταστήματος', icon: 'cubes', route: '/branches', roles: ['security'] },
     { order: 150, title: 'Διαχείριση Θέσεων / Κλειδαριών', icon: 'lock', route: '/locks', roles: ['security', 'manager', 'assistant-manager', 'supervisor'] },
     //{ order: 200, title: 'Διαχείριση Κλειδιών', icon: 'key', route: '/keytypes', roles: ['security', 'supervisor', 'manager', 'assistant-manager'] },
     //{ order: 200, title: 'Διαχείριση Κλειδιών', icon: 'key', route: '/keytypes', roles: ['security', 'supervisor', 'manager', 'assistant-manager'] },
     { order: 300, title: 'Ανάθεση', icon: 'key', route: '/unlockers', roles: ['manager', 'assistant-manager', 'supervisor'] },
-    { order: 500, title: 'Συμβάντα', icon: 'list-alt', route: '/logs' }
+    { order: 500, title: 'Συμβάντα', icon: 'list-alt', route: '/events' },
+    { order: 600, title: 'Reports', icon: 'pie-chart', route: '/reports' }
 ]
 
 class Sidebar extends React.Component {

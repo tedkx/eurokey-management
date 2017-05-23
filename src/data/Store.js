@@ -16,6 +16,8 @@ import LocksReducer, { defaultState as LocksDefaults }
                             from './locks/Locks.reducer'
 import UnlockersReducer, { defaultState as UnlockersDefaults } 
                             from './unlockers/Unlockers.reducer'
+import LogsReducer, { defaultState as LogsDefaults } 
+                            from './logs/Logs.reducer'
 
 const rootReducer = combineReducers({
     app: AppReducer,
@@ -23,6 +25,7 @@ const rootReducer = combineReducers({
     branches: BranchesReducer,
     locks: LocksReducer,
     unlockers: UnlockersReducer,
+    logs: LogsReducer,
     routing: routerReducer
 });
 
@@ -31,7 +34,8 @@ const defaultState = {
     dashboard: DashboardDefaults,
     branches: BranchesDefaults,
     locks: LocksDefaults,
-    unlockers: UnlockersDefaults
+    unlockers: UnlockersDefaults,
+    logs: LogsDefaults
 };
 
 /* Observable Epix */
@@ -42,8 +46,9 @@ import DashboardEpics   from './dashboard/Dashboard.epics'
 import BranchesEpics    from './branches/Branches.epics'
 import LocksEpics       from './locks/Locks.epics'
 import UnlockersEpics   from './unlockers/Unlockers.epics'
+import LogsEpics        from './logs/Logs.epics'
 const epicMiddleware = createEpicMiddleware(combineEpics(
-    AppEpics, DashboardEpics, BranchesEpics, LocksEpics, UnlockersEpics
+    AppEpics, DashboardEpics, BranchesEpics, LocksEpics, UnlockersEpics, LogsEpics
 ));
 
 /* Middleware */

@@ -6,20 +6,22 @@ import AuthorizeRoute           from './AuthorizeRoute'
 
 import App                      from '../../containers/AppContainer'
 import Login                    from '../../containers/LoginContainer'
-import Dashboard                from '../../containers/DashboardContainer'
+import Dashboard                from '../../containers/dashboard/DashboardContainer'
 import BranchesList             from '../../containers/BranchesListContainer'
 import LocksManagement          from '../../containers/locks-management/LocksManagementContainer'
 import LocksBranchesAssignmentsList 
                                 from '../../containers/locks-management/LocksBranchesAssignmentsListContainer'
 import LockCreation             from '../locks-management/LockCreation'
 import LockDetail               from '../locks-management/LockDetail'
+import Events                   from '../../containers/logs/EventsContainer'
+import AuditEntries             from '../../containers/logs/AuditEntriesContainer'
 import UnlockersManagement      from '../../containers/unlockers-management/UnlockersManagementContainer'
 import UnlockerEmployeeDefinitionsList      
                                 from '../../containers/unlockers-management/UnlockerEmployeeDefinitionsListContainer'
 import UnlockerEmployeeAssignmentList      
                                 from '../../containers/unlockers-management/UnlockerEmployeeAssignmentListContainer'
-import ForbiddenRouteMatch     
-                                from './ForbiddenRouteMatch'
+import Reports                  from '../reports/Reports'
+import ForbiddenRouteMatch      from './ForbiddenRouteMatch'
 import NoRouteMatch             from './NoRouteMatch'
 
 const securityAuth = AuthorizeRoute('security');
@@ -40,7 +42,10 @@ const Routing = (
             <Route path="/unlockers/define/:type/:id" component={ UnlockerEmployeeDefinitionsList } />
             <Route path="/unlockers/assign/:type/:id" component={ UnlockerEmployeeAssignmentList } />
         </Route>
-        <Route path="/forbidden" component={ ForbiddenRouteMatch }/>
+        <Route path="/events" component={ Events } onEnter={ auth } />
+        <Route path="/audit-entries" component={ AuditEntries } onEnter={ auth } />
+        <Route path="/reports" component={ Reports } onEnter={ auth } />
+        <Route path="/forbidden" component={ ForbiddenRouteMatch } />
         <Route path="*" component={ NoRouteMatch }/>
     </Route>
 );

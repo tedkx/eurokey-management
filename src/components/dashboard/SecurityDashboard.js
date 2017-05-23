@@ -3,13 +3,31 @@ import { Link } from 'react-router'
 
 import Helper                   from '../../lib/Helper'
 import AuthHelper               from '../../lib/AuthHelper'
+import DateHelper               from '../../lib/DateHelper'
 
 import Card                     from '../shared/Card'
+import UnlockerTypeColumn       from '../grid/columns/UnlockerTypeColumn'
 import DataGrid                 from '../grid/DataGrid'
 import NumericSummary           from './NumericSummary'
 import NumericProgressSummary   from './NumericProgressSummary'
 
 class SecurityDashboard extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.columnDefs = [
+            { headerName: 'Τύπος', field: 'typeTitle' },
+            { headerName: 'Περιγραφή', field: 'reason' },
+            { headerName: 'Κατάστημα', field: 'branch' },
+            UnlockerTypeColumn('entityType'), 
+            { headerName: 'Δημιουργήθηκε', valueGetter: ({ data }) => DateHelper.toString(new Date(data.created)) },
+            { headerName: '', valueGetter: ({ data }) => `από ${data.creatorLastName} ${data.creatorFirstName}` }
+        ];
+    }
+    componentDidMount() { console.log('fetching data');this.props.fetchData(); }
+
+    componentWillUnmount() { this.props.clearData() }
+
     render() {
         return (
             <div className="container-fluid">
@@ -25,12 +43,8 @@ class SecurityDashboard extends React.Component {
 
                 <div className="row">
                     <Card className="col-md-12" title="Πρόσφατα Συμβάντα" loading={ this.props.fetching }
-                            headingTemplate={ <Link to="/logs" className="btn btn-sm btn-raised btn-primary pull-right">Προβολή Όλων</Link> }>
-                        <DataGrid columnDefs={ this.columnDefs }
-                            rowData={ this.props.events }
-                            noBox={ true }
-                            className="col-md-12">
-                        </DataGrid>
+                            headingTemplate={ <Link to="/events" className="btn btn-sm btn-raised btn-primary pull-right">Προβολή Όλων</Link> }>
+                        <DataGrid columnDefs={ this.columnDefs } rowData={ this.props.events } />
                     </Card>
                 </div>
             </div>

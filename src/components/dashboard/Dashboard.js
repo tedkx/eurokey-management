@@ -2,15 +2,11 @@ import React                from 'react'
 
 import Helper               from '../../lib/Helper'
 
-import ManagerDashboard     from './ManagerDashboard'
-import SecurityDashboard    from './SecurityDashboard'
-import EmployeeDashboard    from './EmployeeDashboard'
+import ManagerDashboard     from '../../containers/dashboard/ManagerDashboardContainer'
+import SecurityDashboard    from '../../containers/dashboard/SecurityDashboardContainer'
+import EmployeeDashboard    from '../../containers/dashboard/EmployeeDashboardContainer'
 
 class Dashboard extends React.Component {
-    componentWillMount() {
-        this.props.fetchData();
-    }    
-
     render() {
         if(!this.props.user)
             return false;

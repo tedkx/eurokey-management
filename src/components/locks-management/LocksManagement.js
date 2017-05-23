@@ -15,24 +15,27 @@ class LocksManagement extends React.Component {
     constructor(props) {
         super(props);
 
+        let buttonColWidth = 23 * (this.props.role === 'security' ? 3 : 1) - 8
+
         this.columnDefs = [
             { headerName: 'Ονομασία', field: 'title' },
             { headerName: 'Κατηγορία', valueGetter: ({ data }) => data.category && data.category.title || '' },
             { headerName: '', cellClass: 'text-center', width: 70, cellRendererFramework: ({ data }) => (
                 <span className={ 'label label-' + (data.significance.id == 'main' ? 'warning' : data.significance.id == 'secondary' ? 'default' : 'info') }>
-                    { data.significance.title || 'Κανονικό' }
+                    { data.significance.title || 'Κανονική' }
                 </span>
             )},
             {
                 headerName: '',
                 cellClass: 'pt0 text-right',
-                width: 42 * (this.props.role === 'security' ? 3 : 1) - 8,
+                width: buttonColWidth,
+                minWidth: buttonColWidth,
                 cellRendererFramework: ({ data }) => (
                         <div>
                             {
                                 this.props.role === 'security' ? (
                                         <OverlayTrigger placement={ ttplace } overlay={ <Tooltip id={ `lock-assign-${data.id}-tooltip` }>Ανάθεση</Tooltip> }>
-                                            <Link to={ `/locks/assign/${data.id}` } className="btn btn-primary btn-raised btn-sm">
+                                            <Link to={ `/locks/assign/${data.id}` } className="btn btn-primary btn-raised btn-xs mr-sm">
                                                 <i className="fa fa-share" />
                                             </Link>
                                         </OverlayTrigger>
@@ -41,14 +44,14 @@ class LocksManagement extends React.Component {
                             }
                            
                             <OverlayTrigger placement={ ttplace } overlay={ <Tooltip id={ `lock-view-${data.id}-tooltip` }>Προβολή</Tooltip> }>
-                                <Link to={ `/locks/${data.id}` } title="Προβολή" className="btn btn-default btn-raised btn-sm">
-                                    <i className="fa fa-info" />
+                                <Link to={ `/locks/${data.id}` } title="Προβολή" className="btn btn-default btn-raised btn-xs bg-blue-gray-50">
+                                    &nbsp;<i className="fa fa-info" />&nbsp;
                                 </Link>
                             </OverlayTrigger>
                             {
                                 this.props.role === 'security' ? (
                                         <OverlayTrigger placement={ ttplace } overlay={ <Tooltip id={ `lock-delete-${data.id}-tooltip` }>Διαγραφή</Tooltip> }>
-                                            <button type="button" title="Διαγραφή" className="btn btn-danger btn-raised btn-sm ml-sm">
+                                            <button type="button" title="Διαγραφή" className="btn btn-danger btn-raised btn-xs ml-sm">
                                                 <i className="fa fa-remove" />
                                             </button>
                                         </OverlayTrigger>
@@ -74,17 +77,18 @@ class LocksManagement extends React.Component {
         let assigning = this.props.location.pathname.match(/\/locks\/assign/) != null,
             headingTemplate = this.props.role === 'security'
                 ? <Link to="/lock/create" className="btn btn-sm btn-raised btn-primary pull-right">Δημιουργία Κλειδαριάς</Link>
-                : false;
+                : false,
+            lock = assigning ? (this.props.locks.find(l => l.id ==this.props.params.id) || {}) : {};
         return (
             <div className="container-fluid">
                 <div className="row">
                     <Card title="Διαχείριση Θέσεων / Κλειδαριών" className={ 'width-transition ' + (assigning ? ' col-md-4' : 'col-md-12') }
-                        headingTemplate={ headingTemplate }
-                        loading={ this.props.fetching }>
-                        <DataGrid columnDefs={ this.columnDefs }
-                            rowData={ this.props.locks }>
-                            <CenteredOverlay visible={ assigning } />
-                        </DataGrid>
+                        headingTemplate={ headingTemplate } loading={ this.props.fetching }>
+                        <CenteredOverlay visible={ assigning } width="75%">
+                            <h1 className="text-center"><i className="fa fa-lock" /></h1>
+                            <div className="text-center"><h4>{ lock.title }</h4></div>                            
+                        </CenteredOverlay>
+                        <DataGrid columnDefs={ this.columnDefs } rowData={ this.props.locks } />
                     </Card>
                     
                     <div className="col-md-8">

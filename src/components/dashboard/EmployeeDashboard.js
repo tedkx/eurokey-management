@@ -5,6 +5,7 @@ import { OverlayTrigger, Tooltip, Modal } from 'react-bootstrap'
 import { DEFAULT_TOOLTIP_PLACEMENT as ttplace } from '../../lib/UiHelper'
 import DateHelper from '../../lib/DateHelper'
 import DataGrid from '../grid/DataGrid'
+import UnlockerTypeColumn from '../grid/columns/UnlockerTypeColumn'
 import Card from '../shared/Card'
 import LoaderOverlay from '../shared/LoaderOverlay'
 
@@ -25,11 +26,7 @@ class EmployeeDashboard extends React.Component {
         this.state = { showModal: false };
 
         this.myUnlockersColumnDefs = [
-            { headerName: '', width: 70, cellClass: 'text-center', cellRendererFramework: ({ data }) => (
-                <span className={ 'label label-' + (data.type == 'key' ? 'info' : 'warning') }>
-                    { data.type == 'key' ? 'Κλειδι' : 'Συνδιασμός' }
-                </span>
-            )},
+            UnlockerTypeColumn(),
             { headerName: 'Θέση', field: 'lockTitle' },
             {
                 headerName: '',
@@ -92,6 +89,10 @@ class EmployeeDashboard extends React.Component {
     save() {
 
     }
+
+    componentDidMount() { this.props.fetchData(); }
+
+    componentWillUnmount() { this.props.clearData() }
 
     render() {
         return (

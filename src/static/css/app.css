@@ -828,6 +828,13 @@ a.text-muted:hover {
     margin: 30px auto 0;
 }
 
+.btn-xs .fa { font-size: 12px }
+
+/* Grid modifications */
+
+.ag-euro.grid-auto-size .ag-body-viewport { overflow-y: hidden !important }
+.ag-euro .ag-cell .fa { font-size: 14px; }
+.ag-euro .ag-cell .btn-xs .fa { font-size: 12px }
 .ag-euro .form-control {
     height: 27px;
     padding: 4px;

@@ -32,7 +32,11 @@ const Api = {
     fetchMyPendingAcceptances: () => Req.getJson('pendingAcceptances/my'),
     acceptUnlocker: ({ type, id }) => Req.postJson(`${type}/${id}/accept`),
 
-    fetchKeys: () => Req.getJson('keys')
+    fetchKeys: () => Req.getJson('keys'),
+
+    /* Logs */
+    fetchEvents: () => Req.getJson('events'),
+    fetchAuditEntries: () => Req.getJson('audit'),
 };
 
 export default Api;

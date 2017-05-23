@@ -9,6 +9,7 @@ import DateHelper               from '../../lib/DateHelper'
 import AuthHelper               from '../../lib/AuthHelper'
 import Card                     from '../shared/Card'
 import DataGrid                 from '../grid/DataGrid'
+import UnlockerTypeColumn       from '../grid/columns/UnlockerTypeColumn'
 import NumericSummary           from './NumericSummary'
 import NumericProgressSummary   from './NumericProgressSummary'
 
@@ -17,17 +18,14 @@ class ManagerDashboard extends React.Component {
         super(props);
 
         this.pendingAcceptancesColumnDefs = [
+            UnlockerTypeColumn(),
             { headerName: 'Ονοματεπώνυμο', valueGetter: ({ data }) => `${data.assigneeLastName} ${data.assigneeFirstName}` },
-            { headerName: 'Τύπος', width: 70, cellClass: 'text-center', cellRendererFramework: ({ data }) => (
-                <span className={ 'label label-' + (data.type == 'key' ? 'info' : 'warning') }>
-                    { data.type == 'key' ? 'Κλειδι' : 'Συνδιασμός' }
-                </span>
-            )},
             { headerName: 'Ημ/νία Ανάθεσης', cellClass: 'text-center', valueGetter: ({ data }) => DateHelper.toString(data.assignDate) },
             {
                 headerName: '',
                 cellClass: 'pt0 text-right',
                 width: 40,
+                minWidth: 40,
                 cellRendererFramework: ({ data }) => (
                         <div>
                             <OverlayTrigger placement={ ttplace } overlay={ <Tooltip id={ `unlocker-${data.id}-tooltip` }>Ανάθεση</Tooltip> }>
@@ -38,8 +36,21 @@ class ManagerDashboard extends React.Component {
                         </div>
                     )
             }
-        ]
+        ];
+
+        this.eventsColumnDefs = [
+            { headerName: 'Τύπος', field: 'typeTitle' },
+            { headerName: 'Περιγραφή', field: 'reason' },
+            //{ headerName: 'Κατάστημα', field: 'branch' },
+            UnlockerTypeColumn('entityType'), 
+            { headerName: 'Δημιουργήθηκε', valueGetter: ({ data }) => DateHelper.toString(new Date(data.created)) }
+            //{ headerName: '', valueGetter: ({ data }) => `από ${data.creatorLastName} ${data.creatorFirstName}` }
+        ];
     }
+
+    componentDidMount() { this.props.fetchData(); }
+
+    componentWillUnmount() { this.props.clearData() }
 
     render() {
         return (
@@ -56,17 +67,17 @@ class ManagerDashboard extends React.Component {
                 </div>
 
                 <div className="row">
-                    <Card className="col-md-8" title="Εκκρεμείς Αποδοχές" loading={ this.props.fetching }
+                    <Card className="col-md-6" title="Εκκρεμείς Αποδοχές" loading={ this.props.fetching }
                             headingTemplate={ <Link to="/logs" className="btn btn-sm btn-raised btn-primary pull-right">Προβολή Όλων</Link> }>
                         <DataGrid columnDefs={ this.pendingAcceptancesColumnDefs }
                             rowData={ this.props.pendingAcceptances }>
                         </DataGrid>
                     </Card>
 
-                    <Card className="col-md-4" title="Τελευταία Συμβάντα" loading={ this.props.fetching }
+                    <Card className="col-md-6" title="Τελευταία Συμβάντα" loading={ this.props.eventsFetching }
                             headingTemplate={ <Link to="/logs" className="btn btn-sm btn-raised btn-primary pull-right">Προβολή Όλων</Link> }>
-                        <DataGrid columnDefs={ this.pendingAcceptancesColumnDefs }
-                            rowData={ this.props.pendingAcceptances }>
+                        <DataGrid columnDefs={ this.eventsColumnDefs }
+                            rowData={ this.props.events }>
                         </DataGrid>
                     </Card>
                 </div>

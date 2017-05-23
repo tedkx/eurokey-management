@@ -95,9 +95,9 @@
             { "id": "helper", "title": "Βοηθητικά" }
         ],
         "lockSignificances": [
-            { "id": "main", "title": "Κύριο" },
-            { "id": "default", "title": "" },
-            { "id": "secondary", "title": "Δευτερεύον" }
+            { "id": "main", "title": "Κύρια" },
+            { "id": "default", "title": "Κανονική" },
+            { "id": "secondary", "title": "Δευτερεύουσα" }
         ],
         "locks": [
             { "id": "vault", "title": "Vault", "categoryId": "financial-management", "significanceId": "main" },
@@ -122,7 +122,7 @@
             { "id": "kitchen-farmacy", "title": "Κουζίνα / Φαρμακείο", "categoryId": "helper", "significanceId": "default" }
         ],
         "events": [
-            { "id": 1, "type": "custodian-leave", "reason": "Απουσία κλειδούχου gdalas", "dt": "2017-05-19T13:45:00Z" }
+            { "id": 1, "type": "custodian-leave", "reason": "Απουσία κλειδούχου gdalas", "creator": "ekakalos", "created": "2017-05-19T13:45:00Z", "branch": "nea-ionia" }
         ],
         "eventTypes": [
             { "id" : "key-loss", "title": "Απώλεια Κλειδιού" },
@@ -134,7 +134,7 @@
             { "id" : "other", "title": "Άλλο" }
         ],
         "auditEntries": [
-            { "id": 1, "description": "Ανάθεση", "entityId": "mini-safe", "entityType": "key", "creator": "ekakalos", "relatedUserId": "gvlachos", "dt": "2017-05-19T13:45:00Z" }
+            { "id": 1, "description": "Ανάθεση", "branch": "nea-ionia", "entityId": "mini-safe", "entityType": "key", "creator": "ekakalos", "relatedUserId": "gvlachos", "created": "2017-05-19T13:45:00Z" }
         ],
         "roles": [
             { "id": "security", "title": "Φυσική Ασφάλεια" },

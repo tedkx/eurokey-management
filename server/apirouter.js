@@ -169,6 +169,14 @@ apirouter.get('/mycombinations', auth.authorize, json, function(req, res) {
     res.respond(dm.getMyUnlockers('combinations', req.user));
 });
 
+/* Logs */
+apirouter.get('/events', auth.forRoles('*'), auth.authorize, delay, json, 
+    (req, res) => res.respond(dm.getEvents(req.user.branch)))
+apirouter.get('/audit', auth.forRoles('*'), auth.authorize, delay, json, 
+    (req, res) => res.respond(dm.getAuditEntries(req.user.branch)))
+apirouter.get('/audit/for-event/:id', auth.forRoles('*'), auth.authorize, delay, json, 
+    (req, res) => res.respond(dm.getAuditEntries(req.user.branch, req.params.id)))
+
 apirouter.all('/*', (req, res) => res.status(404).end())
 
 module.exports = apirouter;
