@@ -49,7 +49,7 @@ apirouter.get('/summary', auth.authorize, delay, json, function(req, res) {
             notAcceptedLockCount: 2
         }
         : ['manager', 'assistant-manager', 'supervisor' ].indexOf(req.user.role) >= 0 ? {
-            pendingAcceptances: dm.getEmployeeAssignmentsForBranch.filter(ass => ass.accepted !== true),
+            pendingAcceptances: dm.getPendingAcceptancesForBranch(req.user.branch),
             totalKeyCount: 25,
             totalCombinationCount: 15,
             unassignedKeyCount: 5,
@@ -57,7 +57,7 @@ apirouter.get('/summary', auth.authorize, delay, json, function(req, res) {
         }
         : { 
             myUnlockers: dm.getUserUnlockers(req.user),
-            myPendingAcceptances: dm.getEmployeeAssignments(req.user)
+            myPendingAcceptances: dm.getPendingAcceptancesForUser(req.user)
         };
     res.respond(data);
 });
@@ -112,13 +112,31 @@ apirouter.put('/api/lock/:id', auth.authorize, json, function (req, res) {
  */
 apirouter.get('/unlockers', auth.forRoles('manager', 'assistant-manager'), auth.authorize, delay, json, 
     (req, res) => res.respond(dm.getUnlockers(req.user)));
-apirouter.get('/key/:id/employee-assignments', auth.forRoles('manager', 'assistant-manager'), auth.authorize, delay, json, 
-    (req, res) => res.respond(dm.getEmployeeAssignmentsForUnlocker('key', req.params.id)));
-apirouter.get('/combination/:id/employee-assignments', auth.forRoles('manager', 'assistant-manager'), auth.authorize, delay, json, 
-    (req, res) => res.respond(dm.getEmployeeAssignmentsForUnlocker('combination', req.params.id)));
-apirouter.post('/lock/:id/branch-assignments', auth.forRoles('security'), auth.authorize, delay, json, (req, res) => {
-    res.respond(dm.persistBranchAssignmentsForLock(req.params.id, req.body));
-});
+apirouter.get('/key/:id/employee-definitions', auth.forRoles('manager', 'assistant-manager'), auth.authorize, delay, json, 
+    (req, res) => res.respond(dm.getAssignmentDefinitionssForUnlocker('key', req.params.id)));
+apirouter.get('/combination/:id/employee-definitions', auth.forRoles('manager', 'assistant-manager', 'supervisor'), auth.authorize, delay, json, 
+    (req, res) => res.respond(dm.getAssignmentDefinitionssForUnlocker('combination', req.params.id)));
+apirouter.post('/key/:id/employee-definitions', auth.forRoles('manager', 'assistant-manager', 'supervisor'), auth.authorize, delay, json, 
+    (req, res) => res.respond(dm.persistAssignmentDefinitionsForUnlocker('key', req.params.id, req.body)))
+apirouter.post('/combination/:id/employee-definitions', auth.forRoles('manager', 'assistant-manager', 'supervisor'), auth.authorize, delay, json,
+    (req, res) => res.respond(dm.persistAssignmentDefinitionsForUnlocker('combination', req.params.id, req.body)))
+apirouter.get('/key/:id/employee-assignment', auth.forRoles('*'), auth.authorize, delay, json, 
+    (req, res) => res.respond(dm.getEmployeesForAssignment('key', req.params.id, req.user.role === 'teller')));
+apirouter.get('/combination/:id/employee-assignment', auth.forRoles('*'), auth.authorize, delay, json, 
+    (req, res) => res.respond(dm.getEmployeesForAssignment('combination', req.params.id, req.user.role === 'teller')));
+apirouter.post('/key/:id/employee-assignment', auth.forRoles('*'), auth.authorize, delay, json, 
+    (req, res) => { console.log('payload', req.body); return res.respond(dm.assignToUnlocker(req.user, 'key', req.params.id, req.body)) })
+apirouter.post('/combination/:id/employee-assignment', auth.forRoles('*'), auth.authorize, delay, json,
+    (req, res) => res.respond(dm.assignToUnlocker(req.user, 'combination', req.params.id, req.body)))
+
+apirouter.get('/unlockers/my', auth.forRoles('*'), auth.authorize, delay, json, 
+    (req, res) => res.respond(dm.getUserUnlockers(req.user)))
+apirouter.get('/pendingAcceptances/my', auth.forRoles('*'), auth.authorize, delay, json, 
+    (req, res) => res.respond(dm.getPendingAcceptancesForUser(req.user)))
+apirouter.post('/key/:id/accept', auth.forRoles('*'), auth.authorize, delay, json,
+    (req, res) => res.respond(dm.acceptUnlocker(type, id, req.user)))
+apirouter.post('/combination/:id/accept', auth.forRoles('*'), auth.authorize, delay, json,
+    (req, res) => res.respond(dm.acceptUnlocker(type, id, req.user)))
 
 apirouter.post('/api/lock', auth.authorize, json, function (req, res) {
     var result = validator.validateForInsert(req.body);

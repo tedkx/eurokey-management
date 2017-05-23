@@ -22,8 +22,15 @@ const Api = {
 
     /* Unlockers Management */
     fetchUnlockers: () => Req.getJson('unlockers'),
-    fetchUnlockerEmployeesAssignments: ({ type, id }) => Req.getJson(`${type}/${id}/employee-assignments`),
-    saveUnlockerEmployeesAssignments: ({ type, id, assignments }) => Req.postJson(`${type}/${lockId}/employee-assignments`, assignments),
+    fetchUnlockerEmployeeDefinitions: ({ type, id }) => Req.getJson(`${type}/${id}/employee-definitions`),
+    saveUnlockerEmployeeDefinitions: ({ type, id, definitions }) => Req.postJson(`${type}/${id}/employee-definitions`),
+    fetchEmployeesForUnlockerAssignment: ({ type, id }) => Req.getJson(`${type}/${id}/employee-assignment`),
+    assignEmployeeToUnlocker: ({ type, id, ...props }) => Req.postJson(`${type}/${id}/employee-assignment`, props),
+
+    fetchMyUnlockers: () => Req.getJson('unlockers/my'),
+    
+    fetchMyPendingAcceptances: () => Req.getJson('pendingAcceptances/my'),
+    acceptUnlocker: ({ type, id }) => Req.postJson(`${type}/${id}/accept`),
 
     fetchKeys: () => Req.getJson('keys')
 };

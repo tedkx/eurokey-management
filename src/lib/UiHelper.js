@@ -1,5 +1,7 @@
 import Helper   from './Helper'
 
+export const DEFAULT_TOOLTIP_PLACEMENT = 'left'
+
 const UiHelper = {
     getOffset: (element) => {
         if(Helper.isNil(element))

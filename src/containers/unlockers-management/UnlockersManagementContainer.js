@@ -5,14 +5,16 @@ import { fetchUnlockers, clearUnlockers } from '../../data/unlockers/Unlockers.a
 const mapStateToProps = (state, ownProps) => {
     return {
         fetching: state.unlockers.unlockersFetching,
-        unlockers: state.unlockers.unlockers
+        role: (state.app.user || {}).role,
+        unlockers: state.unlockers.unlockers,
+        saved: state.unlockers.unlockerEmployeeDefinitionsSaved || state.unlockers.employeeAssigned
     }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
-        onMount: () => dispatch(fetchUnlockers()),
-        onUnmount: () => dispatch(clearUnlockers()),
+        fetchData: () => dispatch(fetchUnlockers()),
+        clearData: () => dispatch(clearUnlockers()),
     }
 }
 

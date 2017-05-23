@@ -5,7 +5,6 @@
   "scripts": {
     "build": "webpack",
     "start": "nodemon ./server.js --ignore src",
-    "tunnel": "browser-sync start --proxy localhost:3000 --tunel keyman",
     "webpackserver": "webpack-dev-server --port 3009 --inline --hot"
   },
   "dependencies": {

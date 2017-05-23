@@ -13,10 +13,11 @@ import LocksBranchesAssignmentsList
                                 from '../../containers/locks-management/LocksBranchesAssignmentsListContainer'
 import LockCreation             from '../locks-management/LockCreation'
 import LockDetail               from '../locks-management/LockDetail'
-import KeysManagement           from '../items-management/KeysManagement'
 import UnlockersManagement      from '../../containers/unlockers-management/UnlockersManagementContainer'
-import UnlockerEmployeesAssignmentsList      
-                                from '../../containers/unlockers-management/UnlockerEmployeesAssignmentsListContainer'
+import UnlockerEmployeeDefinitionsList      
+                                from '../../containers/unlockers-management/UnlockerEmployeeDefinitionsListContainer'
+import UnlockerEmployeeAssignmentList      
+                                from '../../containers/unlockers-management/UnlockerEmployeeAssignmentListContainer'
 import ForbiddenRouteMatch     
                                 from './ForbiddenRouteMatch'
 import NoRouteMatch             from './NoRouteMatch'
@@ -36,7 +37,8 @@ const Routing = (
         <Route path="/locks/:id" component={ LockDetail } />
         <Route exact path="/lock/create" component={ LockCreation } onEnter={ securityAuth } />
         <Route path="/unlockers" component={ UnlockersManagement } onEnter={ managerAuth }>
-            <Route path="/unlockers/assign/:type/:id" component={ UnlockerEmployeesAssignmentsList } />
+            <Route path="/unlockers/define/:type/:id" component={ UnlockerEmployeeDefinitionsList } />
+            <Route path="/unlockers/assign/:type/:id" component={ UnlockerEmployeeAssignmentList } />
         </Route>
         <Route path="/forbidden" component={ ForbiddenRouteMatch }/>
         <Route path="*" component={ NoRouteMatch }/>

@@ -1,6 +1,7 @@
 import React    from 'react';
 import { Link, Redirect } from 'react-router'
 
+import { history }  from '../../data/Store'
 import Helper   from '../../lib/Helper'
 import Comparer from '../../lib/Comparer'
 import DataGrid from '../grid/DataGrid'
@@ -73,6 +74,9 @@ class LocksBranchesAssignmentsList extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        if(nextProps.saved === true)
+            return history.push('/unlockers');
+
         // new lock requested, no need to rerender, clearData() will do it
         if(this.props.params.id != nextProps.params.id) {
             this.props.clearData();
@@ -85,7 +89,7 @@ class LocksBranchesAssignmentsList extends React.Component {
 
     render() {
         if(this.props.saved)
-            return <Redirect to="/locks" />;
+            return false
 
         let btnDis = (this.props.saving ? 'disabled' : '');
         return (

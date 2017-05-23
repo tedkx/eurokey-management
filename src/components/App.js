@@ -6,12 +6,14 @@ import Main         from './layout/Main';
 
 class App extends React.Component {
     render() {
-        let layoutContainerClass = 'layout-container' + (this.props.user == null ? ' sidebar-offcanvas unauthenticated' : ' ');
+        let layoutClass = this.props.user == null ? 'sidebar-offcanvas unauthenticated' 
+            : this.props.user.role === 'teller' ? 'sidebar-offcanvas'
+            : '';
 
         return (
             <div id="app">
                 <div className="loader app-loader loader-hidden"></div>
-                <div className={ layoutContainerClass }>
+                <div className={ `layout-container ${layoutClass}` }>
                     <Header />
                     <Sidebar location={ this.props.location } />
                     <Main location={ this.props.location }>

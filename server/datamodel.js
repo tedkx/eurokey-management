@@ -96,48 +96,34 @@ const datamodel = {
             locks = datamodel.getLocks(user.branch),
             lockIds = locks.map(l => l.id),
             unlockers = validType
-                ? dbFind(type, { id: { '$in': lockIds } })
+                ? dbFind(type, { id: { '$in': lockIds } }).map(ul => Object.assign(ul, { type }))
                 : dbFind('keys', { lockId: { '$in': lockIds } }).map(k => Object.assign(k, { type: 'key' }))
                     .concat(dbFind('combinations', { lockId: { '$in': lockIds } }).map(c => Object.assign(c, { type: 'combination' }))),
-            assignmentDefinitions = dbFind('assignmentDefinitions', { id: { '$in': unlockers.map(u => u.id) } });
+            assignmentDefinitions = dbFind('assignmentDefinitions', { id: { '$in': unlockers.map(u => u.id) } }),
+            users = dbData('users'),
+            branches = dbData('branches');
         
         return stripMetadata(unlockers).map(u => {
-            let definition = assignmentDefinitions.find(a => a.id == u.id)
+            let definition = assignmentDefinitions.find(a => a.id == u.id && a.type == u.type && a.assignee == u.assignee),
+                user = Array.isArray(u.features) && u.features.indexOf('branch-only') >= 0
+                    ? branches.filter(b => b.id == u.assignee).map(b => ({ firstName: b.title, lastName: '', role: 'vault' }))[0] || {}
+                    : users.find(user => user.username == u.assignee) || {}
+
             return Object.assign(u, { 
                 lockTitle: locks.find(l => l.id == u.lockId).title,
-                level: (definition || {}).level
+                level: (definition || {}).level,
+                assigneeFirstName: user.firstName,
+                assigneeLastName: user.lastName,
+                assigneeRole: user.role
             });
         });            
     },
 
-    getUnassignedUnlockers: (user, type) => {
-
-    },
-
-    getUnacceptedUnlockers: (user, type) => {
-
-    },
-
-    getEmployeeAssignmentsForBranch: (branch) => {
-        let locks = datamodel.getLocks(branch),
-            unlockers = datamodel.getUnlockers({ branch }),
-            users = dbData('users');
-        return dbFind('assignments', { lockId: { '$in': locks.map(l => l.id ) }})
-            .map(assignment => {
-                let user = users.find(u => u.username = assignment.assigne),
-                    unlocker = unlockers.find(u => u.type == assignment.type && u.id == assignment.id)
-                    lock = locks.find(l => l.id == unlocker.lockId);
-                return Object.assign(assignment, {
-                    firstName: user.firstName,
-                    lastName: user.lastName,
-                    username: username,
-                    lockTitle: lock.title
-                });
-            })
-    },
+    getPendingAcceptancesForBranch: (branch) => datamodel.getUnlockers({ branch }).filter(ul => ul.acceptanceDate == null),
+    getPendingAcceptancesForUser: (user) => datamodel.getUnlockers({ branch: user.branch }).filter(ul => ul.acceptanceDate == null && ul.assignee == user.username),
 
     getAssignmentDefinitionssForUnlocker: (type, id) => {
-        let assignments = dbFind('assignments', { '$and': [ { type }, { id } ] })
+        let assignments = dbFind('assignmentDefinitions', { '$and': [ { type }, { id } ] })
         return dbData('users').map(u => {
             let assignment = assignments.find(a => a.assignee == u.username) || {};
             return {
@@ -167,31 +153,65 @@ const datamodel = {
             db.getCollection('branchLocks').insert({ lockId: id, branchId: assignedBranchId });        
     },
 
-    getMyUnlockers: (type, user) => {
-        let validType = type === 'keys' || type === 'combinations',
-            assignmentsFilter = validType
-                ?   {
-                        '$and': [
-                            { type: type.substring(0, type.length - 1) },
-                            { assignee: user.username }
-                        ]
-                    }
-                :   { assignee: user.username },
-            assignmentIds = db.getCollection('assignments').find(assignmentsFilter).map(k => k.id),
-            unlockers = validType
-                ? db.getCollection(type).find({ id: { '$in': assignmentIds } })
-                : db.getCollection('keys').find({ id: { '$in': assignmentIds } })
-                    .concat(db.getCollection('combinations').find({ v: { '$in': assignmentIds } }))
-                    .map(obj => {
-                        obj.type = !obj.value ? 'key' : 'combination';
-                        return obj;
-                    }),
-            locks = stripMetadata(db.getCollection('locks').find({ id: { '$in': unlockers.map(u => u.lockId) }}));
+    getEmployeesForAssignment: (type, id, onlyValidCustodians) => {
+        let unlocker = dbFind(type + 's', { id }),
+            assignmentDefinitions = dbFind('assignmentDefinitions', { '$and': [{ type }, { id },] } ).filter(ass => ass.assignee !== unlocker.assignee),
+            users = dbData('users').filter(u => u.username !== unlocker.assignee).map(u => Object.assign(u, { level: (assignmentDefinitions.find(ass => ass.assignee == u.username) || {}).level }));
         
-        //console.log('validType', validType, 'filter', JSON.stringify(assignmentsFilter), 'assignments', assignmentIds.join(' | '),
-        //    'unlockers', unlockers.map(u => u.id).join(' | '));        
+        if(onlyValidCustodians === true)
+            users = users.filter(u => !!u.level);
 
-        return stripMetadata(unlockers).map(u => Object.assign(u, { lock: locks.find({ id: u.lockId }) }));
+        users.sort((a, b) => a.level === 'owner' ? -1 
+            : b.level === 'owner' ? 1 
+            : a.level === 'sub1' ? -1 
+            : b.level === 'sub1' ? 1
+            : a.level === 'sub2' ? -1
+            : b.level === 'sub2' ? 1
+            : b.role === 'teller' ? 1
+            : -1);
+        return users;
+    },
+
+    assignToUnlocker: (user, type, id, { assignee, eventTypeId, reason }) => {
+        let collectionName = type + 's',
+            unlocker = db.getCollection(collectionName).find({ id })[0],
+            eventId = null,
+            now = (new Date()).toISOString();
+
+        datamodel.update(Object.assign(unlocker, { assignee, assignDate: (new Date()).toISOString(), acceptanceDate: null }), collectionName);
+        if(!!eventTypeId) {
+            let events = db.getCollection('events');
+            eventId = events.length;
+            datamodel.insert({ id: eventId, type: eventTypeId, reason, dt: now }, 'events');
+        }
+        let auditId = db.getCollection('auditEntries').length;
+        datamodel.insert({ 
+            id: auditId, 
+            description: "Ανάθεση " + (type == 'key' ? 'κλειδιού' : 'συνδυασμού') + ' σε χρήστη ' + assignee, 
+            entityId: id, 
+            entityType: type, 
+            creator: user.username,
+            relatedUserId: assignee,
+            dt: now
+        }, 'auditEntries');
+    },
+
+    getUserUnlockers: (user) => datamodel.getUnlockers(user).filter(ul => ul.acceptanceDate != null),
+    acceptUnlocker: (type, id, user) => {
+        let unlocker = db.getCollection(type + 's').find({ id }),
+            now = (new Date()).toISOString();
+        datamodel.update(Object.assign(unlocker, { assignee: user.username, acceptanceDate: now }));
+
+        let auditId = db.getCollection('auditEntries').length;
+        datamodel.insert({ 
+            id: auditId, 
+            description: "Αποδοχή " + (type == 'key' ? 'κλειδιού' : 'συνδυασμού') + ' από χρήστη ' + user.username, 
+            entityId: id, 
+            entityType: type, 
+            creator: user.username,
+            relatedUserId: user.username,
+            dt: now
+        }, 'auditEntries');
     },
 
     insert: (item, collectionName) => {
@@ -212,7 +232,7 @@ const datamodel = {
             return false;
         
         let collection = db.getCollection(collectionName),
-            existing = stripMetadata(isingle(locks.find({ id: lock.id })));
+            existing = stripMetadata(single(collection.find({ id: item.id })));
         
         if(!existing)
             return false;

@@ -43,9 +43,12 @@ module.exports = {
         if(!req.user)
             return res.status(401).end();
         
+        //TODO:
+        /*
         if(req.authRoles)
             console.log('authorizing for roles', req.authRoles, 'current role', req.user.role);
-
+        */
+        
         next();
     },
 

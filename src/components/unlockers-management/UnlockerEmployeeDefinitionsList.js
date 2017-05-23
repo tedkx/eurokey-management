@@ -1,10 +1,11 @@
 import React    from 'react';
 import { Link, Redirect } from 'react-router'
 
+import { history }  from '../../data/Store'
 import Helper   from '../../lib/Helper'
 import Comparer from '../../lib/Comparer'
 import DataGrid from '../grid/DataGrid'
-import Box      from '../shared/Box'
+import Card     from '../shared/Card'
 
 const levels = {
     none: '',
@@ -13,26 +14,26 @@ const levels = {
     sub2: 'Αντικαταστάτης Β'
 }
 
-class LocksBranchesAssignmentsList extends React.Component {
+class UnlockerEmployeeDefinitionsList extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = { levels: Object.keys(levels) };
 
         this.columnDefs = [
-            { headerName: 'Όνομα', valueGetter: (params) => `${params.data.lastName} ${params.data.firstName}` },
-            { headerName: 'Ανάθεση', width: 50, cellRendererFramework: (params) => {
+            { headerName: 'Όνομα', valueGetter: ({ data }) => `${data.lastName} ${data.firstName}` },
+            { headerName: 'Ανάθεση', width: 50, cellRendererFramework: ({ data }) => {
                 return (
-                    <select name="account" className="form-control" onChange={ e => this.onDropdownChange(e, params.data.id) }>
+                    <select name="account" className="form-control" onChange={ e => this.onDropdownChange(e, data.id) } defaultValue={ data.assigned }>
                         { 
-                            Object.keys(levels).map(k => <option value={ k } selected={ params.data.assigned == k }>{ levels[k] }</option>)
+                            Object.keys(levels).map(k => <option key={ 'key-' + k } value={ k }>{ levels[k] }</option>)
                         }
                     </select>
                 );
             }}
         ];
 
-        Helper.bind(this, ['fetch', 'save', 'selectAll', 'onDropdownChange', 'onGridReady']);
+        Helper.bind(this, ['fetch', 'save', 'onDropdownChange', 'onGridReady']);
     }
 
     onDropdownChange(e, id) {
@@ -60,10 +61,6 @@ class LocksBranchesAssignmentsList extends React.Component {
         //this.props.saveData(this.state.data.filter(d => d.lockAssigned != d.originallyAssigned));
     }
 
-    selectAll(e) {
-        this.setState({ data: this.state.data.map(d => Object.assign({}, d, { lockAssigned: true })) });
-    }
-
     /* React component lifecycle methods */
 
     componentDidMount() {
@@ -79,6 +76,9 @@ class LocksBranchesAssignmentsList extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        if(nextProps.saved === true)
+            return history.push('/unlockers' );
+
         // new lock requested, no need to rerender, clearData() will do it
         if(this.props.params.id != nextProps.params.id || this.props.params.type != nextProps.params.type) {
             this.props.clearData();
@@ -91,28 +91,25 @@ class LocksBranchesAssignmentsList extends React.Component {
 
     render() {
         if(this.props.saved)
-            return <Redirect to="/locks" />;
+            return false
 
-        let btnDis = (this.props.saving ? 'disabled' : '');
+        let btnDis = (this.props.saving ? 'disabled' : ''),
+            headingTemplate = <Link to={ '/unlockers' } className={ `btn btn-raised btn-danger pull-right btn-sm mr-sm ${btnDis}` }>Ακύρωση</Link>;
         return (
-            <Box>
-                <div className="row mb">
-                    <Link to={ '/unlockers' } className={ `btn btn-raised btn-danger pull-right btn-sm mr-sm ${btnDis}` }>Ακύρωση</Link>
-                    <button type="button" className={ `btn btn-raised btn-info pull-right btn-sm mr-sm ${btnDis}` }
-                        onClick={ this.selectAll }>Επιλογή Όλων</button>
-                    <h4 className="mt0">Ανάθεση θέσης { this.props.params.id }</h4>
-                </div>
-                <DataGrid onGridReady={ this.onGridReady } columnDefs={ this.columnDefs } noBox={ true } 
-                    rowData={ this.state.data } loading={ this.props.fetching }
-                    getRowClass={ (params) => params.data.lockAssigned != params.data.originallyAssigned ? 'warning' : '' }>
-                </DataGrid>
-                <div className="row mt">
-                    <button className={ `btn btn-raised btn-primary pull-right btn-sm mr-sm ${btnDis}` }
-                        type="button" disabled={ this.props.saving } onClick={ this.save }>Αποθήκευση</button>
-                </div>
-            </Box>
+            <div className="row">
+                <Card title="Ορισμός Κλειδούχων" headingTemplate={ headingTemplate }>
+                    <DataGrid onGridReady={ this.onGridReady } columnDefs={ this.columnDefs } noBox={ true } 
+                        rowData={ this.state.data } loading={ this.props.fetching }
+                        getRowClass={ (params) => params.data.lockAssigned != params.data.originallyAssigned ? 'warning' : '' }>
+                    </DataGrid>
+                    <div className="row mt">
+                        <button className={ `btn btn-raised btn-primary pull-right btn-sm mr-sm ${btnDis}` }
+                            type="button" disabled={ this.props.saving } onClick={ this.save }>Αποθήκευση</button>
+                    </div>
+                </Card>
+            </div>
         );
     }
 }
 
-export default LocksBranchesAssignmentsList;
+export default UnlockerEmployeeDefinitionsList;

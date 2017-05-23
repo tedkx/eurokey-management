@@ -49,7 +49,13 @@
   background-color: rgba(0,0,0,0.4);
 }
 .ag-euro:not(.no-cell-focus) .ag-cell-focus {
-  border: 2px solid #217346;
+  /*border: 2px solid #217346; */
+  border: 2px solid transparent;
+}
+.ag-euro:not(.no-cell-focus) .ag-row-focus {
+  background-color: #0F0464;
+  color:#FFF;
+  font-weight: bold;
 }
 .ag-euro.no-cell-focus .ag-cell-focus {
   border-top: 2px solid transparent;
@@ -161,6 +167,8 @@
   background: #5b9bd5;
   border-bottom: 1px solid #9bc2e6;
 }
+.ag-euro .ag-header-cell.text-right { text-align: right; }
+.ag-euro .ag-header-cell.text-left { text-align: left; }
 /*
 .ag-euro .ag-ltr .ag-header-cell {
   border-right: 1px solid #9bc2e6;

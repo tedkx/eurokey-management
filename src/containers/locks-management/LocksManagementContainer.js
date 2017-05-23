@@ -5,7 +5,8 @@ import { fetchLocks, clearLocks } from '../../data/locks/Locks.actions'
 const mapStateToProps = (state, ownProps) => {
     return {
         fetching: state.locks.locksFetching,
-        locks: state.locks.locks
+        locks: state.locks.locks,
+        role: (state.app.user || {}).role
     }
 }
 

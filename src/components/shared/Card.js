@@ -8,7 +8,7 @@ class Box extends React.Component {
         return (
             <div className={ this.props.className }>
                 <div className="card">
-                    <LoaderOverlay loading={ this.props.loading } />
+                    <LoaderOverlay loading={ this.props.loading } semi={ this.props.semi === true } />
                     <div className={ 'card-heading ' + (this.props.headingClassName || '') }>
                         { this.props.headingTemplate }
                         <div className="card-title">{ this.props.title }</div>

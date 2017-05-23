@@ -85,7 +85,7 @@ class DataGrid extends React.Component {
             bodyHeight = typeof maxVisibleRows === 'number' && maxVisibleRows > 0 && this._gridApi.rowModel.rowsToDisplay.length > maxVisibleRows
                 ? rowHeight * maxVisibleRows
                 : gridViewport.querySelector('.ag-body-container').scrollHeight,
-            fix = 55;
+            fix = 5;
 
         this.setState({ 
             height: (headerHeight + bodyHeight + fix) + 'px',
@@ -132,9 +132,11 @@ class DataGrid extends React.Component {
     }
     
     render() {
+        let selectable = this.props.selectable === true ? '' : 'no-cell-focus',
+            className = this.props.className || '';
         return (
             <div style={ { height: this.state.height } } ref={ (elem) => this._wrap = elem }
-                className={ `ag-blue ag-euro no-cell-focus ${this.rowHeightClass} ${this.props.className}` }>
+                className={ `ag-blue ag-euro ${selectable} ${this.rowHeightClass} ${className}` }>
                 <LoaderOverlay loading={ this.props.loading } />
                 <AgGridReact { ...this._gridProps } onGridReady={ this.onGridReady.bind(this) }
                     onGridSizeChanged={ this.onGridSizeChanged.bind(this) }

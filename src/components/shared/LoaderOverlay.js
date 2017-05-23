@@ -11,7 +11,7 @@ class LoaderOverlay extends React.Component {
 
         return (
             <CSSTransitionGroup
-                transitionName="cubic-bezier-opacity"
+                transitionName={ this.props.semi ? 'cubic-bezier-opacity-semi' : 'cubic-bezier-opacity' }
                 transitionAppear= { true }
                 transitionAppearTimeout={ 500 }
                 transitionEnterTimeout={ 500 }
@@ -20,7 +20,7 @@ class LoaderOverlay extends React.Component {
                 {
                     this.props.loading === true
                         ? (
-                            <div className="loader">
+                            <div className={ 'loader' + (this.props.semi === true ? ' semi' : '') }>
                                 <Spinner type={ spinnerTypes.Ripple } />
                             </div>
                         )

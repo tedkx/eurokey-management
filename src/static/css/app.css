@@ -345,7 +345,7 @@ a.text-muted:hover {
     background: -ms-linear-gradient(90deg, #fff 10%, #f2f2f2 90%);
     background: -o-linear-gradient(90deg, #fff 10%, #f2f2f2 90%);
     background: linear-gradient(90deg, #fff 10%, #f2f2f2 90%);
-    z-index: 999999;
+    z-index: 999;
     -webkit-transition: opacity .65s;
     -o-transition: opacity .65s;
     transition: opacity .65s
@@ -806,10 +806,10 @@ a.text-muted:hover {
 }
 
 .absolute-overlay {
-    z-index: 9999;
+    z-index: 999;
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 100%;
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: rgba(255, 255, 255, 0.96);
     opacity: 0;
     -webkit-transition: opacity 0.3s, bottom 0s linear 0.3s;
     -moz-transition: opacity 0.3s, bottom 0s linear 0.3s;
@@ -864,10 +864,14 @@ a.text-muted:hover {
 .width-transition { transition: width 0.3s ease-out }
 
 /* CSS Transition Groups */
-.cubic-bezier-opacity-enter, .cubic-bezier-opacity-apper { opacity: 0; }
+.cubic-bezier-opacity-enter, .cubic-bezier-opacity-appear,
+.cubic-bezier-opacity-enter, .cubic-bezier-opacity-appear { opacity: 0; }
 .cubic-bezier-opacity-enter.cubic-bezier-opacity-enter-active,
 .cubic-bezier-opacity-appear.cubic-bezier-opacity-appear-active { opacity: 1; transition: opacity 0.5s cubic-bezier(0.23, 1, 0.32, 1); }
+.semi .cubic-bezier-opacity-enter.cubic-bezier-opacity-enter-active,
+.semi .cubic-bezier-opacity-appear.cubic-bezier-opacity-appear-active { opacity: 0.8; transition: opacity 0.5s cubic-bezier(0.23, 1, 0.32, 1); }
 .cubic-bezier-opacity-leave { opacity: 1; }
+.semi .cubic-bezier-opacity-leave { opacity: 0.8; }
 .cubic-bezier-opacity-leave.cubic-bezier-opacity-leave-active { opacity: 0; transition: opacity 0.5s cubic-bezier(0.23, 1, 0.32, 1); }
 
 .page-transition-enter, .page-transition-appear { position: absolute; top:0; opacity: 0; transform: translateY(30px) }
